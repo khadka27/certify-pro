@@ -1,0 +1,84 @@
+import { CertificateTemplateProps } from '@/types/certificate';
+
+export default function Template7({ data }: CertificateTemplateProps) {
+  return (
+    <div className="w-[1000px] h-[707px] bg-gradient-to-br from-orange-50 to-amber-50 p-12 relative shadow-2xl">
+      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600"></div>
+
+      <div className="relative z-10 h-full flex items-center justify-center pt-20 pb-20">
+        <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-4xl w-full">
+          <div className="flex items-center justify-between mb-8">
+            {data.logo && (
+              <img src={data.logo} alt="Logo" className="h-16 w-auto object-contain" />
+            )}
+
+            <div className="text-right">
+              <p className="text-xs text-gray-500 uppercase">Certificate</p>
+              <p className="font-bold text-orange-600">{data.certNumber}</p>
+            </div>
+          </div>
+
+          <div className="text-center space-y-6 mb-8">
+            <div className="inline-block">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                {data.title}
+              </h1>
+              <div className="h-1 bg-gradient-to-r from-orange-600 to-amber-600 mt-2"></div>
+            </div>
+
+            <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl">
+              <p className="text-lg text-gray-700 leading-relaxed">{data.description}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="bg-orange-50 p-4 rounded-lg text-center">
+              <p className="text-xs text-orange-600 uppercase font-semibold mb-1">Product</p>
+              <p className="text-base font-bold text-gray-800">{data.productName}</p>
+            </div>
+            <div className="bg-amber-50 p-4 rounded-lg text-center">
+              <p className="text-xs text-amber-600 uppercase font-semibold mb-1">Company</p>
+              <p className="text-base font-bold text-gray-800">{data.companyName}</p>
+            </div>
+            <div className="bg-orange-50 p-4 rounded-lg text-center">
+              <p className="text-xs text-orange-600 uppercase font-semibold mb-1">Location</p>
+              <p className="text-base font-bold text-gray-800">{data.location}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-6 border-t-2 border-orange-200">
+            <div className="space-y-2">
+              <p className="text-2xl font-bold text-gray-800">{data.personName}</p>
+              <p className="text-sm text-orange-600 font-medium">{data.role}</p>
+              <div className="flex gap-4 text-xs text-gray-600 mt-3">
+                <div>
+                  <span className="font-semibold">Issued:</span> {data.issuedDate}
+                </div>
+                {data.expiryDate && (
+                  <div>
+                    <span className="font-semibold">Expires:</span> {data.expiryDate}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+              {data.signature && (
+                <div className="text-center">
+                  <img src={data.signature} alt="Signature" className="h-16 w-auto mb-1" />
+                  <div className="w-40 border-t-2 border-orange-600"></div>
+                  <p className="text-xs text-gray-500 mt-1">Signature</p>
+                </div>
+              )}
+
+              {data.badge && (
+                <img src={data.badge} alt="Badge" className="h-20 w-auto" />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
