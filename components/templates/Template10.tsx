@@ -1,8 +1,8 @@
-import { CertificateTemplateProps } from '@/types/certificate';
+import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template10({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-gradient-to-br from-violet-900 via-fuchsia-900 to-violet-900 p-16 relative shadow-2xl overflow-hidden">
+    <div className="w-[1000px] h-[707px] bg-linear-to-br from-violet-900 via-fuchsia-900 to-violet-900 p-16 relative box-border overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -12,12 +12,20 @@ export default function Template10({ data }: CertificateTemplateProps) {
         <div className="flex items-start justify-between mb-12">
           {data.logo && (
             <div className="bg-white/10 backdrop-blur-md p-4 rounded-lg">
-              <img src={data.logo} alt="Logo" className="h-16 w-auto object-contain brightness-0 invert" />
+              <img
+                src={data.logo}
+                alt="Logo"
+                className="h-16 w-auto object-contain brightness-0 invert"
+              />
             </div>
           )}
 
           {data.badge && (
-            <img src={data.badge} alt="Badge" className="h-20 w-auto brightness-0 invert" />
+            <img
+              src={data.badge}
+              alt="Badge"
+              className="h-20 w-auto brightness-0 invert"
+            />
           )}
         </div>
 
@@ -44,20 +52,28 @@ export default function Template10({ data }: CertificateTemplateProps) {
             </p>
 
             <div className="bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 p-6 rounded-xl border border-violet-400/20">
-              <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">Product Name</p>
-              <p className="text-3xl font-bold text-white">{data.productName}</p>
+              <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">
+                Product Name
+              </p>
+              <p className="text-3xl font-bold text-white">
+                {data.productName}
+              </p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
             <div className="backdrop-blur-md bg-white/5 p-4 rounded-lg border border-violet-400/20 text-left">
-              <p className="text-xs text-violet-300 uppercase mb-1">Certified By</p>
+              <p className="text-xs text-violet-300 uppercase mb-1">
+                Certified By
+              </p>
               <p className="text-xl font-bold text-white">{data.personName}</p>
               <p className="text-sm text-violet-200">{data.role}</p>
             </div>
 
             <div className="backdrop-blur-md bg-white/5 p-4 rounded-lg border border-violet-400/20 text-left">
-              <p className="text-xs text-violet-300 uppercase mb-1">Organization</p>
+              <p className="text-xs text-violet-300 uppercase mb-1">
+                Organization
+              </p>
               <p className="text-xl font-bold text-white">{data.companyName}</p>
               <p className="text-sm text-violet-200">{data.location}</p>
             </div>
@@ -67,7 +83,9 @@ export default function Template10({ data }: CertificateTemplateProps) {
         <div className="flex items-end justify-between mt-12 pt-8 border-t border-violet-400/20">
           <div className="space-y-2">
             <div className="backdrop-blur-md bg-white/5 px-4 py-2 rounded">
-              <p className="text-xs text-violet-300 uppercase">Certificate No</p>
+              <p className="text-xs text-violet-300 uppercase">
+                Certificate No
+              </p>
               <p className="font-bold text-violet-100">{data.certNumber}</p>
             </div>
             <div className="backdrop-blur-md bg-white/5 px-4 py-2 rounded">
@@ -84,7 +102,11 @@ export default function Template10({ data }: CertificateTemplateProps) {
 
           {data.signature && (
             <div className="text-center backdrop-blur-md bg-white/5 p-4 rounded-lg">
-              <img src={data.signature} alt="Signature" className="h-16 w-auto mb-2 brightness-0 invert" />
+              <img
+                src={data.signature}
+                alt="Signature"
+                className="h-16 w-auto mb-2 brightness-0 invert"
+              />
               <div className="w-48 border-t border-violet-400"></div>
               <p className="text-xs text-violet-300 mt-1">Digital Signature</p>
             </div>

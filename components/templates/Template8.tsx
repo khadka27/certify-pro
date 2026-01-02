@@ -1,8 +1,8 @@
-import { CertificateTemplateProps } from '@/types/certificate';
+import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template8({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-white p-12 relative shadow-2xl">
+    <div className="w-[1000px] h-[707px] bg-white p-12 relative box-border overflow-hidden">
       <div className="absolute top-8 left-8 w-32 h-32 border-t-4 border-l-4 border-teal-600"></div>
       <div className="absolute top-8 right-8 w-32 h-32 border-t-4 border-r-4 border-teal-600"></div>
       <div className="absolute bottom-8 left-8 w-32 h-32 border-b-4 border-l-4 border-teal-600"></div>
@@ -12,7 +12,11 @@ export default function Template8({ data }: CertificateTemplateProps) {
         <div className="flex items-start justify-between mb-12">
           <div className="space-y-2">
             {data.logo && (
-              <img src={data.logo} alt="Logo" className="h-20 w-auto object-contain" />
+              <img
+                src={data.logo}
+                alt="Logo"
+                className="h-20 w-auto object-contain"
+              />
             )}
             <p className="text-sm text-gray-600">{data.companyName}</p>
             <p className="text-xs text-gray-500">{data.location}</p>
@@ -45,18 +49,28 @@ export default function Template8({ data }: CertificateTemplateProps) {
 
             <div className="grid grid-cols-2 gap-6 pt-6">
               <div className="text-left p-4 border-l-4 border-teal-600 bg-teal-50">
-                <p className="text-xs text-teal-700 uppercase font-semibold mb-1">Product Name</p>
-                <p className="text-xl font-bold text-gray-800">{data.productName}</p>
+                <p className="text-xs text-teal-700 uppercase font-semibold mb-1">
+                  Product Name
+                </p>
+                <p className="text-xl font-bold text-gray-800">
+                  {data.productName}
+                </p>
               </div>
               <div className="text-left p-4 border-l-4 border-teal-600 bg-teal-50">
-                <p className="text-xs text-teal-700 uppercase font-semibold mb-1">Certificate No</p>
-                <p className="text-xl font-bold text-gray-800">{data.certNumber}</p>
+                <p className="text-xs text-teal-700 uppercase font-semibold mb-1">
+                  Certificate No
+                </p>
+                <p className="text-xl font-bold text-gray-800">
+                  {data.certNumber}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="inline-block mx-auto bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-8 py-4 rounded-lg">
-            <p className="text-xs uppercase tracking-wider opacity-80 mb-1">Authorized By</p>
+            <p className="text-xs uppercase tracking-wider opacity-80 mb-1">
+              Authorized By
+            </p>
             <p className="text-2xl font-bold">{data.personName}</p>
             <p className="text-sm opacity-90">{data.role}</p>
           </div>
@@ -68,15 +82,23 @@ export default function Template8({ data }: CertificateTemplateProps) {
             <p className="text-sm font-bold text-gray-800">{data.issuedDate}</p>
             {data.expiryDate && (
               <>
-                <p className="text-xs text-gray-500 uppercase mt-2">Expiry Date</p>
-                <p className="text-sm font-bold text-gray-800">{data.expiryDate}</p>
+                <p className="text-xs text-gray-500 uppercase mt-2">
+                  Expiry Date
+                </p>
+                <p className="text-sm font-bold text-gray-800">
+                  {data.expiryDate}
+                </p>
               </>
             )}
           </div>
 
           {data.signature && (
             <div className="text-center">
-              <img src={data.signature} alt="Signature" className="h-16 w-auto mb-2" />
+              <img
+                src={data.signature}
+                alt="Signature"
+                className="h-16 w-auto mb-2"
+              />
               <div className="w-48 border-t-2 border-teal-600"></div>
               <p className="text-xs text-gray-500 mt-1">Official Signature</p>
             </div>
