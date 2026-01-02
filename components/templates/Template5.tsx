@@ -54,7 +54,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
               {data.description}
             </p>
 
-            <div className="bg-gradient-to-r from-rose-100 to-pink-100 p-6 rounded-xl">
+            <div className="bg-linear-to-r from-rose-100 to-pink-100 p-6 rounded-xl">
               <p className="text-sm text-rose-600 font-semibold uppercase mb-2">
                 Product Certified
               </p>

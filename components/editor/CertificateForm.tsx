@@ -1,16 +1,22 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useCertificateStore } from '@/lib/store';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Upload, X } from 'lucide-react';
-import { convertImageToBase64, validateImageFile } from '@/lib/image-utils';
-import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from "react";
+import { useCertificateStore } from "@/lib/store";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Upload, X } from "lucide-react";
+import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CertificateForm() {
   const certificateData = useCertificateStore((state) => state.certificateData);
@@ -29,7 +35,9 @@ export default function CertificateForm() {
         <Card>
           <CardHeader>
             <CardTitle>Loading...</CardTitle>
-            <CardDescription>Please wait while we load your data</CardDescription>
+            <CardDescription>
+              Please wait while we load your data
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="h-10 bg-gray-100 animate-pulse rounded"></div>
@@ -43,7 +51,7 @@ export default function CertificateForm() {
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: 'logo' | 'signature' | 'badge'
+    field: "logo" | "signature" | "badge"
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -53,20 +61,21 @@ export default function CertificateForm() {
       const base64 = await convertImageToBase64(file);
       updateField(field, base64);
       toast({
-        title: 'Image uploaded',
-        description: 'Your image has been successfully uploaded.',
+        title: "Image uploaded",
+        description: "Your image has been successfully uploaded.",
       });
     } catch (error) {
       toast({
-        title: 'Upload failed',
-        description: error instanceof Error ? error.message : 'Failed to upload image',
-        variant: 'destructive',
+        title: "Upload failed",
+        description:
+          error instanceof Error ? error.message : "Failed to upload image",
+        variant: "destructive",
       });
     }
   };
 
-  const removeImage = (field: 'logo' | 'signature' | 'badge') => {
-    updateField(field, '');
+  const removeImage = (field: "logo" | "signature" | "badge") => {
+    updateField(field, "");
   };
 
   return (
@@ -82,8 +91,18 @@ export default function CertificateForm() {
             <Input
               id="title"
               value={certificateData.title}
-              onChange={(e) => updateField('title', e.target.value)}
+              onChange={(e) => updateField("title", e.target.value)}
               placeholder="Certificate of Authenticity"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="subTitle">Certificate Subtitle / Label</Label>
+            <Input
+              id="subTitle"
+              value={certificateData.subTitle || ""}
+              onChange={(e) => updateField("subTitle", e.target.value)}
+              placeholder="Official Product Certification"
             />
           </div>
 
@@ -92,7 +111,7 @@ export default function CertificateForm() {
             <Input
               id="certNumber"
               value={certificateData.certNumber}
-              onChange={(e) => updateField('certNumber', e.target.value)}
+              onChange={(e) => updateField("certNumber", e.target.value)}
               placeholder="CERT-2026-0001"
             />
           </div>
@@ -104,7 +123,7 @@ export default function CertificateForm() {
                 id="issuedDate"
                 type="date"
                 value={certificateData.issuedDate}
-                onChange={(e) => updateField('issuedDate', e.target.value)}
+                onChange={(e) => updateField("issuedDate", e.target.value)}
               />
             </div>
 
@@ -113,8 +132,8 @@ export default function CertificateForm() {
               <Input
                 id="expiryDate"
                 type="date"
-                value={certificateData.expiryDate || ''}
-                onChange={(e) => updateField('expiryDate', e.target.value)}
+                value={certificateData.expiryDate || ""}
+                onChange={(e) => updateField("expiryDate", e.target.value)}
               />
             </div>
           </div>
@@ -124,7 +143,7 @@ export default function CertificateForm() {
             <Textarea
               id="description"
               value={certificateData.description}
-              onChange={(e) => updateField('description', e.target.value)}
+              onChange={(e) => updateField("description", e.target.value)}
               placeholder="Enter certificate description"
               rows={4}
             />
@@ -143,7 +162,7 @@ export default function CertificateForm() {
             <Input
               id="productName"
               value={certificateData.productName}
-              onChange={(e) => updateField('productName', e.target.value)}
+              onChange={(e) => updateField("productName", e.target.value)}
               placeholder="Premium Product Name"
             />
           </div>
@@ -161,7 +180,7 @@ export default function CertificateForm() {
             <Input
               id="personName"
               value={certificateData.personName}
-              onChange={(e) => updateField('personName', e.target.value)}
+              onChange={(e) => updateField("personName", e.target.value)}
               placeholder="John Doe"
             />
           </div>
@@ -171,7 +190,7 @@ export default function CertificateForm() {
             <Input
               id="role"
               value={certificateData.role}
-              onChange={(e) => updateField('role', e.target.value)}
+              onChange={(e) => updateField("role", e.target.value)}
               placeholder="Quality Assurance Manager"
             />
           </div>
@@ -181,7 +200,7 @@ export default function CertificateForm() {
             <Input
               id="companyName"
               value={certificateData.companyName}
-              onChange={(e) => updateField('companyName', e.target.value)}
+              onChange={(e) => updateField("companyName", e.target.value)}
               placeholder="Your Company Name"
             />
           </div>
@@ -191,7 +210,7 @@ export default function CertificateForm() {
             <Input
               id="location"
               value={certificateData.location}
-              onChange={(e) => updateField('location', e.target.value)}
+              onChange={(e) => updateField("location", e.target.value)}
               placeholder="New York, USA"
             />
           </div>
@@ -201,7 +220,9 @@ export default function CertificateForm() {
       <Card>
         <CardHeader>
           <CardTitle>Branding Assets</CardTitle>
-          <CardDescription>Upload logo, signature, and badge images</CardDescription>
+          <CardDescription>
+            Upload logo, signature, and badge images
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -217,7 +238,7 @@ export default function CertificateForm() {
                   size="icon"
                   variant="destructive"
                   className="absolute -top-2 -right-2 h-6 w-6"
-                  onClick={() => removeImage('logo')}
+                  onClick={() => removeImage("logo")}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -227,7 +248,7 @@ export default function CertificateForm() {
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'logo')}
+                  onChange={(e) => handleImageUpload(e, "logo")}
                   className="hidden"
                   id="logo-upload"
                 />
@@ -257,7 +278,7 @@ export default function CertificateForm() {
                   size="icon"
                   variant="destructive"
                   className="absolute -top-2 -right-2 h-6 w-6"
-                  onClick={() => removeImage('signature')}
+                  onClick={() => removeImage("signature")}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -267,7 +288,7 @@ export default function CertificateForm() {
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'signature')}
+                  onChange={(e) => handleImageUpload(e, "signature")}
                   className="hidden"
                   id="signature-upload"
                 />
@@ -297,7 +318,7 @@ export default function CertificateForm() {
                   size="icon"
                   variant="destructive"
                   className="absolute -top-2 -right-2 h-6 w-6"
-                  onClick={() => removeImage('badge')}
+                  onClick={() => removeImage("badge")}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -307,7 +328,7 @@ export default function CertificateForm() {
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'badge')}
+                  onChange={(e) => handleImageUpload(e, "badge")}
                   className="hidden"
                   id="badge-upload"
                 />
@@ -334,8 +355,8 @@ export default function CertificateForm() {
             <Label htmlFor="qrText">QR Code Text (Optional)</Label>
             <Input
               id="qrText"
-              value={certificateData.qrText || ''}
-              onChange={(e) => updateField('qrText', e.target.value)}
+              value={certificateData.qrText || ""}
+              onChange={(e) => updateField("qrText", e.target.value)}
               placeholder="URL or text for QR code"
             />
           </div>

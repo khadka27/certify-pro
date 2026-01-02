@@ -34,7 +34,7 @@ export default function Template10({ data }: CertificateTemplateProps) {
             <div className="inline-flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></div>
               <p className="text-sm text-violet-300 uppercase tracking-[0.3em] font-semibold">
-                Certificate of Excellence
+                {data.subTitle || "Certificate of Excellence"}
               </p>
               <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></div>
             </div>

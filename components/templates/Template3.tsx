@@ -17,11 +17,11 @@ export default function Template3({ data }: CertificateTemplateProps) {
 
         <div className="space-y-6">
           <div className="flex items-center justify-center gap-4">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-500"></div>
+            <div className="w-16 h-px bg-linear-to-r from-transparent to-amber-500"></div>
             <h1 className="text-5xl font-serif font-bold text-amber-400 tracking-widest uppercase">
               {data.title}
             </h1>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-amber-500"></div>
+            <div className="w-16 h-px bg-linear-to-l from-transparent to-amber-500"></div>
           </div>
 
           <div className="w-32 h-1 bg-amber-500 mx-auto"></div>

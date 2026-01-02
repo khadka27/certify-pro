@@ -62,7 +62,7 @@ export default function Template2({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
-          <div className="mt-8 p-6 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-lg">
+          <div className="mt-8 p-6 bg-linear-to-r from-blue-100 to-cyan-100 rounded-lg">
             <p className="text-2xl font-semibold text-blue-900">
               {data.personName}
             </p>

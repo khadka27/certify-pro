@@ -1,35 +1,43 @@
-import { toPng, toJpeg } from 'html-to-image';
-import jsPDF from 'jspdf';
-import { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle, ImageRun } from 'docx';
-import { CertificateData } from '@/types/certificate';
+import { toPng, toJpeg } from "html-to-image";
+import jsPDF from "jspdf";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  BorderStyle,
+  ImageRun,
+} from "docx";
+import { CertificateData } from "@/types/certificate";
 
 export async function exportToPNG(elementId: string, filename: string) {
   const element = document.getElementById(elementId);
   if (!element) {
-    throw new Error('Certificate element not found');
+    throw new Error("Certificate element not found");
   }
 
   try {
-    const certificateElement = element.querySelector('div') as HTMLElement;
+    const certificateElement = element.querySelector("div") as HTMLElement;
     if (!certificateElement) {
-      throw new Error('Certificate content not found');
+      throw new Error("Certificate content not found");
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const dataUrl = await toPng(certificateElement, {
       quality: 1.0,
       pixelRatio: 2,
       cacheBust: true,
-      backgroundColor: '#ffffff',
+      backgroundColor: "#ffffff",
     });
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.download = `${filename}.png`;
     link.href = dataUrl;
     link.click();
   } catch (error) {
-    console.error('Error exporting to PNG:', error);
+    console.error("Error exporting to PNG:", error);
     throw error;
   }
 }
@@ -37,30 +45,30 @@ export async function exportToPNG(elementId: string, filename: string) {
 export async function exportToJPEG(elementId: string, filename: string) {
   const element = document.getElementById(elementId);
   if (!element) {
-    throw new Error('Certificate element not found');
+    throw new Error("Certificate element not found");
   }
 
   try {
-    const certificateElement = element.querySelector('div') as HTMLElement;
+    const certificateElement = element.querySelector("div") as HTMLElement;
     if (!certificateElement) {
-      throw new Error('Certificate content not found');
+      throw new Error("Certificate content not found");
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const dataUrl = await toJpeg(certificateElement, {
       quality: 0.95,
       pixelRatio: 2,
       cacheBust: true,
-      backgroundColor: '#ffffff',
+      backgroundColor: "#ffffff",
     });
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.download = `${filename}.jpg`;
     link.href = dataUrl;
     link.click();
   } catch (error) {
-    console.error('Error exporting to JPEG:', error);
+    console.error("Error exporting to JPEG:", error);
     throw error;
   }
 }
@@ -68,34 +76,37 @@ export async function exportToJPEG(elementId: string, filename: string) {
 export async function exportToPDF(elementId: string, filename: string) {
   const element = document.getElementById(elementId);
   if (!element) {
-    throw new Error('Certificate element not found');
+    throw new Error("Certificate element not found");
   }
 
   try {
-    const certificateElement = element.querySelector('div') as HTMLElement;
+    const certificateElement = element.querySelector("div") as HTMLElement;
     if (!certificateElement) {
-      throw new Error('Certificate content not found');
+      throw new Error("Certificate content not found");
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const dataUrl = await toPng(certificateElement, {
       quality: 1.0,
       pixelRatio: 2,
       cacheBust: true,
-      backgroundColor: '#ffffff',
+      backgroundColor: "#ffffff",
     });
+
+    const width = certificateElement.offsetWidth;
+    const height = certificateElement.offsetHeight;
 
     const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'px',
-      format: [1000, 707],
+      orientation: width > height ? "landscape" : "portrait",
+      unit: "px",
+      format: [width, height],
     });
 
-    pdf.addImage(dataUrl, 'PNG', 0, 0, 1000, 707);
+    pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
     pdf.save(`${filename}.pdf`);
   } catch (error) {
-    console.error('Error exporting to PDF:', error);
+    console.error("Error exporting to PDF:", error);
     throw error;
   }
 }
@@ -111,8 +122,8 @@ async function imageUrlToBase64(url: string): Promise<string> {
       reader.readAsDataURL(blob);
     });
   } catch (error) {
-    console.error('Error converting image to base64:', error);
-    return '';
+    console.error("Error converting image to base64:", error);
+    return "";
   }
 }
 
@@ -127,7 +138,7 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
             text: data.title,
             bold: true,
             size: 48,
-            color: '1F2937',
+            color: "1F2937",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -141,7 +152,7 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
           new TextRun({
             text: data.description,
             size: 24,
-            color: '4B5563',
+            color: "4B5563",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -153,14 +164,14 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
       new Paragraph({
         children: [
           new TextRun({
-            text: 'Product Name: ',
+            text: "Product Name: ",
             bold: true,
             size: 28,
           }),
           new TextRun({
             text: data.productName,
             size: 28,
-            color: '059669',
+            color: "059669",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -174,7 +185,7 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
           new TextRun({
             text: `Certificate Number: ${data.certNumber}`,
             size: 20,
-            color: '6B7280',
+            color: "6B7280",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -215,7 +226,7 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
             text: data.personName,
             bold: true,
             size: 32,
-            color: '1F2937',
+            color: "1F2937",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -229,7 +240,7 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
           new TextRun({
             text: data.role,
             size: 22,
-            color: '4B5563',
+            color: "4B5563",
           }),
         ],
         alignment: AlignmentType.CENTER,
@@ -285,22 +296,22 @@ export async function exportToDOCX(data: CertificateData, filename: string) {
 
     const blob = await Packer.toBlob(doc);
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = `${filename}.docx`;
     link.click();
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    console.error('Error exporting to DOCX:', error);
+    console.error("Error exporting to DOCX:", error);
     throw error;
   }
 }
 
 export function saveAsJSON(data: CertificateData, filename: string) {
   const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
+  const blob = new Blob([json], { type: "application/json" });
   const url = window.URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.download = `${filename}.json`;
   link.click();
@@ -315,10 +326,10 @@ export function loadFromJSON(file: File): Promise<CertificateData> {
         const data = JSON.parse(e.target?.result as string);
         resolve(data);
       } catch (error) {
-        reject(new Error('Invalid JSON file'));
+        reject(new Error("Invalid JSON file"));
       }
     };
-    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.onerror = () => reject(new Error("Failed to read file"));
     reader.readAsText(file);
   });
 }

@@ -14,6 +14,7 @@ import Template8 from "@/components/templates/Template8";
 import Template9 from "@/components/templates/Template9";
 import Template10 from "@/components/templates/Template10";
 import Template11 from "@/components/templates/Template11";
+import Template12 from "@/components/templates/Template12";
 
 const templates = [
   { id: 1, name: "Classic Gold", component: Template1 },
@@ -27,6 +28,7 @@ const templates = [
   { id: 9, name: "Traditional Gray", component: Template9 },
   { id: 10, name: "Premium Violet", component: Template10 },
   { id: 11, name: "Professional Certificate", component: Template11 },
+  { id: 12, name: "Official Authentic", component: Template12 },
 ];
 
 export default function CertificatePreview() {

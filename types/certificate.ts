@@ -10,6 +10,7 @@ export interface CertificateData {
   description: string;
   location: string;
   qrText?: string;
+  subTitle?: string;
   logo?: string;
   signature?: string;
   badge?: string;

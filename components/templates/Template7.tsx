@@ -3,8 +3,8 @@ import { CertificateTemplateProps } from "@/types/certificate";
 export default function Template7({ data }: CertificateTemplateProps) {
   return (
     <div className="w-[1000px] min-h-[707px] h-auto bg-gradient-to-br from-orange-50 to-amber-50 p-12 relative box-border overflow-hidden flex flex-col">
-      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600"></div>
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600"></div>
+      <div className="absolute top-0 left-0 right-0 h-20 bg-linear-to-r from-orange-600 via-amber-500 to-orange-600"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-r from-orange-600 via-amber-500 to-orange-600"></div>
 
       <div className="relative z-10 flex-1 flex items-center justify-center pt-20 pb-20">
         <div className="bg-white rounded-3xl p-12 max-w-4xl w-full relative">
@@ -25,13 +25,13 @@ export default function Template7({ data }: CertificateTemplateProps) {
 
           <div className="text-center space-y-6 mb-8">
             <div className="inline-block">
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold bg-linear-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                 {data.title}
               </h1>
-              <div className="h-1 bg-gradient-to-r from-orange-600 to-amber-600 mt-2"></div>
+              <div className="h-1 bg-linear-to-r from-orange-600 to-amber-600 mt-2"></div>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl">
+            <div className="bg-linear-to-br from-orange-50 to-amber-50 p-6 rounded-xl">
               <p className="text-lg text-gray-700 leading-relaxed">
                 {data.description}
               </p>
