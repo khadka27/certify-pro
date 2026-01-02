@@ -47,9 +47,10 @@ export default function Template10({ data }: CertificateTemplateProps) {
           </div>
 
           <div className="max-w-2xl backdrop-blur-md bg-white/5 border border-violet-400/20 p-8 rounded-2xl">
-            <p className="text-lg text-violet-100 leading-relaxed mb-6">
-              {data.description}
-            </p>
+            <div
+              className="text-lg text-violet-100 leading-relaxed rich-text-content"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
 
             <div className="bg-linear-to-r from-violet-600/30 to-fuchsia-600/30 p-6 rounded-xl border border-violet-400/20">
               <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">

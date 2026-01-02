@@ -50,9 +50,10 @@ export default function Template5({ data }: CertificateTemplateProps) {
           </div>
 
           <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-rose-200">
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              {data.description}
-            </p>
+            <div
+              className="text-lg text-gray-700 leading-relaxed mb-6 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
 
             <div className="bg-linear-to-r from-rose-100 to-pink-100 p-6 rounded-xl">
               <p className="text-sm text-rose-600 font-semibold uppercase mb-2">

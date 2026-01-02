@@ -67,9 +67,12 @@ export default function Template6({ data }: CertificateTemplateProps) {
               <div className="w-24 h-1 bg-slate-800"></div>
             </div>
 
-            <p className="text-base text-gray-600 leading-relaxed">
-              {data.description}
-            </p>
+            <div className="bg-slate-50 border-y border-slate-200 py-8 my-8 px-8">
+              <div
+                className="text-lg text-slate-700 leading-relaxed max-w-2xl mx-auto rich-text-content"
+                dangerouslySetInnerHTML={{ __html: data.description }}
+              />
+            </div>
 
             <div className="bg-slate-50 p-6 border-l-4 border-slate-800">
               <p className="text-xs text-slate-600 uppercase tracking-wider mb-2">

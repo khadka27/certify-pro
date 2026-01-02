@@ -43,10 +43,12 @@ export default function Template8({ data }: CertificateTemplateProps) {
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {data.description}
-            </p>
-
+            <div className="bg-teal-50 border-x-4 border-teal-600 p-8 my-8 shadow-inner">
+              <div
+                className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto rich-text-content"
+                dangerouslySetInnerHTML={{ __html: data.description }}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-6 pt-6">
               <div className="text-left p-4 border-l-4 border-teal-600 bg-teal-50">
                 <p className="text-xs text-teal-700 uppercase font-semibold mb-1">

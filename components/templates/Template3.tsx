@@ -27,10 +27,11 @@ export default function Template3({ data }: CertificateTemplateProps) {
           <div className="w-32 h-1 bg-amber-500 mx-auto"></div>
         </div>
 
-        <div className="bg-slate-800/50 border border-amber-500/20 p-8 max-w-2xl backdrop-blur-sm">
-          <p className="text-lg text-slate-200 leading-relaxed">
-            {data.description}
-          </p>
+        <div className="bg-amber-900/30 backdrop-blur-sm p-6 rounded-lg border border-amber-500/20 max-w-2xl mx-auto">
+          <div
+            className="text-lg text-amber-200/90 leading-relaxed italic rich-text-content"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-8 max-w-2xl">

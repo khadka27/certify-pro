@@ -36,10 +36,11 @@ export default function Template9({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-base text-gray-600 leading-relaxed mb-8">
-              {data.description}
-            </p>
+          <div className="flex-1 flex flex-col justify-center px-16 space-y-8">
+            <div
+              className="text-lg text-slate-700 leading-relaxed text-center rich-text-content"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
 
             <div className="bg-gray-50 border-2 border-gray-800 p-8 rounded-none">
               <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">

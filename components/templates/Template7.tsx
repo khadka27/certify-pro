@@ -32,9 +32,10 @@ export default function Template7({ data }: CertificateTemplateProps) {
             </div>
 
             <div className="bg-linear-to-br from-orange-50 to-amber-50 p-6 rounded-xl">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                {data.description}
-              </p>
+              <div
+                className="text-lg text-gray-700 leading-relaxed rich-text-content"
+                dangerouslySetInnerHTML={{ __html: data.description }}
+              />
             </div>
           </div>
 

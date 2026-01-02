@@ -35,9 +35,10 @@ export default function Template4({ data }: CertificateTemplateProps) {
 
           <div className="h-1 bg-linear-to-r from-emerald-500 to-teal-500 rounded-full mt-4 mx-auto w-32"></div>
           <div className="bg-linear-to-r from-emerald-50 to-teal-50 p-8 rounded-lg border-l-4 border-emerald-600 mb-8">
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              {data.description}
-            </p>
+            <div
+              className="text-lg text-gray-700 leading-relaxed mb-6 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
 
             <div className="grid grid-cols-2 gap-6">
               <div>
