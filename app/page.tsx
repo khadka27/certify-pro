@@ -1,14 +1,20 @@
-'use client';
+"use client";
 
-import Navbar from '@/components/layout/Navbar';
-import CertificateForm from '@/components/editor/CertificateForm';
-import CertificatePreview from '@/components/preview/CertificatePreview';
-import TemplateSelector from '@/components/preview/TemplateSelector';
-import ExportButtons from '@/components/preview/ExportButtons';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Toaster } from '@/components/ui/toaster';
+import Navbar from "@/components/layout/Navbar";
+import CertificateForm from "@/components/editor/CertificateForm";
+import CertificatePreview from "@/components/preview/CertificatePreview";
+import TemplateSelector from "@/components/preview/TemplateSelector";
+import ExportButtons from "@/components/preview/ExportButtons";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
   return (
@@ -32,8 +38,8 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <div className="flex flex-col gap-6">
-            <Card className="shadow-xl">
+          <div className="flex flex-col gap-6 h-full">
+            <Card className="shadow-xl shrink-0">
               <CardHeader>
                 <CardTitle className="text-2xl">Live Preview</CardTitle>
                 <CardDescription>
@@ -50,8 +56,8 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="flex-1 overflow-hidden shadow-xl">
-              <ScrollArea className="h-full">
+            <Card className="flex-1 overflow-hidden shadow-xl min-h-0 bg-slate-100/20">
+              <ScrollArea className="h-full w-full">
                 <CertificatePreview />
               </ScrollArea>
             </Card>
