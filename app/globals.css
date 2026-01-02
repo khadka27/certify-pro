@@ -79,3 +79,32 @@
     color: hsl(var(--foreground));
   }
 }
+
+/* Rich Text Editor Content Styling */
+.rich-text-content h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.rich-text-content h2 {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+.rich-text-content h3 {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.rich-text-content p {
+  margin-bottom: 0.5em;
+}
+.rich-text-content strong {
+  font-weight: 700;
+}
+.rich-text-content em {
+  font-style: italic;
+}
+.rich-text-content u {
+  text-decoration: underline;
+}
+.rich-text-content {
+  line-height: 1.4;
+}

@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Upload, X } from "lucide-react";
 import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
+import RichTextEditor from "./RichTextEditor";
 
 export default function CertificateForm() {
   const certificateData = useCertificateStore((state) => state.certificateData);
@@ -139,13 +140,11 @@ export default function CertificateForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={certificateData.description}
-              onChange={(e) => updateField("description", e.target.value)}
-              placeholder="Enter certificate description"
-              rows={4}
+            <Label htmlFor="description">Description (Word-like Editor)</Label>
+            <RichTextEditor
+              content={certificateData.description}
+              onChange={(content) => updateField("description", content)}
+              placeholder="Enter certificate description. Use the toolbar to format your text."
             />
           </div>
         </CardContent>

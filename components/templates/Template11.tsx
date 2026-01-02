@@ -42,9 +42,10 @@ export default function Template11({ data }: CertificateTemplateProps) {
         </div>
 
         <div className="flex-1 flex flex-col justify-center max-w-3xl mx-auto space-y-6">
-          <p className="text-base text-gray-700 leading-relaxed text-justify indent-8">
-            {data.description}
-          </p>
+          <div
+            className="text-base text-gray-700 leading-relaxed text-justify indent-8 rich-text-content"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
 
           <div className="bg-blue-50 border-l-4 border-blue-600 p-6 space-y-3">
             <div className="grid grid-cols-2 gap-4">

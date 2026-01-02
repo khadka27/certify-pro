@@ -72,14 +72,15 @@ export default function Template12({ data }: CertificateTemplateProps) {
         </div>
 
         {/* Model and Specification Section */}
-        <div className="space-y-0.5">
+        <div className="space-y-0.5 min-h-[40px]">
           <h2 className="text-[12px] font-bold uppercase tracking-wide">
             NAME, MODEL AND SPECIFICATION
           </h2>
           <p className="text-[14px] font-bold">{data.productName}</p>
-          <p className="text-[10px] text-gray-600 italic tracking-tight">
-            {data.description}
-          </p>
+          <div
+            className="text-[10px] text-gray-600 italic tracking-tight rich-text-content"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
         </div>
 
         {/* Standards Section */}

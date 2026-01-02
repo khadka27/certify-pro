@@ -21,9 +21,10 @@ export default function Template1({ data }: CertificateTemplateProps) {
 
           <div className="w-32 h-1 bg-amber-600"></div>
 
-          <p className="text-xl text-gray-700 max-w-2xl leading-relaxed">
-            {data.description}
-          </p>
+          <div
+            className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-12 rich-text-content"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
 
           <div className="space-y-2 mt-8">
             <p className="text-2xl font-semibold text-gray-800">
