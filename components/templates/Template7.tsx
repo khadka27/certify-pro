@@ -2,7 +2,7 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template7({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] min-h-[707px] h-auto bg-gradient-to-br from-orange-50 to-amber-50 p-12 relative box-border overflow-hidden flex flex-col">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-orange-50 to-amber-50 p-12 relative box-border overflow-hidden flex flex-col">
       <div className="absolute top-0 left-0 right-0 h-20 bg-linear-to-r from-orange-600 via-amber-500 to-orange-600"></div>
       <div className="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-r from-orange-600 via-amber-500 to-orange-600"></div>
 

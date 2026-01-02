@@ -39,11 +39,11 @@ export default function Template10({ data }: CertificateTemplateProps) {
               <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></div>
             </div>
 
-            <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-violet-200">
+            <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-linear-to-r from-violet-200 via-fuchsia-200 to-violet-200">
               {data.title}
             </h1>
 
-            <div className="h-1 w-64 mx-auto bg-gradient-to-r from-transparent via-violet-400 to-transparent"></div>
+            <div className="h-1 w-64 mx-auto bg-linear-to-r from-transparent via-violet-400 to-transparent"></div>
           </div>
 
           <div className="max-w-2xl backdrop-blur-md bg-white/5 border border-violet-400/20 p-8 rounded-2xl">
@@ -51,7 +51,7 @@ export default function Template10({ data }: CertificateTemplateProps) {
               {data.description}
             </p>
 
-            <div className="bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 p-6 rounded-xl border border-violet-400/20">
+            <div className="bg-linear-to-r from-violet-600/30 to-fuchsia-600/30 p-6 rounded-xl border border-violet-400/20">
               <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">
                 Product Name
               </p>

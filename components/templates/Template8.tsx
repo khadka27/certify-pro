@@ -67,7 +67,7 @@ export default function Template8({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
-          <div className="inline-block mx-auto bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-8 py-4 rounded-lg">
+          <div className="bg-linear-to-r from-teal-500 to-emerald-500 text-white px-8 py-3 rounded-full shadow-lg">
             <p className="text-xs uppercase tracking-wider opacity-80 mb-1">
               Authorized By
             </p>
