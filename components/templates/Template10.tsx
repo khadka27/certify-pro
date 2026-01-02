@@ -2,13 +2,13 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template10({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-linear-to-br from-violet-900 via-fuchsia-900 to-violet-900 p-16 relative box-border overflow-hidden">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-violet-900 via-fuchsia-900 to-violet-900 p-16 relative box-border overflow-hidden flex flex-col">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative z-10 h-full border-4 border-violet-400/30 backdrop-blur-sm bg-violet-950/20 p-12 flex flex-col">
+      <div className="relative z-10 flex-1 border-4 border-violet-400/30 backdrop-blur-sm bg-violet-950/20 p-12 flex flex-col">
         <div className="flex items-start justify-between mb-12">
           {data.logo && (
             <div className="bg-white/10 backdrop-blur-md p-4 rounded-lg">

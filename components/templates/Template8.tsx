@@ -2,13 +2,13 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template8({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-white p-12 relative box-border overflow-hidden">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-white relative shadow-2xl box-border overflow-hidden flex flex-col">
       <div className="absolute top-8 left-8 w-32 h-32 border-t-4 border-l-4 border-teal-600"></div>
       <div className="absolute top-8 right-8 w-32 h-32 border-t-4 border-r-4 border-teal-600"></div>
       <div className="absolute bottom-8 left-8 w-32 h-32 border-b-4 border-l-4 border-teal-600"></div>
       <div className="absolute bottom-8 right-8 w-32 h-32 border-b-4 border-r-4 border-teal-600"></div>
 
-      <div className="relative z-10 h-full flex flex-col p-12">
+      <div className="relative z-10 flex-1 flex flex-col p-12 py-4">
         <div className="flex items-start justify-between mb-12">
           <div className="space-y-2">
             {data.logo && (

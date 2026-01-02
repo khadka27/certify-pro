@@ -2,8 +2,8 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template9({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-linear-to-br from-gray-50 to-slate-100 p-8 relative box-border overflow-hidden">
-      <div className="h-full bg-white border-8 border-double border-gray-800 p-12 relative relative z-10">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-gray-50 to-slate-100 p-8 relative box-border overflow-hidden flex flex-col">
+      <div className="flex-1 bg-white border-8 border-double border-gray-800 p-12 relative z-10">
         <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-white px-8 py-2 border-4 border-gray-800 rounded-full">
           {data.logo ? (
             <img
@@ -24,7 +24,7 @@ export default function Template9({ data }: CertificateTemplateProps) {
           </div>
         )}
 
-        <div className="h-full flex flex-col justify-center space-y-8 pt-8">
+        <div className="h-full flex flex-col justify-center space-y-8 pt-4">
           <div className="text-center">
             <h1 className="text-6xl font-serif font-bold text-gray-800 mb-4">
               {data.title}

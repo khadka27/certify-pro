@@ -2,8 +2,8 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template6({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-slate-100 p-8 relative box-border overflow-hidden">
-      <div className="h-full bg-white rounded-none overflow-hidden flex relative z-10">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-slate-100 p-8 relative box-border overflow-hidden flex flex-col">
+      <div className="flex-1 bg-white rounded-none overflow-hidden flex relative z-10">
         <div className="w-1/3 bg-linear-to-b from-slate-800 via-slate-700 to-slate-800 p-8 flex flex-col justify-between text-white">
           {data.logo && (
             <img

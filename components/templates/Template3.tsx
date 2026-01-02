@@ -2,11 +2,11 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template3({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-16 relative box-border overflow-hidden">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 p-16 relative box-border overflow-hidden flex flex-col">
       <div className="absolute inset-8 border-2 border-amber-500/30"></div>
       <div className="absolute inset-12 border border-amber-500/20"></div>
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center space-y-8">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center space-y-8 py-4">
         {data.logo && (
           <img
             src={data.logo}

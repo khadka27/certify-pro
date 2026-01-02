@@ -2,14 +2,18 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template5({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-linear-to-br from-rose-50 via-white to-pink-50 p-16 relative box-border overflow-hidden">
-      <div className="absolute inset-0 m-8">
-        <svg className="w-full h-full" viewBox="0 0 1000 707">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-rose-50 via-white to-pink-50 p-16 relative box-border overflow-hidden flex flex-col">
+      <div className="absolute inset-0 m-12 pointer-events-none">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1000 707"
+          preserveAspectRatio="none"
+        >
           <rect
-            x="10"
-            y="10"
-            width="980"
-            height="687"
+            x="2"
+            y="2"
+            width="996"
+            height="703"
             fill="none"
             stroke="#e11d48"
             strokeWidth="4"
@@ -18,7 +22,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
         </svg>
       </div>
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-between">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-between py-4">
         <div className="text-center">
           {data.logo && (
             <img

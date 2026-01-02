@@ -2,11 +2,11 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template2({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-gradient-to-br from-blue-50 to-cyan-50 p-12 relative box-border overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
-      <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-blue-50 to-cyan-50 p-12 relative box-border overflow-hidden flex flex-col">
+      <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
+      <div className="absolute bottom-0 left-0 w-full h-2 bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
 
-      <div className="h-full flex flex-col bg-white rounded-lg p-12 relative z-10">
+      <div className="flex-1 flex flex-col bg-white rounded-lg p-12 relative z-10">
         <div className="flex items-start justify-between mb-8">
           {data.logo && (
             <img

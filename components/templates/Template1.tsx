@@ -2,10 +2,10 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template1({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] h-[707px] bg-white p-16 relative border-8 border-amber-600 box-border overflow-hidden">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-white p-16 relative border-8 border-amber-600 shadow-2xl box-border overflow-hidden flex flex-col">
       <div className="absolute inset-12 border-4 border-amber-400"></div>
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-between text-center">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-between text-center py-4">
         {data.logo && (
           <img
             src={data.logo}

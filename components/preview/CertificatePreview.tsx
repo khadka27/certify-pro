@@ -34,7 +34,9 @@ export default function CertificatePreview() {
   const hasHydrated = useCertificateStore((state) => state._hasHydrated);
   const [mounted, setMounted] = useState(false);
   const [scale, setScale] = useState(0.5);
+  const [certHeight, setCertHeight] = useState(707);
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -44,21 +46,22 @@ export default function CertificatePreview() {
     if (!mounted) return;
 
     const updateScale = () => {
-      if (containerRef.current) {
+      if (containerRef.current && contentRef.current) {
         const parent = containerRef.current.parentElement;
         if (!parent) return;
 
-        // Use parent dimensions as constraints
-        const availableWidth = parent.clientWidth - 48; // Padding
+        // Measure actual content height
+        const actualCertHeight = contentRef.current.scrollHeight;
+        if (actualCertHeight > 0 && actualCertHeight !== certHeight) {
+          setCertHeight(actualCertHeight);
+        }
+
+        const availableWidth = parent.clientWidth - 48;
         const availableHeight = parent.clientHeight - 48;
 
-        const certWidth = 1000;
-        const certHeight = 707;
+        const scaleW = availableWidth / 1000;
+        const scaleH = availableHeight / actualCertHeight;
 
-        const scaleW = availableWidth / certWidth;
-        const scaleH = availableHeight / certHeight;
-
-        // Scale to fit both dimensions, but don't exceed 1:1
         const newScale = Math.max(Math.min(scaleW, scaleH, 1), 0.1);
         setScale(newScale);
       }
@@ -66,7 +69,6 @@ export default function CertificatePreview() {
 
     updateScale();
 
-    // Use ResizeObserver for more reliable responsiveness
     const resizeObserver = new ResizeObserver(() => {
       updateScale();
     });
@@ -74,13 +76,16 @@ export default function CertificatePreview() {
     if (containerRef.current?.parentElement) {
       resizeObserver.observe(containerRef.current.parentElement);
     }
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+    }
 
     window.addEventListener("resize", updateScale);
     return () => {
       window.removeEventListener("resize", updateScale);
       resizeObserver.disconnect();
     };
-  }, [mounted]);
+  }, [mounted, certHeight, certificateData]);
 
   if (!mounted || !hasHydrated) {
     return (
@@ -102,27 +107,28 @@ export default function CertificatePreview() {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-center min-h-full w-full py-8 overflow-hidden bg-slate-100/30"
+      className="flex flex-col items-center justify-start min-h-full w-full py-8 overflow-y-auto bg-slate-100/30"
     >
       <AnimatePresence mode="wait">
         <motion.div
           key={certificateData.selectedTemplate}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="relative shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-sm overflow-hidden"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.4, ease: "circOut" }}
+          className="relative shadow-[0_30px_60px_rgba(0,0,0,0.2)] rounded-sm overflow-hidden bg-white"
           style={{
             width: 1000 * scale,
-            height: 707 * scale,
+            height: certHeight * scale,
             flexShrink: 0,
           }}
         >
           <div
             id="certificate-preview"
+            ref={contentRef}
             style={{
               width: 1000,
-              height: 707,
+              minHeight: 707,
               transform: `scale(${scale})`,
               transformOrigin: "top left",
               position: "absolute",
@@ -135,11 +141,11 @@ export default function CertificatePreview() {
         </motion.div>
       </AnimatePresence>
 
-      {scale < 0.9 && (
+      {scale < 0.95 && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="mt-6 text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold"
+          className="mt-8 text-[10px] text-slate-400 uppercase tracking-[0.3em] font-bold bg-white/50 px-4 py-1 rounded-full backdrop-blur-sm shadow-sm"
         >
           Viewing at {Math.round(scale * 100)}% zoom for full page display
         </motion.p>
