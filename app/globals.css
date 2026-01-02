@@ -108,3 +108,12 @@
 .rich-text-content {
   line-height: 1.4;
 }
+
+/* Scrollbar Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -82,7 +82,9 @@ export default function RichTextEditor({
   });
 
   if (!editor) {
-    return null;
+    return (
+      <div className="min-h-[190px] border rounded-md bg-white animate-pulse" />
+    );
   }
 
   return (
