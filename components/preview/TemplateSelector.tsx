@@ -62,11 +62,16 @@ const templates = [
     name: "Official Authentic",
     preview: "bg-slate-50 border-red-800 border-4",
   },
+  {
+    id: 13,
+    name: "Standard Professional",
+    preview: "bg-white border-blue-900 border-8",
+  },
 ];
 
 export default function TemplateSelector() {
   const selectedTemplate = useCertificateStore(
-    (state) => state.certificateData.selectedTemplate
+    (state) => state.certificateData.selectedTemplate,
   );
   const updateField = useCertificateStore((state) => state.updateField);
   const scrollRef = useRef<HTMLDivElement>(null);

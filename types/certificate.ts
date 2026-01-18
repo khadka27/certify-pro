@@ -14,6 +14,8 @@ export interface CertificateData {
   logo?: string;
   signature?: string;
   badge?: string;
+  watermark?: string;
+  showWatermark?: boolean;
   selectedTemplate: number;
 }
 

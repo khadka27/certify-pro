@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useCertificateStore } from "@/lib/store";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +17,7 @@ import { Upload, X } from "lucide-react";
 import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "./RichTextEditor";
+import { Switch } from "@/components/ui/switch";
 
 export default function CertificateForm() {
   const certificateData = useCertificateStore((state) => state.certificateData);
@@ -52,7 +52,7 @@ export default function CertificateForm() {
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "logo" | "signature" | "badge"
+    field: "logo" | "signature" | "badge" | "watermark",
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -75,7 +75,7 @@ export default function CertificateForm() {
     }
   };
 
-  const removeImage = (field: "logo" | "signature" | "badge") => {
+  const removeImage = (field: "logo" | "signature" | "badge" | "watermark") => {
     updateField(field, "");
   };
 
@@ -340,6 +340,76 @@ export default function CertificateForm() {
                 </Label>
               </div>
             )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Watermark (Optional)</CardTitle>
+          <CardDescription>
+            Add a watermark to your certificate (appears as a faded background)
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label htmlFor="showWatermark">Show Watermark</Label>
+              <p className="text-sm text-muted-foreground">
+                Display watermark on the certificate
+              </p>
+            </div>
+            <Switch
+              id="showWatermark"
+              checked={certificateData.showWatermark || false}
+              onCheckedChange={(checked) =>
+                updateField("showWatermark", checked)
+              }
+            />
+          </div>
+
+          <Separator />
+
+          <div className="space-y-2">
+            <Label>Watermark Image</Label>
+            {certificateData.watermark ? (
+              <div className="relative inline-block">
+                <img
+                  src={certificateData.watermark}
+                  alt="Watermark"
+                  className="h-20 w-auto border rounded-lg"
+                />
+                <Button
+                  size="icon"
+                  variant="destructive"
+                  className="absolute -top-2 -right-2 h-6 w-6"
+                  onClick={() => removeImage("watermark")}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, "watermark")}
+                  className="hidden"
+                  id="watermark-upload"
+                />
+                <Label
+                  htmlFor="watermark-upload"
+                  className="cursor-pointer flex items-center gap-2 px-4 py-2 border rounded-md hover:bg-accent"
+                >
+                  <Upload className="h-4 w-4" />
+                  Upload Watermark
+                </Label>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground">
+              Watermark will be displayed as a faded background image on your
+              certificate
+            </p>
           </div>
         </CardContent>
       </Card>

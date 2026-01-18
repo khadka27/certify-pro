@@ -6,7 +6,7 @@ interface CertificateStore {
   certificateData: CertificateData;
   updateField: <K extends keyof CertificateData>(
     field: K,
-    value: CertificateData[K]
+    value: CertificateData[K],
   ) => void;
   resetData: () => void;
   loadData: (data: CertificateData) => void;
@@ -31,6 +31,8 @@ const getInitialData = (): CertificateData => ({
   logo: "",
   signature: "",
   badge: "",
+  watermark: "",
+  showWatermark: false,
   selectedTemplate: 1,
 });
 
@@ -62,6 +64,6 @@ export const useCertificateStore = create<CertificateStore>()(
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },
-    }
-  )
+    },
+  ),
 );
