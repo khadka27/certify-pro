@@ -32,14 +32,71 @@ export default function Template1({ data }: CertificateTemplateProps) {
             dangerouslySetInnerHTML={{ __html: data.description }}
           />
 
-          <div className="space-y-2 mt-8">
-            <p className="text-2xl font-semibold text-gray-800">
-              Product:{" "}
-              <span className="text-amber-700">{data.productName}</span>
-            </p>
-            <p className="text-lg text-gray-600">
-              Certificate No: {data.certNumber}
-            </p>
+          <div className="space-y-4 mt-4 w-full max-w-2xl px-8">
+            <div className="flex justify-between items-center border-b border-amber-200 pb-2">
+              <span className="text-gray-600 font-semibold uppercase text-sm">
+                Product Name
+              </span>
+              <span className="text-2xl font-bold text-amber-800">
+                {data.productName}
+              </span>
+            </div>
+            <div className="flex justify-between items-center border-b border-amber-200 pb-2">
+              <span className="text-gray-600 font-semibold uppercase text-sm">
+                Status / Cat.
+              </span>
+              <span className="text-base text-gray-800">
+                {data.productCategory} —{" "}
+                <span className="font-bold text-green-700 uppercase">
+                  {data.certificationStatus}
+                </span>
+              </span>
+            </div>
+
+            {/* Classic Ratings */}
+            <div className="grid grid-cols-4 gap-4 py-4">
+              <div className="text-center">
+                <span className="block text-[10px] text-amber-600 uppercase font-bold tracking-widest">
+                  Expert Rating
+                </span>
+                <span className="text-xl font-bold text-gray-900 border-2 border-amber-200 rounded-full w-12 h-12 flex items-center justify-center mx-auto mt-1">
+                  {data.overallExpertRating}
+                </span>
+              </div>
+              <div className="text-center pt-2">
+                <span className="block text-[10px] text-gray-500 uppercase">
+                  Safety
+                </span>
+                <span className="block text-lg font-semibold">
+                  {data.safetyRating}
+                </span>
+              </div>
+              <div className="text-center pt-2">
+                <span className="block text-[10px] text-gray-500 uppercase">
+                  Quality
+                </span>
+                <span className="block text-lg font-semibold">
+                  {data.ingredientsQualityRating}
+                </span>
+              </div>
+              <div className="text-center pt-2">
+                <span className="block text-[10px] text-gray-500 uppercase">
+                  Efficacy
+                </span>
+                <span className="block text-lg font-semibold">
+                  {data.effectivenessRating}
+                </span>
+              </div>
+            </div>
+
+            <div className="text-center pt-2">
+              <p className="text-lg text-gray-600">
+                Certificate No:{" "}
+                <span className="font-mono font-bold text-gray-900">
+                  {data.certNumber}
+                </span>
+              </p>
+            </div>
           </div>
 
           <div className="mt-6 space-y-1">

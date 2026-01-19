@@ -34,23 +34,77 @@ export default function Template3({ data }: CertificateTemplateProps) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-8 max-w-2xl">
+        <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
           <div className="text-left border-l-2 border-amber-500 pl-4">
             <p className="text-xs text-amber-400 uppercase tracking-wider mb-1">
-              Product Name
+              Product
             </p>
             <p className="text-xl font-semibold text-white">
               {data.productName}
             </p>
+            <p className="text-xs text-slate-400 mt-1">
+              {data.productCategory} | {data.productForm}
+            </p>
           </div>
           <div className="text-left border-l-2 border-amber-500 pl-4">
             <p className="text-xs text-amber-400 uppercase tracking-wider mb-1">
-              Certificate No
+              Certificate No & Status
             </p>
             <p className="text-xl font-semibold text-white">
               {data.certNumber}
             </p>
+            <p className="text-xs text-green-400 mt-1">
+              {data.certificationStatus}
+            </p>
           </div>
+        </div>
+
+        {/* New Ratings Section */}
+        <div className="bg-slate-800/50 p-4 border border-slate-700 rounded w-full max-w-2xl">
+          <div className="grid grid-cols-4 gap-4 text-center">
+            <div>
+              <span className="block text-xs text-amber-500 uppercase">
+                Overall
+              </span>
+              <span className="text-lg font-bold text-white">
+                {data.overallExpertRating || "N/A"}
+              </span>
+            </div>
+            <div>
+              <span className="block text-xs text-slate-400 uppercase">
+                Safety
+              </span>
+              <span className="text-sm text-gray-200">
+                {data.safetyRating || "-"}
+              </span>
+            </div>
+            <div>
+              <span className="block text-xs text-slate-400 uppercase">
+                Quality
+              </span>
+              <span className="text-sm text-gray-200">
+                {data.ingredientsQualityRating || "-"}
+              </span>
+            </div>
+            <div>
+              <span className="block text-xs text-slate-400 uppercase">
+                Use Case
+              </span>
+              <span className="text-sm text-gray-200">
+                {data.versatilityUseCaseFit || "-"}
+              </span>
+            </div>
+          </div>
+          {data.keyActiveIngredients && (
+            <div className="mt-3 pt-3 border-t border-slate-700 text-left text-xs">
+              <span className="text-amber-500 font-bold uppercase mr-2">
+                Ingredients:
+              </span>
+              <span className="text-slate-300">
+                {data.keyActiveIngredients}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="space-y-2 pt-6">

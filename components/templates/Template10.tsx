@@ -56,9 +56,45 @@ export default function Template10({ data }: CertificateTemplateProps) {
               <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">
                 Product Name
               </p>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-3xl font-bold text-white mb-2">
                 {data.productName}
               </p>
+              <div className="flex justify-between items-center text-xs text-violet-200 border-t border-violet-400/20 pt-2">
+                <span>{data.productCategory}</span>
+                <span className="font-bold text-fuchsia-300">
+                  {data.certificationStatus}
+                </span>
+              </div>
+            </div>
+
+            {/* Ratings Bar */}
+            <div className="flex justify-between items-center bg-black/20 p-4 rounded-xl border border-violet-400/20 mt-4 backdrop-blur-md">
+              <div>
+                <span className="block text-[10px] uppercase text-violet-400">
+                  Rating
+                </span>
+                <span className="text-xl font-bold text-white">
+                  {data.overallExpertRating}
+                </span>
+              </div>
+              <div className="h-8 w-px bg-violet-400/20"></div>
+              <div>
+                <span className="block text-[10px] uppercase text-violet-400">
+                  Safety
+                </span>
+                <span className="text-sm font-bold text-white">
+                  {data.safetyRating}
+                </span>
+              </div>
+              <div className="h-8 w-px bg-violet-400/20"></div>
+              <div>
+                <span className="block text-[10px] uppercase text-violet-400">
+                  Quality
+                </span>
+                <span className="text-sm font-bold text-white">
+                  {data.ingredientsQualityRating}
+                </span>
+              </div>
             </div>
           </div>
 

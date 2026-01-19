@@ -56,6 +56,17 @@ export default function Template9({ data }: CertificateTemplateProps) {
                     Certificate
                   </p>
                   <p className="font-bold text-gray-800">{data.certNumber}</p>
+                  <p className="text-[10px] text-gray-500 uppercase mt-1">
+                    {data.certificationStatus}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase mb-1">
+                    Expert Rating
+                  </p>
+                  <p className="font-bold text-gray-800">
+                    {data.overallExpertRating || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase mb-1">

@@ -36,30 +36,69 @@ export default function Template2({ data }: CertificateTemplateProps) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto text-left">
+          <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto text-left mb-6">
             <div>
               <p className="text-sm font-semibold text-blue-600 uppercase">
                 Product
               </p>
               <p className="text-xl text-gray-800">{data.productName}</p>
+              {data.productCategory && (
+                <p className="text-xs text-gray-500">{data.productCategory}</p>
+              )}
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-600 uppercase">
                 Certificate No
               </p>
               <p className="text-xl text-gray-800">{data.certNumber}</p>
+              {data.certificationStatus && (
+                <p className="text-xs font-bold text-green-600">
+                  {data.certificationStatus}
+                </p>
+              )}
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-600 uppercase">
-                Company
+                Key Ingredients
               </p>
-              <p className="text-xl text-gray-800">{data.companyName}</p>
+              <p className="text-sm text-gray-800">
+                {data.keyActiveIngredients || data.companyName}
+              </p>
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-600 uppercase">
-                Location
+                Rating
               </p>
-              <p className="text-xl text-gray-800">{data.location}</p>
+              <div className="flex items-center gap-2">
+                <span className="text-xl font-bold text-gray-800">
+                  {data.overallExpertRating || "N/A"}
+                </span>
+                {data.finalVerdict && (
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                    {data.finalVerdict}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Detailed Ratings */}
+          <div className="grid grid-cols-4 gap-2 text-center text-xs opacity-80 border-t border-blue-100 pt-4">
+            <div>
+              <span className="block font-bold text-blue-600">Safety</span>
+              <span>{data.safetyRating || "-"}</span>
+            </div>
+            <div>
+              <span className="block font-bold text-blue-600">Efficacy</span>
+              <span>{data.effectivenessRating || "-"}</span>
+            </div>
+            <div>
+              <span className="block font-bold text-blue-600">Quality</span>
+              <span>{data.ingredientsQualityRating || "-"}</span>
+            </div>
+            <div>
+              <span className="block font-bold text-blue-600">Value</span>
+              <span>{data.valueForMoneyRating || "-"}</span>
             </div>
           </div>
 

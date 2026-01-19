@@ -99,6 +99,42 @@ export default function Template13({ data }: CertificateTemplateProps) {
           />
         </div>
 
+        {/* Ratings Section */}
+        <div className="mb-6 px-8 grid grid-cols-5 gap-2 border-y border-gray-100 py-4">
+          <div className="text-center border-r border-gray-200">
+            <p className="text-[10px] uppercase text-gray-500 font-bold">
+              RATING
+            </p>
+            <p className="text-xl font-bold text-cyan-700">
+              {data.overallExpertRating}
+            </p>
+          </div>
+          <div className="text-center border-r border-gray-200">
+            <p className="text-[10px] uppercase text-gray-500 font-bold">
+              SAFETY
+            </p>
+            <p className="text-sm font-bold text-gray-700">
+              {data.safetyRating}
+            </p>
+          </div>
+          <div className="text-center border-r border-gray-200">
+            <p className="text-[10px] uppercase text-gray-500 font-bold">
+              QUALITY
+            </p>
+            <p className="text-sm font-bold text-gray-700">
+              {data.ingredientsQualityRating}
+            </p>
+          </div>
+          <div className="text-center col-span-2 text-left pl-4">
+            <p className="text-[10px] uppercase text-gray-500 font-bold">
+              INGREDIENTS
+            </p>
+            <p className="text-[10px] text-gray-600 leading-tight">
+              {data.keyActiveIngredients}
+            </p>
+          </div>
+        </div>
+
         {/* Scope of Certification Section */}
         <div className="mb-6 px-8">
           <h2 className="text-lg font-bold text-cyan-700 mb-2">

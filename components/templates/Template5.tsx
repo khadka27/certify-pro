@@ -62,6 +62,36 @@ export default function Template5({ data }: CertificateTemplateProps) {
               <p className="text-3xl font-bold text-rose-800">
                 {data.productName}
               </p>
+              <p className="text-sm text-gray-600 mt-1">
+                {data.productCategory} —{" "}
+                <span className="font-bold">{data.certificationStatus}</span>
+              </p>
+            </div>
+
+            {/* New Info Block */}
+            <div className="grid grid-cols-2 gap-4 mt-4 text-left">
+              <div className="bg-white p-4 rounded-xl border border-rose-100">
+                <p className="text-xs font-bold text-rose-500 uppercase mb-1">
+                  Active Ingredients
+                </p>
+                <p className="text-sm text-gray-700">
+                  {data.keyActiveIngredients || "N/A"}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-xl border border-rose-100">
+                <p className="text-xs font-bold text-rose-500 uppercase mb-1">
+                  Expert Rating
+                </p>
+                <div className="flex justify-between items-center">
+                  <span className="text-2xl font-bold text-gray-800">
+                    {data.overallExpertRating}
+                  </span>
+                  <div className="text-right text-[10px] text-gray-500">
+                    <div>Safety: {data.safetyRating}</div>
+                    <div>Quality: {data.ingredientsQualityRating}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

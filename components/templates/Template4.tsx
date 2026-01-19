@@ -40,18 +40,60 @@ export default function Template4({ data }: CertificateTemplateProps) {
               dangerouslySetInnerHTML={{ __html: data.description }}
             />
 
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <p className="text-sm font-semibold text-emerald-700 uppercase mb-1">
-                  Product
-                </p>
-                <p className="text-xl text-gray-800">{data.productName}</p>
+            <div className="border-b border-emerald-100 pb-4 mb-4">
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm font-semibold text-emerald-700 uppercase mb-1">
+                    Product
+                  </p>
+                  <p className="text-xl text-gray-800">{data.productName}</p>
+                  <p className="text-xs text-gray-500">
+                    {data.productCategory}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-emerald-700 uppercase mb-1">
+                    Certificate No
+                  </p>
+                  <p className="text-xl text-gray-800">{data.certNumber}</p>
+                  <p className="text-xs text-emerald-600 font-bold">
+                    {data.certificationStatus}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-emerald-700 uppercase mb-1">
-                  Certificate No
-                </p>
-                <p className="text-xl text-gray-800">{data.certNumber}</p>
+            </div>
+
+            {/* Ratings Compact */}
+            <div className="grid grid-cols-4 gap-2 text-center text-xs">
+              <div className="bg-emerald-50 rounded p-1">
+                <span className="block text-emerald-800 font-bold opacity-70">
+                  Safety
+                </span>
+                <span className="block font-bold text-emerald-900">
+                  {data.safetyRating}
+                </span>
+              </div>
+              <div className="bg-emerald-50 rounded p-1">
+                <span className="block text-emerald-800 font-bold opacity-70">
+                  Effects
+                </span>
+                <span className="block font-bold text-emerald-900">
+                  {data.effectivenessRating}
+                </span>
+              </div>
+              <div className="bg-emerald-50 rounded p-1">
+                <span className="block text-emerald-800 font-bold opacity-70">
+                  Quality
+                </span>
+                <span className="block font-bold text-emerald-900">
+                  {data.ingredientsQualityRating}
+                </span>
+              </div>
+              <div className="bg-emerald-600 rounded p-1 text-white">
+                <span className="block opacity-80 font-bold">Overall</span>
+                <span className="block font-black">
+                  {data.overallExpertRating}
+                </span>
               </div>
             </div>
           </div>

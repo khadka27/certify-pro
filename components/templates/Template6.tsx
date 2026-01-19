@@ -81,6 +81,47 @@ export default function Template6({ data }: CertificateTemplateProps) {
               <p className="text-3xl font-bold text-slate-800">
                 {data.productName}
               </p>
+              <div className="flex justify-between items-end mt-2 pt-2 border-t border-slate-300">
+                <div>
+                  <p className="text-sm font-semibold text-slate-700">
+                    {data.productCategory}{" "}
+                    <span className="text-slate-400">|</span> {data.productForm}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs bg-slate-200 text-slate-800 px-2 py-1 rounded font-bold">
+                    {data.certificationStatus}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Ratings Table */}
+            <div className="grid grid-cols-4 gap-4 bg-white p-4 rounded shadow-sm">
+              <div className="text-center">
+                <p className="text-[10px] uppercase text-slate-400">Rating</p>
+                <p className="text-2xl font-black text-slate-800">
+                  {data.overallExpertRating}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-[10px] uppercase text-slate-400">Safety</p>
+                <p className="text-lg font-bold text-slate-700">
+                  {data.safetyRating}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-[10px] uppercase text-slate-400">Efficacy</p>
+                <p className="text-lg font-bold text-slate-700">
+                  {data.effectivenessRating}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-[10px] uppercase text-slate-400">Quality</p>
+                <p className="text-lg font-bold text-slate-700">
+                  {data.ingredientsQualityRating}
+                </p>
+              </div>
             </div>
 
             <div className="space-y-4 pt-6">

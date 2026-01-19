@@ -51,10 +51,13 @@ export default function Template11({ data }: CertificateTemplateProps) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-xs text-blue-900 font-semibold uppercase mb-1">
-                  Product Name
+                  Product
                 </p>
                 <p className="text-base text-gray-800 font-medium">
                   {data.productName}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {data.productCategory} - {data.certificationStatus}
                 </p>
               </div>
               <div>
@@ -65,6 +68,42 @@ export default function Template11({ data }: CertificateTemplateProps) {
                   {data.companyName}
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Expert Ratings */}
+          <div className="grid grid-cols-4 gap-2 border-t pt-4 border-gray-200">
+            <div className="text-center">
+              <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                Overall
+              </span>
+              <span className="text-xl font-bold text-blue-900">
+                {data.overallExpertRating}
+              </span>
+            </div>
+            <div className="text-center">
+              <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                Safety
+              </span>
+              <span className="text-sm font-bold text-gray-700">
+                {data.safetyRating}
+              </span>
+            </div>
+            <div className="text-center">
+              <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                Quality
+              </span>
+              <span className="text-sm font-bold text-gray-700">
+                {data.ingredientsQualityRating}
+              </span>
+            </div>
+            <div className="text-center">
+              <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                Efficacy
+              </span>
+              <span className="text-sm font-bold text-gray-700">
+                {data.effectivenessRating}
+              </span>
             </div>
           </div>
 

@@ -66,6 +66,39 @@ export default function Template7({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
+          <div className="grid grid-cols-4 gap-4 mb-4">
+            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
+              <p className="text-[10px] text-orange-400 font-bold uppercase">
+                Status
+              </p>
+              <p className="font-bold text-gray-800">
+                {data.certificationStatus}
+              </p>
+            </div>
+            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
+              <p className="text-[10px] text-orange-400 font-bold uppercase">
+                Rating
+              </p>
+              <p className="font-bold text-gray-800">
+                {data.overallExpertRating}
+              </p>
+            </div>
+            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
+              <p className="text-[10px] text-orange-400 font-bold uppercase">
+                Safety
+              </p>
+              <p className="font-bold text-gray-800">{data.safetyRating}</p>
+            </div>
+            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
+              <p className="text-[10px] text-orange-400 font-bold uppercase">
+                Quality
+              </p>
+              <p className="font-bold text-gray-800">
+                {data.ingredientsQualityRating}
+              </p>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between pt-6 border-t-2 border-orange-200">
             <div className="space-y-2">
               <p className="text-2xl font-bold text-gray-800">

@@ -52,11 +52,12 @@ export default function Template8({ data }: CertificateTemplateProps) {
             <div className="grid grid-cols-2 gap-6 pt-6">
               <div className="text-left p-4 border-l-4 border-teal-600 bg-teal-50">
                 <p className="text-xs text-teal-700 uppercase font-semibold mb-1">
-                  Product Name
+                  Product
                 </p>
                 <p className="text-xl font-bold text-gray-800">
                   {data.productName}
                 </p>
+                <p className="text-xs text-gray-600">{data.productCategory}</p>
               </div>
               <div className="text-left p-4 border-l-4 border-teal-600 bg-teal-50">
                 <p className="text-xs text-teal-700 uppercase font-semibold mb-1">
@@ -65,6 +66,47 @@ export default function Template8({ data }: CertificateTemplateProps) {
                 <p className="text-xl font-bold text-gray-800">
                   {data.certNumber}
                 </p>
+                <span className="text-xs font-bold text-teal-600 uppercase">
+                  {data.certificationStatus}
+                </span>
+              </div>
+            </div>
+
+            {/* Ratings */}
+            <div className="border border-teal-200 p-4 rounded bg-white">
+              <div className="grid grid-cols-4 gap-4 text-center">
+                <div>
+                  <p className="text-[10px] uppercase text-teal-600 font-bold">
+                    Overall
+                  </p>
+                  <p className="text-2xl font-black text-teal-800">
+                    {data.overallExpertRating}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-teal-600 font-bold">
+                    Safety
+                  </p>
+                  <p className="text-lg font-bold text-gray-700">
+                    {data.safetyRating}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-teal-600 font-bold">
+                    Quality
+                  </p>
+                  <p className="text-lg font-bold text-gray-700">
+                    {data.ingredientsQualityRating}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-teal-600 font-bold">
+                    Efficacy
+                  </p>
+                  <p className="text-lg font-bold text-gray-700">
+                    {data.effectivenessRating}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
