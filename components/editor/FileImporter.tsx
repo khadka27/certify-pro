@@ -125,6 +125,10 @@ export default function FileImporter() {
               cell.toLowerCase().includes("number"),
           );
 
+          console.log('CSV Parsed Rows:', rows);
+          console.log('First Row (Headers):', rows[0]);
+          console.log('Has Headers:', hasHeaders);
+
           if (hasHeaders) {
             // Row-based format: headers in first row
             const headers = rows[0];
@@ -132,16 +136,136 @@ export default function FileImporter() {
               .slice(1)
               .filter((row) => row.some((cell) => cell.trim()));
 
+            console.log('Headers:', headers);
+            console.log('Data Rows:', dataRows);
+
+            // Field name mapping from CSV headers to certificate data structure
+            const fieldMap: Record<string, string> = {
+              "Product Name": "productName",
+              "product name": "productName",
+              ProductName: "productName",
+              "Certificate Number": "certNumber",
+              "certificate number": "certNumber",
+              CertificateNumber: "certNumber",
+              "Cert Number": "certNumber",
+              "Certification Status": "certificationStatus",
+              "certification status": "certificationStatus",
+              Status: "certificationStatus",
+              "Issue Date": "issuedDate",
+              "issue date": "issuedDate",
+              IssuedDate: "issuedDate",
+              "Issued Date (UTC)": "issuedDate",
+              "Valid Until": "expiryDate",
+              "valid until": "expiryDate",
+              "Expiry Date": "expiryDate",
+              ExpiryDate: "expiryDate",
+              "Product Category": "productCategory",
+              "product category": "productCategory",
+              Category: "productCategory",
+              "Product Form": "productForm",
+              "product form": "productForm",
+              Form: "productForm",
+              "Product Description": "description",
+              "product description": "description",
+              Description: "description",
+              "Product Image": "productImage",
+              "product image": "productImage",
+              Title: "title",
+              "Certificate Title": "title",
+              "Sub Title": "subTitle",
+              subtitle: "subTitle",
+              "Certified By": "certifiedBy",
+              "certified by": "certifiedBy",
+              "Manufacturer Name": "manufacturerName",
+              "manufacturer name": "manufacturerName",
+              Manufacturer: "manufacturerName",
+              "Company Name": "manufacturerName",
+              "Manufacturer Address": "manufacturerAddress",
+              "manufacturer address": "manufacturerAddress",
+              "Person Name": "personName",
+              "person name": "personName",
+              "Signer Name": "personName",
+              Role: "role",
+              role: "role",
+              Location: "location",
+              location: "location",
+              "Customer Support Email": "customerSupportEmail",
+              "customer support email": "customerSupportEmail",
+              "Support Email": "customerSupportEmail",
+              Email: "customerSupportEmail",
+              "Customer Support Phone": "customerSupportPhone",
+              "customer support phone": "customerSupportPhone",
+              "Support Phone": "customerSupportPhone",
+              Phone: "customerSupportPhone",
+              "Buy Now URL": "buyNowUrl",
+              "buy now url": "buyNowUrl",
+              URL: "buyNowUrl",
+              "Key Active Ingredients": "keyActiveIngredients",
+              "key active ingredients": "keyActiveIngredients",
+              Ingredients: "keyActiveIngredients",
+              "Dietary Compliance": "dietaryCompliance",
+              "dietary compliance": "dietaryCompliance",
+              Compliance: "dietaryCompliance",
+              "Side Effects": "sideEffects",
+              "side effects": "sideEffects",
+              Cautions: "cautions",
+              cautions: "cautions",
+              "Expert Rating": "expertRating",
+              "expert rating": "expertRating",
+              "Final Verdict": "finalVerdict",
+              "final verdict": "finalVerdict",
+              "Verification Statement": "verificationStatement",
+              "verification statement": "verificationStatement",
+              "Certifications And Approvals": "certificationsAndApprovals",
+              "certifications and approvals": "certificationsAndApprovals",
+              "Third Party Testing": "thirdPartyTesting",
+              "third party testing": "thirdPartyTesting",
+              "Refund Policy": "refundPolicy",
+              "refund policy": "refundPolicy",
+              "Overall Expert Rating": "overallExpertRating",
+              "Safety Rating": "safetyRating",
+              "Effectiveness Rating": "effectivenessRating",
+              "Ingredients Quality Rating": "ingredientsQualityRating",
+              "Certifications QC Rating": "certificationsQCRating",
+              "Value For Money Rating": "valueForMoneyRating",
+              "Evidence Strength Rating": "evidenceStrengthRating",
+              "User Experience Rating": "userExperienceRating",
+              "Versatility Use Case Fit": "versatilityUseCaseFit",
+              Logo: "logo",
+              Signature: "signature",
+              Badge: "badge",
+              Watermark: "watermark",
+              "QR Text": "qrText",
+            };
+
             const records = dataRows.map((row) => {
               const record: any = {};
               headers.forEach((header, index) => {
-                if (row[index]) {
-                  record[header.trim()] = row[index].trim();
+                if (row[index] && row[index].trim()) {
+                  const trimmedHeader = header.trim();
+                  // Try exact match first, then case-insensitive match, then use as-is
+                  let fieldName = fieldMap[trimmedHeader];
+
+                  // If no exact match, try case-insensitive
+                  if (!fieldName) {
+                    const lowerHeader = trimmedHeader.toLowerCase();
+                    const foundKey = Object.keys(fieldMap).find(
+                      (key) => key.toLowerCase() === lowerHeader,
+                    );
+                    if (foundKey) {
+                      fieldName = fieldMap[foundKey];
+                    } else {
+                      fieldName = trimmedHeader;
+                    }
+                  }
+
+                  record[fieldName] = row[index].trim();
                 }
               });
               return record;
             });
 
+            console.log("CSV Imported Records:", records);
             loadData(records);
           } else {
             // Columnar format: field names in first column
@@ -197,11 +321,112 @@ export default function FileImporter() {
               .slice(1)
               .filter((row) => row.some((cell) => cell));
 
+            // Field name mapping (same as CSV)
+            const fieldMap: Record<string, string> = {
+              "Product Name": "productName",
+              "product name": "productName",
+              ProductName: "productName",
+              "Certificate Number": "certNumber",
+              "certificate number": "certNumber",
+              CertificateNumber: "certNumber",
+              "Cert Number": "certNumber",
+              "Certification Status": "certificationStatus",
+              "certification status": "certificationStatus",
+              Status: "certificationStatus",
+              "Issue Date": "issuedDate",
+              "issue date": "issuedDate",
+              IssuedDate: "issuedDate",
+              "Issued Date (UTC)": "issuedDate",
+              "Valid Until": "expiryDate",
+              "valid until": "expiryDate",
+              "Expiry Date": "expiryDate",
+              ExpiryDate: "expiryDate",
+              "Product Category": "productCategory",
+              "product category": "productCategory",
+              Category: "productCategory",
+              "Product Form": "productForm",
+              "product form": "productForm",
+              Form: "productForm",
+              "Product Description": "description",
+              "product description": "description",
+              Description: "description",
+              "Product Image": "productImage",
+              "product image": "productImage",
+              Title: "title",
+              "Certificate Title": "title",
+              "Sub Title": "subTitle",
+              subtitle: "subTitle",
+              "Certified By": "certifiedBy",
+              "certified by": "certifiedBy",
+              "Manufacturer Name": "manufacturerName",
+              "manufacturer name": "manufacturerName",
+              Manufacturer: "manufacturerName",
+              "Company Name": "manufacturerName",
+              "Manufacturer Address": "manufacturerAddress",
+              "manufacturer address": "manufacturerAddress",
+              "Person Name": "personName",
+              "person name": "personName",
+              "Signer Name": "personName",
+              Role: "role",
+              role: "role",
+              Location: "location",
+              location: "location",
+              "Customer Support Email": "customerSupportEmail",
+              "customer support email": "customerSupportEmail",
+              "Support Email": "customerSupportEmail",
+              Email: "customerSupportEmail",
+              "Customer Support Phone": "customerSupportPhone",
+              "customer support phone": "customerSupportPhone",
+              "Support Phone": "customerSupportPhone",
+              Phone: "customerSupportPhone",
+              "Buy Now URL": "buyNowUrl",
+              "buy now url": "buyNowUrl",
+              URL: "buyNowUrl",
+              "Key Active Ingredients": "keyActiveIngredients",
+              "key active ingredients": "keyActiveIngredients",
+              Ingredients: "keyActiveIngredients",
+              "Dietary Compliance": "dietaryCompliance",
+              "dietary compliance": "dietaryCompliance",
+              Compliance: "dietaryCompliance",
+              "Side Effects": "sideEffects",
+              "side effects": "sideEffects",
+              Cautions: "cautions",
+              cautions: "cautions",
+              "Expert Rating": "expertRating",
+              "expert rating": "expertRating",
+              "Final Verdict": "finalVerdict",
+              "final verdict": "finalVerdict",
+              "Verification Statement": "verificationStatement",
+              "verification statement": "verificationStatement",
+              "Certifications And Approvals": "certificationsAndApprovals",
+              "certifications and approvals": "certificationsAndApprovals",
+              "Third Party Testing": "thirdPartyTesting",
+              "third party testing": "thirdPartyTesting",
+              "Refund Policy": "refundPolicy",
+              "refund policy": "refundPolicy",
+              "Overall Expert Rating": "overallExpertRating",
+              "Safety Rating": "safetyRating",
+              "Effectiveness Rating": "effectivenessRating",
+              "Ingredients Quality Rating": "ingredientsQualityRating",
+              "Certifications QC Rating": "certificationsQCRating",
+              "Value For Money Rating": "valueForMoneyRating",
+              "Evidence Strength Rating": "evidenceStrengthRating",
+              "User Experience Rating": "userExperienceRating",
+              "Versatility Use Case Fit": "versatilityUseCaseFit",
+              Logo: "logo",
+              Signature: "signature",
+              Badge: "badge",
+              Watermark: "watermark",
+              "QR Text": "qrText",
+            };
+
             const records = dataRows.map((row) => {
               const record: any = {};
               headers.forEach((header, index) => {
                 if (row[index]) {
-                  record[String(header).trim()] = String(row[index]).trim();
+                  const trimmedHeader = String(header).trim();
+                  const fieldName = fieldMap[trimmedHeader] || trimmedHeader;
+                  record[fieldName] = String(row[index]).trim();
                 }
               });
               return record;

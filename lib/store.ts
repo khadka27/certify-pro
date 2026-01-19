@@ -123,9 +123,26 @@ export const useCertificateStore = create<CertificateStore>()(
       resetData: () =>
         set({ records: [getInitialData()], activeRecordIndex: 0 }),
       loadData: (data) =>
-        set({
-          records: Array.isArray(data) ? data : [data],
-          activeRecordIndex: 0,
+        set((state) => {
+          const dataArray = Array.isArray(data) ? data : [data];
+          const sampleData = getInitialData();
+
+          console.log("Loading data:", dataArray);
+
+          // Merge imported data with default data structure
+          const mergedRecords = dataArray.map((record) => {
+            const merged = {
+              ...sampleData,
+              ...record,
+            };
+            console.log("Merged record:", merged);
+            return merged;
+          });
+
+          return {
+            records: mergedRecords,
+            activeRecordIndex: 0,
+          };
         }),
       loadColumnarData: (data) =>
         set((state) => {
