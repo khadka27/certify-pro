@@ -1,0 +1,20 @@
+{
+  "companies": [
+    {
+      "id": "comp_1",
+      "name": "Daily Health Supplement",
+      "url": "https://www.dailyhealthsupplement.com",
+      "logo": "/www.dailyhealthsupplement.com.png"
+    }
+  ],
+  "signers": [
+    {
+      "id": "sig_1",
+      "name": "Jonathan A. Whitmore",
+      "role": "Chief Quality Officer",
+      "signature": "/Jonathan A. Whitmore.png"
+    }
+  ],
+  "badges": [],
+  "validityYears": 3
+}

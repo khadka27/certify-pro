@@ -117,3 +117,19 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Custom Scrollbar Styling */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thumb-slate-400::-webkit-scrollbar-thumb {
+  background-color: #94a3b8;
+  border-radius: 3px;
+}
+.scrollbar-track-slate-100::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}

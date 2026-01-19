@@ -552,7 +552,7 @@ export default function FileImporter() {
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-lg p-6 lg:p-8 text-center transition-all cursor-pointer ${
             isDragging
-              ? "border-blue-600 bg-blue-50 scale-[0.98] shadow-inner"
+              ? "border-blue-600 bg-blue-50"
               : "border-slate-300 hover:border-blue-400 hover:bg-blue-50/50"
           }`}
           onClick={() => fileInputRef.current?.click()}

@@ -29,7 +29,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-4 lg:px-6 lg:py-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 h-[calc(100vh-6rem)]">
           {/* Left Panel - Editor */}
-          <div className="flex flex-col h-full overflow-hidden">
+          <div className="flex flex-col h-full overflow-hidden min-w-0">
             <Card className="flex flex-col shadow-2xl h-full border-2 border-slate-200 bg-white/95 backdrop-blur-sm overflow-hidden">
               <CardHeader className="pb-2.5 pt-3 bg-gradient-to-r from-blue-100 via-blue-50 to-slate-50 border-b-2 border-blue-200 shrink-0">
                 <div className="flex items-center gap-2.5">
@@ -45,21 +45,21 @@ export default function Home() {
                 </div>
               </CardHeader>
               <CardContent className="flex-1 overflow-hidden p-0 min-h-0">
-                <ScrollArea className="h-full w-full">
-                  <div className="space-y-4 lg:space-y-5 p-4 lg:p-5">
+                <div className="h-full w-full overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-100 p-0">
+                  <div className="space-y-4 lg:space-y-5 p-4 lg:p-5 max-w-full">
                     <FileImporter />
                     <Separator className="my-3" />
                     <CertificateForm />
                   </div>
-                </ScrollArea>
+                </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Right Panel - Preview */}
-          <div className="flex flex-col gap-4 h-full overflow-hidden">
-            {/* Controls Card - Sticky */}
-            <Card className="shadow-2xl shrink-0 border-2 border-slate-200 bg-white/95 backdrop-blur-sm overflow-hidden">
+          <div className="flex flex-col gap-4 h-full overflow-y-auto min-w-0 pr-1 scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-100">
+            {/* Controls Card */}
+            <Card className="shadow-2xl shrink-0 border-2 border-slate-200 bg-white/95 backdrop-blur-sm">
               <CardHeader className="pb-2.5 pt-3 bg-gradient-to-r from-slate-50 via-green-50 to-blue-50 border-b-2 border-green-200 shrink-0">
                 <div className="flex items-center gap-2.5">
                   <div className="h-8 w-1.5 bg-gradient-to-b from-green-600 to-green-400 rounded-full shadow-md shrink-0"></div>
@@ -101,7 +101,7 @@ export default function Home() {
             </Card>
 
             {/* Preview Card */}
-            <Card className="flex-1 overflow-hidden shadow-2xl min-h-0 bg-white/95 backdrop-blur-sm border-2 border-slate-200">
+            <Card className="shadow-2xl bg-white/95 backdrop-blur-sm border-2 border-slate-200">
               <CardHeader className="py-2.5 px-4 bg-gradient-to-r from-slate-100 to-slate-50 border-b-2 border-slate-200 shrink-0">
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 bg-slate-500 rounded-full shrink-0"></div>
@@ -115,17 +115,16 @@ export default function Home() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-0 h-[calc(100%-2.75rem)] min-h-0">
-                <ScrollArea className="h-full w-full">
-                  <div className="p-4 lg:p-5 bg-gradient-to-br from-slate-50 via-white to-slate-50">
-                    <CertificatePreview />
-                  </div>
-                </ScrollArea>
+              <CardContent className="p-0">
+                <div className="p-4 lg:p-5 bg-gradient-to-br from-slate-50 via-white to-slate-50">
+                  <CertificatePreview />
+                </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
     </div>
+    
   );
 }

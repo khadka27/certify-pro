@@ -42,20 +42,22 @@ export const getInitialData = (): CertificateData => ({
   cautions: "Consult a physician if pregnant",
 
   manufacturerName: "Your Company Name",
+  companyName: "Authorized Body Inc.",
+  companyUrl: "https://example.com",
   manufacturerAddress: "123 Business Rd, Innovation City",
   personName: "John Doe",
   role: "Quality Assurance Manager",
   location: "New York, USA",
 
-  overallExpertRating: "9.8/10",
-  safetyRating: "10/10",
-  effectivenessRating: "9.5/10",
-  ingredientsQualityRating: "9.9/10",
-  certificationsQCRating: "10/10",
-  valueForMoneyRating: "9.0/10",
-  evidenceStrengthRating: "High",
-  userExperienceRating: "Excellent",
-  versatilityUseCaseFit: "Versatile",
+  overallExpertRating: "9.8",
+  safetyRating: "10",
+  effectivenessRating: "9.5",
+  ingredientsQualityRating: "9.9",
+  certificationsQCRating: "10",
+  valueForMoneyRating: "9.0",
+  evidenceStrengthRating: "9.5",
+  userExperienceRating: "9.8",
+  versatilityUseCaseFit: "9.7",
 
   finalVerdict: "Highly Recommended",
   verificationStatement: "Verified by independent laboratory testing.",
@@ -99,6 +101,23 @@ const GLOBAL_FIELDS: (keyof CertificateData)[] = [
   "selectedTemplate",
 ];
 
+// Helper to clean common encoding artifacts (Mojibake)
+const cleanText = (val: any): any => {
+  if (typeof val !== "string") return val;
+  return val
+    .replace(/â€“/g, "-")
+    .replace(/â€”/g, "-")
+    .replace(/â€™/g, "'")
+    .replace(/â€˜/g, "'")
+    .replace(/â€œ/g, '"')
+    .replace(/â€/g, '"')
+    .replace(/â€/g, '"')
+    .replace(/Ã©/g, "é")
+    .replace(/Â/g, " ")
+    .replace(/â€¦/g, "...")
+    .trim();
+};
+
 export const useCertificateStore = create<CertificateStore>()(
   persist(
     (set) => ({
@@ -108,9 +127,12 @@ export const useCertificateStore = create<CertificateStore>()(
       updateField: (field, value) =>
         set((state) => {
           const newRecords = [...state.records];
+          // Auto-clean string values on update
+          const cleanValue =
+            typeof value === "string" ? cleanText(value) : value;
           newRecords[state.activeRecordIndex] = {
             ...newRecords[state.activeRecordIndex],
-            [field]: value,
+            [field]: cleanValue,
           };
           return { records: newRecords };
         }),
@@ -140,6 +162,15 @@ export const useCertificateStore = create<CertificateStore>()(
               ...sampleData,
               ...record,
             };
+
+            // Sanitize all string fields in the merged record
+            (Object.keys(merged) as (keyof CertificateData)[]).forEach(
+              (key) => {
+                if (typeof merged[key] === "string") {
+                  (merged as any)[key] = cleanText(merged[key]);
+                }
+              },
+            );
 
             console.log("Merged Result:", {
               productName: merged.productName,
@@ -207,6 +238,8 @@ export const useCertificateStore = create<CertificateStore>()(
               Manufacturer: "manufacturerName",
               "Company Name": "manufacturerName",
               "Manufacturer Name": "manufacturerName",
+              "Company URL": "companyUrl",
+              Website: "companyUrl",
               "Manufacturer Address": "manufacturerAddress",
               "Support Email": "customerSupportEmail",
               "Customer Support Email": "customerSupportEmail",
@@ -225,6 +258,15 @@ export const useCertificateStore = create<CertificateStore>()(
               "Final Verdict": "finalVerdict",
               "Final Certification Verdict": "finalVerdict",
               "Verification Statement": "verificationStatement",
+              "Overall Expert Rating": "overallExpertRating",
+              "Safety Rating": "safetyRating",
+              "Effectiveness Rating": "effectivenessRating",
+              "Ingredients Quality Rating": "ingredientsQualityRating",
+              "Certifications QC Rating": "certificationsQCRating",
+              "Value For Money Rating": "valueForMoneyRating",
+              "Evidence Strength Rating": "evidenceStrengthRating",
+              "User Experience Rating": "userExperienceRating",
+              "Versatility Use Case Fit": "versatilityUseCaseFit",
             };
 
             const validRows = rows.filter((r) => r.length > 0 && r[0]?.trim());
@@ -266,9 +308,22 @@ export const useCertificateStore = create<CertificateStore>()(
                 for (let i = 0; i < numRecords; i++) {
                   const val = row[i + 1]?.trim();
                   if (val !== undefined && val !== null && val !== "") {
-                    (mappedData[i] as any)[key] = val;
+                    (mappedData[i] as any)[key] = cleanText(val);
                   } else if ((isGlobal || hasSingleValue) && rowValues[0]) {
-                    (mappedData[i] as any)[key] = rowValues[0];
+                    (mappedData[i] as any)[key] = cleanText(rowValues[0]);
+                  }
+                }
+              }
+            });
+
+            // Post-processing: Auto-calculate Expiry Date if missing
+            mappedData.forEach((record) => {
+              if (record.issuedDate && !record.expiryDate) {
+                const parts = record.issuedDate.split("-");
+                if (parts.length === 3) {
+                  const year = parseInt(parts[0]);
+                  if (!isNaN(year)) {
+                    record.expiryDate = `${year + 3}-${parts[1]}-${parts[2]}`;
                   }
                 }
               }

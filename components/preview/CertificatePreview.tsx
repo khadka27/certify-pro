@@ -70,7 +70,8 @@ export default function CertificatePreview() {
         const scaleW = availableWidth / 1000;
         const scaleH = availableHeight / actualCertHeight;
 
-        const newScale = Math.max(Math.min(scaleW, scaleH, 1), 0.1);
+        // Prioritize width scaling to ensure "full size" display with scrolling
+        const newScale = Math.max(Math.min(scaleW, 1), 0.1);
         setScale(newScale);
       }
     };
@@ -119,7 +120,7 @@ export default function CertificatePreview() {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center justify-start min-h-full w-full py-8 overflow-y-auto bg-slate-100/30"
+      className="flex flex-col items-center justify-start min-h-full w-full py-8 bg-slate-100/30"
     >
       <AnimatePresence mode="wait">
         <motion.div

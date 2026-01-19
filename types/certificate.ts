@@ -1,4 +1,5 @@
 export interface CertificateData {
+  companyName: string;
   title: string;
   subTitle?: string;
   certifiedBy?: string; // New
@@ -20,6 +21,7 @@ export interface CertificateData {
 
   // Manufacturer & Certifier
   manufacturerName: string;
+  companyUrl?: string; // New
   manufacturerAddress?: string;
   personName: string;
   role: string;
