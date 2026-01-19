@@ -19,6 +19,12 @@ export default function Template1({ data }: CertificateTemplateProps) {
             {data.title}
           </h1>
 
+          {data.subTitle && (
+            <p className="text-xl font-medium text-amber-700 mt-2 uppercase tracking-widest">
+              {data.subTitle}
+            </p>
+          )}
+
           <div className="w-32 h-1 bg-amber-600"></div>
 
           <div

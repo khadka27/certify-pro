@@ -119,6 +119,29 @@ export default function CertificateForm() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
+              <Label htmlFor="certifiedBy">Certified By</Label>
+              <Input
+                id="certifiedBy"
+                value={certificateData.certifiedBy || ""}
+                onChange={(e) => updateField("certifiedBy", e.target.value)}
+                placeholder="Authoritative Body"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="certificationStatus">Status</Label>
+              <Input
+                id="certificationStatus"
+                value={certificateData.certificationStatus || ""}
+                onChange={(e) =>
+                  updateField("certificationStatus", e.target.value)
+                }
+                placeholder="Active"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="issuedDate">Issued Date</Label>
               <Input
                 id="issuedDate"
@@ -165,6 +188,72 @@ export default function CertificateForm() {
               placeholder="Premium Product Name"
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="productCategory">Category</Label>
+              <Input
+                id="productCategory"
+                value={certificateData.productCategory || ""}
+                onChange={(e) => updateField("productCategory", e.target.value)}
+                placeholder="Health & Wellness"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="productForm">Form</Label>
+              <Input
+                id="productForm"
+                value={certificateData.productForm || ""}
+                onChange={(e) => updateField("productForm", e.target.value)}
+                placeholder="Capsules"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="keyActiveIngredients">Key Active Ingredients</Label>
+            <Input
+              id="keyActiveIngredients"
+              value={certificateData.keyActiveIngredients || ""}
+              onChange={(e) =>
+                updateField("keyActiveIngredients", e.target.value)
+              }
+              placeholder="Vitamin C, Zinc..."
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="dietaryCompliance">Dietary Compliance</Label>
+              <Input
+                id="dietaryCompliance"
+                value={certificateData.dietaryCompliance || ""}
+                onChange={(e) =>
+                  updateField("dietaryCompliance", e.target.value)
+                }
+                placeholder="Vegan, Gluten-Free"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sideEffects">Side Effects</Label>
+              <Input
+                id="sideEffects"
+                value={certificateData.sideEffects || ""}
+                onChange={(e) => updateField("sideEffects", e.target.value)}
+                placeholder="None reported"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="cautions">Cautions</Label>
+            <Input
+              id="cautions"
+              value={certificateData.cautions || ""}
+              onChange={(e) => updateField("cautions", e.target.value)}
+              placeholder="Consult a physician if pregnant"
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -205,12 +294,238 @@ export default function CertificateForm() {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="manufacturerAddress">Manufacturer Address</Label>
+            <Input
+              id="manufacturerAddress"
+              value={certificateData.manufacturerAddress || ""}
+              onChange={(e) =>
+                updateField("manufacturerAddress", e.target.value)
+              }
+              placeholder="123 Business Rd, Innovation City"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
               value={certificateData.location}
               onChange={(e) => updateField("location", e.target.value)}
               placeholder="New York, USA"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Ratings & Analysis</CardTitle>
+          <CardDescription>Expert ratings and quality metrics</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="overallExpertRating">Overall Expert Rating</Label>
+            <Input
+              id="overallExpertRating"
+              value={certificateData.overallExpertRating || ""}
+              onChange={(e) =>
+                updateField("overallExpertRating", e.target.value)
+              }
+              placeholder="9.8/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="safetyRating">Safety</Label>
+            <Input
+              id="safetyRating"
+              value={certificateData.safetyRating || ""}
+              onChange={(e) => updateField("safetyRating", e.target.value)}
+              placeholder="10/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="effectivenessRating">Effectiveness</Label>
+            <Input
+              id="effectivenessRating"
+              value={certificateData.effectivenessRating || ""}
+              onChange={(e) =>
+                updateField("effectivenessRating", e.target.value)
+              }
+              placeholder="9.5/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="ingredientsQualityRating">
+              Ingredients Quality
+            </Label>
+            <Input
+              id="ingredientsQualityRating"
+              value={certificateData.ingredientsQualityRating || ""}
+              onChange={(e) =>
+                updateField("ingredientsQualityRating", e.target.value)
+              }
+              placeholder="9.9/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="certificationsQCRating">Certifications QC</Label>
+            <Input
+              id="certificationsQCRating"
+              value={certificateData.certificationsQCRating || ""}
+              onChange={(e) =>
+                updateField("certificationsQCRating", e.target.value)
+              }
+              placeholder="10/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="valueForMoneyRating">Value for Money</Label>
+            <Input
+              id="valueForMoneyRating"
+              value={certificateData.valueForMoneyRating || ""}
+              onChange={(e) =>
+                updateField("valueForMoneyRating", e.target.value)
+              }
+              placeholder="9.0/10"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="evidenceStrengthRating">Evidence Strength</Label>
+            <Input
+              id="evidenceStrengthRating"
+              value={certificateData.evidenceStrengthRating || ""}
+              onChange={(e) =>
+                updateField("evidenceStrengthRating", e.target.value)
+              }
+              placeholder="High"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="userExperienceRating">User Experience</Label>
+            <Input
+              id="userExperienceRating"
+              value={certificateData.userExperienceRating || ""}
+              onChange={(e) =>
+                updateField("userExperienceRating", e.target.value)
+              }
+              placeholder="Excellent"
+            />
+          </div>
+          <div className="col-span-2 space-y-2">
+            <Label htmlFor="versatilityUseCaseFit">
+              Versatility & Use Case Fit
+            </Label>
+            <Input
+              id="versatilityUseCaseFit"
+              value={certificateData.versatilityUseCaseFit || ""}
+              onChange={(e) =>
+                updateField("versatilityUseCaseFit", e.target.value)
+              }
+              placeholder="Versatile"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Verification & Verdict</CardTitle>
+          <CardDescription>Final assessment and policies</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="finalVerdict">Final Certification Verdict</Label>
+            <Input
+              id="finalVerdict"
+              value={certificateData.finalVerdict || ""}
+              onChange={(e) => updateField("finalVerdict", e.target.value)}
+              placeholder="Highly Recommended"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="verificationStatement">
+              Verification Statement
+            </Label>
+            <Input
+              id="verificationStatement"
+              value={certificateData.verificationStatement || ""}
+              onChange={(e) =>
+                updateField("verificationStatement", e.target.value)
+              }
+              placeholder="Verified by..."
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="certificationsAndApprovals">
+              Certifications and Approvals
+            </Label>
+            <Input
+              id="certificationsAndApprovals"
+              value={certificateData.certificationsAndApprovals || ""}
+              onChange={(e) =>
+                updateField("certificationsAndApprovals", e.target.value)
+              }
+              placeholder="ISO 9001, etc."
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="thirdPartyTesting">Third-Party Testing</Label>
+            <Input
+              id="thirdPartyTesting"
+              value={certificateData.thirdPartyTesting || ""}
+              onChange={(e) => updateField("thirdPartyTesting", e.target.value)}
+              placeholder="Passed"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="refundPolicy">Refund Policy</Label>
+            <Input
+              id="refundPolicy"
+              value={certificateData.refundPolicy || ""}
+              onChange={(e) => updateField("refundPolicy", e.target.value)}
+              placeholder="30-Day Money Back Guarantee"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Contact & Links</CardTitle>
+          <CardDescription>Support and purchase information</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="customerSupportEmail">Support Email</Label>
+              <Input
+                id="customerSupportEmail"
+                value={certificateData.customerSupportEmail || ""}
+                onChange={(e) =>
+                  updateField("customerSupportEmail", e.target.value)
+                }
+                placeholder="email@example.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="customerSupportPhone">Support Phone</Label>
+              <Input
+                id="customerSupportPhone"
+                value={certificateData.customerSupportPhone || ""}
+                onChange={(e) =>
+                  updateField("customerSupportPhone", e.target.value)
+                }
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="buyNowUrl">Buy Now URL</Label>
+            <Input
+              id="buyNowUrl"
+              value={certificateData.buyNowUrl || ""}
+              onChange={(e) => updateField("buyNowUrl", e.target.value)}
+              placeholder="https://example.com/buy"
             />
           </div>
         </CardContent>
