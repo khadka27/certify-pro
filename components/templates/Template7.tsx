@@ -53,7 +53,7 @@ export default function Template7({ data }: CertificateTemplateProps) {
                 Company
               </p>
               <p className="text-base font-bold text-gray-800">
-                {data.companyName}
+                {data.manufacturerName}
               </p>
             </div>
             <div className="bg-orange-50 p-4 rounded-lg text-center">

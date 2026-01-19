@@ -18,7 +18,7 @@ export default function Template4({ data }: CertificateTemplateProps) {
             )}
             <div className="h-16 w-1 bg-emerald-600"></div>
             <div>
-              <p className="text-sm text-gray-600">{data.companyName}</p>
+              <p className="text-sm text-gray-600">{data.manufacturerName}</p>
               <p className="text-xs text-gray-500">{data.location}</p>
             </div>
           </div>

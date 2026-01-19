@@ -5,6 +5,7 @@ import CertificateForm from "@/components/editor/CertificateForm";
 import CertificatePreview from "@/components/preview/CertificatePreview";
 import TemplateSelector from "@/components/preview/TemplateSelector";
 import ExportButtons from "@/components/preview/ExportButtons";
+import FileImporter from "@/components/editor/FileImporter";
 import {
   Card,
   CardContent,
@@ -28,12 +29,17 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="text-2xl">Certificate Editor</CardTitle>
               <CardDescription>
-                Customize your certificate by filling in the details below
+                Import data or customize your certificate by filling in the
+                details below
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 overflow-hidden">
               <ScrollArea className="h-full">
-                <CertificateForm />
+                <div className="space-y-6 pr-4">
+                  <FileImporter />
+                  <Separator />
+                  <CertificateForm />
+                </div>
               </ScrollArea>
             </CardContent>
           </Card>

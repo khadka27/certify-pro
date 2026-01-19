@@ -167,7 +167,7 @@ export default function Template10({ data }: CertificateTemplateProps) {
               <p className="text-xs text-violet-300 uppercase mb-1">
                 Organization
               </p>
-              <p className="text-xl font-bold text-white">{data.companyName}</p>
+              <p className="text-xl font-bold text-white">{data.manufacturerName}</p>
               <p className="text-sm text-violet-200">{data.location}</p>
             </div>
           </div>

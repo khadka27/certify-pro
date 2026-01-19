@@ -36,7 +36,9 @@ const templates = [
 ];
 
 export default function CertificatePreview() {
-  const certificateData = useCertificateStore((state) => state.certificateData);
+  const certificateData = useCertificateStore(
+    (state) => state.records[state.activeRecordIndex],
+  );
   const hasHydrated = useCertificateStore((state) => state._hasHydrated);
   const [mounted, setMounted] = useState(false);
   const [scale, setScale] = useState(0.5);

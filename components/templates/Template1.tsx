@@ -27,6 +27,12 @@ export default function Template1({ data }: CertificateTemplateProps) {
 
           <div className="w-32 h-1 bg-amber-600"></div>
 
+          {data.productImage && (
+            <div className="my-4">
+              <img src={data.productImage} alt="Product" className="h-40 w-auto object-contain border-2 border-amber-100 rounded-lg p-2 bg-white" />
+            </div>
+          )}
+
           <div
             className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto mb-12 rich-text-content"
             dangerouslySetInnerHTML={{ __html: data.description }}
@@ -184,7 +190,7 @@ export default function Template1({ data }: CertificateTemplateProps) {
               {data.personName}
             </p>
             <p className="text-base text-gray-600">{data.role}</p>
-            <p className="text-sm text-gray-500">{data.companyName}</p>
+            <p className="text-sm text-gray-500">{data.manufacturerName}</p>
           </div>
         </div>
 

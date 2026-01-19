@@ -96,7 +96,7 @@ export default function Template13({ data }: CertificateTemplateProps) {
         {/* Company Name */}
         <div className="text-center mb-6">
           <p className="text-base font-bold text-gray-900 uppercase">
-            {data.companyName}
+            {data.manufacturerName}
           </p>
           <p className="text-sm text-gray-700">{data.location}</p>
         </div>
@@ -259,7 +259,7 @@ export default function Template13({ data }: CertificateTemplateProps) {
           <p className="text-[8px] text-gray-500 leading-tight border-t border-gray-200 pt-2">
             This certificate is issued subject to the Terms and Conditions of
             Certification. This certificate remains the property of{" "}
-            {data.companyName}. This certificate and products supplied under it
+            {data.manufacturerName}. This certificate and products supplied under it
             may only be used by the client to whom it was issued.
           </p>
         </div>

@@ -110,7 +110,7 @@ export default function Template3({ data }: CertificateTemplateProps) {
         <div className="space-y-2 pt-6">
           <p className="text-2xl font-bold text-amber-300">{data.personName}</p>
           <p className="text-base text-slate-300">{data.role}</p>
-          <p className="text-sm text-slate-400">{data.companyName}</p>
+          <p className="text-sm text-slate-400">{data.manufacturerName}</p>
         </div>
 
         {/* Detailed Ratings & Specs - Adapted for Dark/Amber Theme */}

@@ -18,7 +18,7 @@ export default function Template8({ data }: CertificateTemplateProps) {
                 className="h-20 w-auto object-contain"
               />
             )}
-            <p className="text-sm text-gray-600">{data.companyName}</p>
+            <p className="text-sm text-gray-600">{data.manufacturerName}</p>
             <p className="text-xs text-gray-500">{data.location}</p>
           </div>
 

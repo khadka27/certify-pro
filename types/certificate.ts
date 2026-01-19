@@ -12,14 +12,15 @@ export interface CertificateData {
   productCategory?: string; // New
   productForm?: string; // New
   description: string;
+  productImage?: string; // New
   keyActiveIngredients?: string; // New
   dietaryCompliance?: string; // New
   sideEffects?: string; // New
   cautions?: string; // New
 
   // Manufacturer & Certifier
-  companyName: string;
-  manufacturerAddress?: string; // New
+  manufacturerName: string;
+  manufacturerAddress?: string;
   personName: string;
   role: string;
   location: string;
@@ -54,6 +55,7 @@ export interface CertificateData {
   badge?: string;
   watermark?: string;
   showWatermark?: boolean;
+  expertRating?: string;
   selectedTemplate: number;
 }
 

@@ -127,174 +127,178 @@ async function imageUrlToBase64(url: string): Promise<string> {
   }
 }
 
-export async function exportToDOCX(data: CertificateData, filename: string) {
-  try {
-    const children: Paragraph[] = [];
+export async function generateDOCXBlob(data: CertificateData): Promise<Blob> {
+  const children: Paragraph[] = [];
 
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.title,
+          bold: true,
+          size: 48,
+          color: "1F2937",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.description,
+          size: 24,
+          color: "4B5563",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "Product Name: ",
+          bold: true,
+          size: 28,
+        }),
+        new TextRun({
+          text: data.productName,
+          size: 28,
+          color: "059669",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Certificate Number: ${data.certNumber}`,
+          size: 20,
+          color: "6B7280",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Company: ${data.manufacturerName}`,
+          size: 20,
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Location: ${data.location}`,
+          size: 20,
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.personName,
+          bold: true,
+          size: 32,
+          color: "1F2937",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 100 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.role,
+          size: 22,
+          color: "4B5563",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Issued: ${data.issuedDate}`,
+          size: 18,
+        }),
+      ],
+      alignment: AlignmentType.LEFT,
+      spacing: { after: 100 },
+    }),
+  );
+
+  if (data.expiryDate) {
     children.push(
       new Paragraph({
         children: [
           new TextRun({
-            text: data.title,
-            bold: true,
-            size: 48,
-            color: "1F2937",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 400 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: data.description,
-            size: 24,
-            color: "4B5563",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 400 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: "Product Name: ",
-            bold: true,
-            size: 28,
-          }),
-          new TextRun({
-            text: data.productName,
-            size: 28,
-            color: "059669",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 200 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: `Certificate Number: ${data.certNumber}`,
-            size: 20,
-            color: "6B7280",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 200 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: `Company: ${data.companyName}`,
-            size: 20,
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 200 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: `Location: ${data.location}`,
-            size: 20,
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 400 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: data.personName,
-            bold: true,
-            size: 32,
-            color: "1F2937",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 100 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: data.role,
-            size: 22,
-            color: "4B5563",
-          }),
-        ],
-        alignment: AlignmentType.CENTER,
-        spacing: { after: 400 },
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: `Issued: ${data.issuedDate}`,
+            text: `Expires: ${data.expiryDate}`,
             size: 18,
           }),
         ],
         alignment: AlignmentType.LEFT,
         spacing: { after: 100 },
-      })
+      }),
     );
+  }
 
-    if (data.expiryDate) {
-      children.push(
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: `Expires: ${data.expiryDate}`,
-              size: 18,
-            }),
-          ],
-          alignment: AlignmentType.LEFT,
-          spacing: { after: 100 },
-        })
-      );
-    }
-
-    const doc = new Document({
-      sections: [
-        {
-          properties: {
-            page: {
-              margin: {
-                top: 1440,
-                right: 1440,
-                bottom: 1440,
-                left: 1440,
-              },
+  const doc = new Document({
+    sections: [
+      {
+        properties: {
+          page: {
+            margin: {
+              top: 1440,
+              right: 1440,
+              bottom: 1440,
+              left: 1440,
             },
           },
-          children: children,
         },
-      ],
-    });
+        children: children,
+      },
+    ],
+  });
 
-    const blob = await Packer.toBlob(doc);
+  return await Packer.toBlob(doc);
+}
+
+export async function exportToDOCX(data: CertificateData, filename: string) {
+  try {
+    const blob = await generateDOCXBlob(data);
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

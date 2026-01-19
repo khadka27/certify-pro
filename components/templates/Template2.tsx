@@ -62,7 +62,7 @@ export default function Template2({ data }: CertificateTemplateProps) {
                 Key Ingredients
               </p>
               <p className="text-sm text-gray-800">
-                {data.keyActiveIngredients || data.companyName}
+                {data.keyActiveIngredients || data.manufacturerName}
               </p>
             </div>
             <div>

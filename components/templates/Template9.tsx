@@ -13,7 +13,7 @@ export default function Template9({ data }: CertificateTemplateProps) {
             />
           ) : (
             <p className="text-sm font-bold text-gray-800">
-              {data.companyName}
+              {data.manufacturerName}
             </p>
           )}
         </div>
@@ -120,7 +120,7 @@ export default function Template9({ data }: CertificateTemplateProps) {
                 {data.personName}
               </p>
               <p className="text-sm text-gray-600 mt-1">{data.role}</p>
-              <p className="text-xs text-gray-500 mt-1">{data.companyName}</p>
+              <p className="text-xs text-gray-500 mt-1">{data.manufacturerName}</p>
 
               {data.signature && (
                 <div className="mt-4">

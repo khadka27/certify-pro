@@ -28,6 +28,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useMemo, useEffect } from "react";
 
 interface RichTextEditorProps {
   content: string;
@@ -51,8 +52,8 @@ export default function RichTextEditor({
   onChange,
   placeholder,
 }: RichTextEditorProps) {
-  const editor = useEditor({
-    extensions: [
+  const extensions = useMemo(
+    () => [
       StarterKit.configure({
         heading: {
           levels: [1, 2, 3],
@@ -68,6 +69,11 @@ export default function RichTextEditor({
         placeholder: placeholder || "Start typing...",
       }),
     ],
+    [placeholder],
+  );
+
+  const editor = useEditor({
+    extensions,
     content: content,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -80,6 +86,13 @@ export default function RichTextEditor({
       },
     },
   });
+
+  // Keep editor in sync with external content changes (important for bulk loading)
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return (

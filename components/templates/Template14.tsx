@@ -11,7 +11,7 @@ export default function Template14({ data }: CertificateTemplateProps) {
           <div className="flex justify-between items-center relative z-10">
             <div className="w-full text-center">
               <p className="text-sm tracking-[0.2em] font-medium uppercase opacity-90 mb-1">
-                {data.companyName || "DAILYHEALTHSOLUTIONS.COM"}
+                {data.manufacturerName || "DAILYHEALTHSOLUTIONS.COM"}
               </p>
               <p className="text-xs tracking-wider opacity-70 mb-6">
                 Independent Product Review Authority
@@ -135,6 +135,13 @@ export default function Template14({ data }: CertificateTemplateProps) {
 
         {/* Right Column (Ratings & Verdict) */}
         <div className="col-span-5 space-y-6">
+          {/* Product Image */}
+          {data.productImage && (
+            <div className="bg-white border rounded-lg p-2 flex justify-center items-center shadow-sm h-40">
+              <img src={data.productImage} alt="Product" className="max-h-full max-w-full object-contain" />
+            </div>
+          )}
+
           {/* Expert Rating Box */}
           <div>
             <h3 className="text-sm font-bold text-[#1e3a8a] uppercase tracking-wider mb-2">
@@ -248,8 +255,8 @@ export default function Template14({ data }: CertificateTemplateProps) {
         <p className="text-[9px] text-slate-400 text-center leading-relaxed max-w-4xl mx-auto">
           DISCLAIMER: This certification is based on publicly available
           research, third-party testing data, and manufacturing verification. It
-          represents the analysis of {data.companyName} and should not replace
-          professional medical advice. {data.companyName} does not regulate
+          represents the analysis of {data.manufacturerName} and should not replace
+          professional medical advice. {data.manufacturerName} does not regulate
           dietary supplements identically to drugs. Consult a healthcare
           provider before use.
         </p>

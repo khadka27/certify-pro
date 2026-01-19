@@ -151,6 +151,17 @@ export default function Template12({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
+          {/* Product Image */}
+          {data.productImage && (
+            <div className="mb-4 flex justify-start">
+              <img
+                src={data.productImage}
+                alt="Product"
+                className="max-h-40 w-auto object-contain border rounded-lg p-2 bg-white"
+              />
+            </div>
+          )}
+
           {/* Verify Description */}
           <div>
             <h3 className="text-sm font-black uppercase text-red-900 border-b border-gray-200 mb-2 pb-1">
@@ -170,7 +181,7 @@ export default function Template12({ data }: CertificateTemplateProps) {
                   MANUFACTURER
                 </span>
                 <span className="font-bold text-gray-900">
-                  {data.companyName}
+                  {data.manufacturerName}
                 </span>
                 <p className="text-gray-600">{data.manufacturerAddress}</p>
               </div>
@@ -311,7 +322,7 @@ export default function Template12({ data }: CertificateTemplateProps) {
       {/* Footer */}
       <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between items-end text-[10px] text-gray-500">
         <div>
-          <p>Issued by: {data.companyName}</p>
+          <p>Issued by: {data.manufacturerName}</p>
           <p>
             Date: {data.issuedDate}{" "}
             {data.expiryDate && `| Valid Until: ${data.expiryDate}`}

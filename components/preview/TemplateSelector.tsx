@@ -76,9 +76,11 @@ const templates = [
 
 export default function TemplateSelector() {
   const selectedTemplate = useCertificateStore(
-    (state) => state.certificateData.selectedTemplate,
+    (state) => state.records[state.activeRecordIndex].selectedTemplate,
   );
-  const updateField = useCertificateStore((state) => state.updateField);
+  const updateGlobalField = useCertificateStore(
+    (state) => state.updateGlobalField,
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -155,7 +157,7 @@ export default function TemplateSelector() {
                   ? "ring-2 ring-primary shadow-lg border-primary"
                   : "hover:shadow-md"
               }`}
-              onClick={() => updateField("selectedTemplate", template.id)}
+              onClick={() => updateGlobalField("selectedTemplate", template.id)}
             >
               <CardContent className="p-3 space-y-2">
                 <div

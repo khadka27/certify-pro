@@ -33,7 +33,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
           )}
           <div className="inline-block bg-rose-600 text-white px-8 py-2 rounded-full">
             <p className="text-sm font-semibold uppercase tracking-wider">
-              {data.companyName}
+              {data.manufacturerName}
             </p>
           </div>
         </div>
