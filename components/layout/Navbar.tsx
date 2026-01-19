@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Download, Upload, RotateCcw, FileJson } from "lucide-react";
+import { Download, Upload, RotateCcw, FileJson, Settings } from "lucide-react";
 import { useCertificateStore, getInitialData } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { CertificateData } from "@/types/certificate";
+import Link from "next/link";
 
 export default function Navbar() {
   const records = useCertificateStore((state) => state.records);
@@ -126,29 +127,13 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              onClick={handleSaveData}
-              variant="outline"
-              size="sm"
-              className="gap-2"
-            >
-              <Download className="h-4 w-4" />
-              Save Data
-            </Button>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              onClick={handleLoadData}
-              variant="outline"
-              size="sm"
-              className="gap-2"
-            >
-              <Upload className="h-4 w-4" />
-              Load Data
-            </Button>
-          </motion.div>
+          <Link href="/settings">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="ghost" size="icon">
+                <Settings className="h-5 w-5" />
+              </Button>
+            </motion.div>
+          </Link>
 
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button

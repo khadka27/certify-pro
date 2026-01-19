@@ -13,8 +13,20 @@
       "name": "Jonathan A. Whitmore",
       "role": "Chief Quality Officer",
       "signature": "/Jonathan A. Whitmore.png"
+    },
+    {
+      "id": "49d288c8-21ba-442a-bc89-6ffd9a2bd062",
+      "name": "New Signer",
+      "role": "",
+      "signature": ""
     }
   ],
-  "badges": [],
+  "badges": [
+    {
+      "id": "eb29c5d0-a6ec-489d-9f25-402d9bfb1c5e",
+      "name": "New Badge",
+      "image": ""
+    }
+  ],
   "validityYears": 3
 }
