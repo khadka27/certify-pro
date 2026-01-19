@@ -71,39 +71,89 @@ export default function Template11({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
-          {/* Expert Ratings */}
-          <div className="grid grid-cols-4 gap-2 border-t pt-4 border-gray-200">
-            <div className="text-center">
-              <span className="block text-[10px] uppercase text-gray-500 font-bold">
-                Overall
-              </span>
-              <span className="text-xl font-bold text-blue-900">
-                {data.overallExpertRating}
-              </span>
+          {/* Detailed Ratings & Specs - Blue/Gold Theme */}
+          <div className="mt-6 border-t border-blue-200 pt-4">
+            <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+              <div className="space-y-1">
+                <p>
+                  <span className="font-semibold text-blue-900">
+                    Ingredients:
+                  </span>{" "}
+                  {data.keyActiveIngredients}
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-900">Dietary:</span>{" "}
+                  {data.dietaryCompliance}
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-900">Support:</span>{" "}
+                  {data.customerSupportEmail}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p>
+                  <span className="font-semibold text-blue-900">Mfr:</span>{" "}
+                  {data.manufacturerAddress}
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-900">Verify:</span>{" "}
+                  {data.verificationStatement}
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-900">Approved:</span>{" "}
+                  {data.certificationsAndApprovals}
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <span className="block text-[10px] uppercase text-gray-500 font-bold">
-                Safety
-              </span>
-              <span className="text-sm font-bold text-gray-700">
-                {data.safetyRating}
-              </span>
-            </div>
-            <div className="text-center">
-              <span className="block text-[10px] uppercase text-gray-500 font-bold">
-                Quality
-              </span>
-              <span className="text-sm font-bold text-gray-700">
-                {data.ingredientsQualityRating}
-              </span>
-            </div>
-            <div className="text-center">
-              <span className="block text-[10px] uppercase text-gray-500 font-bold">
-                Efficacy
-              </span>
-              <span className="text-sm font-bold text-gray-700">
-                {data.effectivenessRating}
-              </span>
+
+            <div className="bg-blue-50 border-t border-blue-200 p-2">
+              <div className="grid grid-cols-5 gap-2 text-center text-xs">
+                <div>
+                  <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                    Overall
+                  </span>
+                  <span className="text-xl font-bold text-blue-900">
+                    {data.overallExpertRating}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                    Safe
+                  </span>
+                  <span className="text-sm font-bold text-gray-700">
+                    {data.safetyRating}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                    Qual
+                  </span>
+                  <span className="text-sm font-bold text-gray-700">
+                    {data.ingredientsQualityRating}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                    Effect
+                  </span>
+                  <span className="text-sm font-bold text-gray-700">
+                    {data.effectivenessRating}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase text-gray-500 font-bold">
+                    Val
+                  </span>
+                  <span className="text-sm font-bold text-gray-700">
+                    {data.valueForMoneyRating}
+                  </span>
+                </div>
+              </div>
+              <div className="mt-2 text-center border-t border-blue-200 pt-2">
+                <span className="text-xs font-bold text-blue-900 uppercase">
+                  Verdict: {data.finalVerdict}
+                </span>
+              </div>
             </div>
           </div>
 

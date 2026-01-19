@@ -68,28 +68,89 @@ export default function Template5({ data }: CertificateTemplateProps) {
               </p>
             </div>
 
-            {/* New Info Block */}
-            <div className="grid grid-cols-2 gap-4 mt-4 text-left">
-              <div className="bg-white p-4 rounded-xl border border-rose-100">
-                <p className="text-xs font-bold text-rose-500 uppercase mb-1">
-                  Active Ingredients
-                </p>
-                <p className="text-sm text-gray-700">
-                  {data.keyActiveIngredients || "N/A"}
-                </p>
+            {/* Detailed Ratings & Specs - Rose Theme */}
+            <div className="mt-4 pt-4 border-t border-rose-100">
+              <h3 className="text-sm font-bold text-rose-600 uppercase mb-3">
+                Certification Details
+              </h3>
+              <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Category:
+                    </span>{" "}
+                    {data.productCategory}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Ingredients:
+                    </span>{" "}
+                    {data.keyActiveIngredients}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Dietary:
+                    </span>{" "}
+                    {data.dietaryCompliance}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Support:
+                    </span>{" "}
+                    {data.customerSupportEmail}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-rose-400">Mfr:</span>{" "}
+                    {data.manufacturerAddress}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">Tests:</span>{" "}
+                    {data.thirdPartyTesting}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Approvals:
+                    </span>{" "}
+                    {data.certificationsAndApprovals}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-rose-400">
+                      Verification:
+                    </span>{" "}
+                    {data.verificationStatement}
+                  </p>
+                </div>
               </div>
-              <div className="bg-white p-4 rounded-xl border border-rose-100">
-                <p className="text-xs font-bold text-rose-500 uppercase mb-1">
-                  Expert Rating
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-gray-800">
-                    {data.overallExpertRating}
-                  </span>
-                  <div className="text-right text-[10px] text-gray-500">
-                    <div>Safety: {data.safetyRating}</div>
-                    <div>Quality: {data.ingredientsQualityRating}</div>
+
+              <div className="bg-rose-50 rounded-xl p-4">
+                <div className="grid grid-cols-4 gap-2 text-center text-[10px]">
+                  <div>
+                    <span className="block font-bold text-rose-500">Value</span>
+                    {data.valueForMoneyRating}
                   </div>
+                  <div>
+                    <span className="block font-bold text-rose-500">
+                      Evidence
+                    </span>
+                    {data.evidenceStrengthRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-rose-500">QC</span>
+                    {data.certificationsQCRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-rose-500">
+                      User Exp
+                    </span>
+                    {data.userExperienceRating}
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-rose-200 text-center">
+                  <span className="text-xs font-bold text-rose-800 uppercase">
+                    Final Verdict: {data.finalVerdict}
+                  </span>
                 </div>
               </div>
             </div>

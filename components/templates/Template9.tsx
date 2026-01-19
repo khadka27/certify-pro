@@ -50,35 +50,65 @@ export default function Template9({ data }: CertificateTemplateProps) {
                 {data.productName}
               </p>
 
-              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-300">
-                <div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Certificate
+              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-gray-300 text-left">
+                <div className="space-y-1 text-xs text-gray-600">
+                  <p>
+                    <span className="font-bold">Cert:</span> {data.certNumber}
                   </p>
-                  <p className="font-bold text-gray-800">{data.certNumber}</p>
-                  <p className="text-[10px] text-gray-500 uppercase mt-1">
+                  <p>
+                    <span className="font-bold">Status:</span>{" "}
                     {data.certificationStatus}
                   </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Expert Rating
+                  <p>
+                    <span className="font-bold">Issued:</span> {data.issuedDate}
                   </p>
-                  <p className="font-bold text-gray-800">
-                    {data.overallExpertRating || "N/A"}
+                  <p>
+                    <span className="font-bold">Location:</span> {data.location}
                   </p>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Location
+                <div className="space-y-1 text-xs text-gray-600">
+                  <p>
+                    <span className="font-bold">Mfr:</span>{" "}
+                    {data.manufacturerAddress}
                   </p>
-                  <p className="font-bold text-gray-800">{data.location}</p>
+                  <p>
+                    <span className="font-bold">Support:</span>{" "}
+                    {data.customerSupportEmail}
+                  </p>
+                  <p>
+                    <span className="font-bold">Refund:</span>{" "}
+                    {data.refundPolicy}
+                  </p>
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Issue Date
-                  </p>
-                  <p className="font-bold text-gray-800">{data.issuedDate}</p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-300">
+                <div className="grid grid-cols-5 gap-2 text-center text-[10px] text-gray-600">
+                  <div className="bg-white p-1 border border-gray-200">
+                    <span className="block font-bold">Overall</span>
+                    {data.overallExpertRating}
+                  </div>
+                  <div className="bg-white p-1 border border-gray-200">
+                    <span className="block font-bold">Safety</span>
+                    {data.safetyRating}
+                  </div>
+                  <div className="bg-white p-1 border border-gray-200">
+                    <span className="block font-bold">Quality</span>
+                    {data.ingredientsQualityRating}
+                  </div>
+                  <div className="bg-white p-1 border border-gray-200">
+                    <span className="block font-bold">Evidence</span>
+                    {data.evidenceStrengthRating}
+                  </div>
+                  <div className="bg-white p-1 border border-gray-200">
+                    <span className="block font-bold">Value</span>
+                    {data.valueForMoneyRating}
+                  </div>
+                </div>
+                <div className="mt-2 text-center">
+                  <span className="text-xs font-bold text-gray-800 uppercase bg-gray-200 px-2 py-1">
+                    Verdict: {data.finalVerdict}
+                  </span>
                 </div>
               </div>
             </div>

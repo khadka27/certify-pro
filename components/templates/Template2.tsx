@@ -110,6 +110,151 @@ export default function Template2({ data }: CertificateTemplateProps) {
           </div>
         </div>
 
+        <div className="mt-6 border-t border-blue-100 pt-4">
+          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
+            Product Specifications
+          </h3>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-700">
+            <div>
+              <span className="font-semibold text-blue-600">Category:</span>{" "}
+              {data.productCategory}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">Form:</span>{" "}
+              {data.productForm}
+            </div>
+            <div className="col-span-2">
+              <span className="font-semibold text-blue-600">Ingredients:</span>{" "}
+              {data.keyActiveIngredients}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">Dietary:</span>{" "}
+              {data.dietaryCompliance}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">Side Effects:</span>{" "}
+              {data.sideEffects}
+            </div>
+            <div className="col-span-2">
+              <span className="font-semibold text-blue-600">Cautions:</span>{" "}
+              {data.cautions}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 border-t border-blue-100 pt-4">
+          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
+            Verification & Support
+          </h3>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-700">
+            <div>
+              <span className="font-semibold text-blue-600">Manufacturer:</span>{" "}
+              {data.manufacturerAddress}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">
+                Third-Party Testing:
+              </span>{" "}
+              {data.thirdPartyTesting}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">
+                Certifications:
+              </span>{" "}
+              {data.certificationsAndApprovals}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">Verification:</span>{" "}
+              {data.verificationStatement}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">
+                Refund Policy:
+              </span>{" "}
+              {data.refundPolicy}
+            </div>
+            <div>
+              <span className="font-semibold text-blue-600">Support:</span>{" "}
+              {data.customerSupportEmail} | {data.customerSupportPhone}
+            </div>
+            <div className="col-span-2">
+              <span className="font-semibold text-blue-600">Buy Now:</span>{" "}
+              {data.buyNowUrl}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 border-t border-blue-100 pt-4">
+          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
+            Expert Analysis
+          </h3>
+          <div className="grid grid-cols-4 gap-2 text-xs text-center">
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Overall</div>
+              <div className="font-bold text-lg text-blue-900">
+                {data.overallExpertRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Safety</div>
+              <div className="font-bold text-blue-900">{data.safetyRating}</div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Efficacy</div>
+              <div className="font-bold text-blue-900">
+                {data.effectivenessRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Quality</div>
+              <div className="font-bold text-blue-900">
+                {data.ingredientsQualityRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">QC</div>
+              <div className="font-bold text-blue-900">
+                {data.certificationsQCRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Value</div>
+              <div className="font-bold text-blue-900">
+                {data.valueForMoneyRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">Evidence</div>
+              <div className="font-bold text-blue-900">
+                {data.evidenceStrengthRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">User Exp</div>
+              <div className="font-bold text-blue-900">
+                {data.userExperienceRating}
+              </div>
+            </div>
+            <div className="bg-blue-50 p-1 rounded border border-blue-100">
+              <div className="font-bold opacity-70 text-blue-800">
+                Versatility
+              </div>
+              <div className="font-bold text-blue-900">
+                {data.versatilityUseCaseFit}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 text-center">
+          <div className="text-xs font-bold uppercase text-blue-600">
+            Final Verdict
+          </div>
+          <div className="text-xl font-black uppercase text-blue-950">
+            {data.finalVerdict}
+          </div>
+        </div>
+
         <div className="flex items-end justify-between mt-8 pt-6 border-t-2 border-blue-200">
           <div>
             <p className="text-xs text-gray-500 uppercase">Issued</p>

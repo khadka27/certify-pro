@@ -96,31 +96,73 @@ export default function Template6({ data }: CertificateTemplateProps) {
               </div>
             </div>
 
-            {/* Ratings Table */}
-            <div className="grid grid-cols-4 gap-4 bg-white p-4 rounded shadow-sm">
-              <div className="text-center">
-                <p className="text-[10px] uppercase text-slate-400">Rating</p>
-                <p className="text-2xl font-black text-slate-800">
-                  {data.overallExpertRating}
-                </p>
+            {/* Extended Detail View - Slate/Sky Theme */}
+            <div className="mt-6 border-t border-slate-200 pt-4">
+              <div className="flex gap-8 text-[11px] text-slate-600">
+                <div className="flex-1 space-y-1">
+                  <p className="font-bold text-slate-800 uppercase mb-1">
+                    Product Details
+                  </p>
+                  <p>Category: {data.productCategory}</p>
+                  <p>Dietary: {data.dietaryCompliance}</p>
+                  <p>Ingredients: {data.keyActiveIngredients}</p>
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="font-bold text-slate-800 uppercase mb-1">
+                    Verification
+                  </p>
+                  <p>Mfr: {data.manufacturerAddress}</p>
+                  <p>Tested: {data.thirdPartyTesting}</p>
+                  <p>Approved: {data.certificationsAndApprovals}</p>
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="font-bold text-slate-800 uppercase mb-1">
+                    Support
+                  </p>
+                  <p>Email: {data.customerSupportEmail}</p>
+                  <p>Refund: {data.refundPolicy}</p>
+                  <p>Statement: {data.verificationStatement}</p>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-[10px] uppercase text-slate-400">Safety</p>
-                <p className="text-lg font-bold text-slate-700">
-                  {data.safetyRating}
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-[10px] uppercase text-slate-400">Efficacy</p>
-                <p className="text-lg font-bold text-slate-700">
-                  {data.effectivenessRating}
-                </p>
-              </div>
-              <div className="text-center">
-                <p className="text-[10px] uppercase text-slate-400">Quality</p>
-                <p className="text-lg font-bold text-slate-700">
-                  {data.ingredientsQualityRating}
-                </p>
+
+              <div className="mt-4 bg-slate-50 p-3 rounded border border-slate-200">
+                <div className="grid grid-cols-6 gap-2 text-center text-[10px] text-slate-600 font-medium">
+                  <div className="bg-white p-1 rounded border border-slate-100">
+                    <span className="block text-slate-400 uppercase text-[9px]">
+                      Value
+                    </span>
+                    {data.valueForMoneyRating}
+                  </div>
+                  <div className="bg-white p-1 rounded border border-slate-100">
+                    <span className="block text-slate-400 uppercase text-[9px]">
+                      Evidence
+                    </span>
+                    {data.evidenceStrengthRating}
+                  </div>
+                  <div className="bg-white p-1 rounded border border-slate-100">
+                    <span className="block text-slate-400 uppercase text-[9px]">
+                      User Exp
+                    </span>
+                    {data.userExperienceRating}
+                  </div>
+                  <div className="bg-white p-1 rounded border border-slate-100">
+                    <span className="block text-slate-400 uppercase text-[9px]">
+                      Versatility
+                    </span>
+                    {data.versatilityUseCaseFit}
+                  </div>
+                  <div className="bg-white p-1 rounded border border-slate-100">
+                    <span className="block text-slate-400 uppercase text-[9px]">
+                      Effective
+                    </span>
+                    {data.effectivenessRating}
+                  </div>
+                  <div className="col-span-1 flex items-center justify-center bg-slate-800 text-white rounded">
+                    <span className="font-bold uppercase tracking-tighter">
+                      {data.finalVerdict}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -66,36 +66,90 @@ export default function Template7({ data }: CertificateTemplateProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-4 mb-4">
-            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
-              <p className="text-[10px] text-orange-400 font-bold uppercase">
-                Status
-              </p>
-              <p className="font-bold text-gray-800">
-                {data.certificationStatus}
-              </p>
+          {/* Detailed Ratings & Specs - Orange Theme */}
+          <div className="mt-6 border-t border-orange-200 pt-4">
+            <h3 className="text-sm font-bold text-orange-600 uppercase mb-3">
+              Certification Details
+            </h3>
+            <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+              <div className="space-y-1">
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Category:
+                  </span>{" "}
+                  {data.productCategory}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Ingredients:
+                  </span>{" "}
+                  {data.keyActiveIngredients}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Dietary:
+                  </span>{" "}
+                  {data.dietaryCompliance}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Support:
+                  </span>{" "}
+                  {data.customerSupportEmail}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <p>
+                  <span className="font-semibold text-orange-400">Mfr:</span>{" "}
+                  {data.manufacturerAddress}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">Tests:</span>{" "}
+                  {data.thirdPartyTesting}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Approvals:
+                  </span>{" "}
+                  {data.certificationsAndApprovals}
+                </p>
+                <p>
+                  <span className="font-semibold text-orange-400">
+                    Verification:
+                  </span>{" "}
+                  {data.verificationStatement}
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
-              <p className="text-[10px] text-orange-400 font-bold uppercase">
-                Rating
-              </p>
-              <p className="font-bold text-gray-800">
-                {data.overallExpertRating}
-              </p>
-            </div>
-            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
-              <p className="text-[10px] text-orange-400 font-bold uppercase">
-                Safety
-              </p>
-              <p className="font-bold text-gray-800">{data.safetyRating}</p>
-            </div>
-            <div className="bg-white p-3 rounded-lg border border-orange-100 text-center">
-              <p className="text-[10px] text-orange-400 font-bold uppercase">
-                Quality
-              </p>
-              <p className="font-bold text-gray-800">
-                {data.ingredientsQualityRating}
-              </p>
+
+            <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
+              <div className="grid grid-cols-4 gap-2 text-center text-[10px]">
+                <div>
+                  <span className="block font-bold text-orange-500">Value</span>
+                  {data.valueForMoneyRating}
+                </div>
+                <div>
+                  <span className="block font-bold text-orange-500">
+                    Evidence
+                  </span>
+                  {data.evidenceStrengthRating}
+                </div>
+                <div>
+                  <span className="block font-bold text-orange-500">QC</span>
+                  {data.certificationsQCRating}
+                </div>
+                <div>
+                  <span className="block font-bold text-orange-500">
+                    User Exp
+                  </span>
+                  {data.userExperienceRating}
+                </div>
+              </div>
+              <div className="mt-3 pt-2 border-t border-orange-200 text-center">
+                <span className="text-xs font-bold text-orange-800 uppercase">
+                  Final Verdict: {data.finalVerdict}
+                </span>
+              </div>
             </div>
           </div>
 

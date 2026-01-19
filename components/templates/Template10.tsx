@@ -67,32 +67,88 @@ export default function Template10({ data }: CertificateTemplateProps) {
               </div>
             </div>
 
-            {/* Ratings Bar */}
-            <div className="flex justify-between items-center bg-black/20 p-4 rounded-xl border border-violet-400/20 mt-4 backdrop-blur-md">
-              <div>
-                <span className="block text-[10px] uppercase text-violet-400">
-                  Rating
-                </span>
-                <span className="text-xl font-bold text-white">
-                  {data.overallExpertRating}
-                </span>
+            {/* Detailed Ratings & Specs - Violet Theme */}
+            <div className="mt-4 pt-4 border-t border-violet-400/20">
+              <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+                <div className="space-y-1">
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">
+                      Form:
+                    </span>{" "}
+                    {data.productForm}
+                  </p>
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">
+                      Ingredients:
+                    </span>{" "}
+                    {data.keyActiveIngredients}
+                  </p>
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">
+                      Support:
+                    </span>{" "}
+                    {data.customerSupportEmail}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">Mfr:</span>{" "}
+                    {data.manufacturerAddress}
+                  </p>
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">
+                      Tests:
+                    </span>{" "}
+                    {data.thirdPartyTesting} / {data.certificationsAndApprovals}
+                  </p>
+                  <p className="text-violet-200">
+                    <span className="font-semibold text-fuchsia-300">
+                      Refund:
+                    </span>{" "}
+                    {data.refundPolicy}
+                  </p>
+                </div>
               </div>
-              <div className="h-8 w-px bg-violet-400/20"></div>
-              <div>
-                <span className="block text-[10px] uppercase text-violet-400">
-                  Safety
-                </span>
-                <span className="text-sm font-bold text-white">
-                  {data.safetyRating}
-                </span>
+
+              <div className="flex justify-between items-center bg-black/20 p-4 rounded-xl border border-violet-400/20 backdrop-blur-md">
+                <div className="grid grid-cols-4 gap-4 w-full text-center">
+                  <div>
+                    <span className="block text-[10px] uppercase text-violet-400">
+                      Rating
+                    </span>
+                    <span className="text-lg font-bold text-white">
+                      {data.overallExpertRating}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] uppercase text-violet-400">
+                      Quality
+                    </span>
+                    <span className="text-sm font-bold text-white">
+                      {data.ingredientsQualityRating}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] uppercase text-violet-400">
+                      Value
+                    </span>
+                    <span className="text-sm font-bold text-white">
+                      {data.valueForMoneyRating}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] uppercase text-violet-400">
+                      Evidence
+                    </span>
+                    <span className="text-sm font-bold text-white">
+                      {data.evidenceStrengthRating}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="h-8 w-px bg-violet-400/20"></div>
-              <div>
-                <span className="block text-[10px] uppercase text-violet-400">
-                  Quality
-                </span>
-                <span className="text-sm font-bold text-white">
-                  {data.ingredientsQualityRating}
+              <div className="mt-2 text-center">
+                <span className="text-xs text-fuchsia-200 uppercase font-bold tracking-widest">
+                  Verdict: {data.finalVerdict}
                 </span>
               </div>
             </div>

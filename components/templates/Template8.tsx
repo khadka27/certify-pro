@@ -72,40 +72,75 @@ export default function Template8({ data }: CertificateTemplateProps) {
               </div>
             </div>
 
-            {/* Ratings */}
-            <div className="border border-teal-200 p-4 rounded bg-white">
-              <div className="grid grid-cols-4 gap-4 text-center">
-                <div>
-                  <p className="text-[10px] uppercase text-teal-600 font-bold">
-                    Overall
+            {/* Detailed Ratings & Specs - Teal Theme */}
+            <div className="mt-4 border-t border-teal-200 pt-4 text-left">
+              <h3 className="text-sm font-bold text-teal-700 uppercase mb-3 text-center">
+                Certification Details
+              </h3>
+              <div className="grid grid-cols-2 gap-4 text-xs mb-4">
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-teal-600">
+                      Ingredients:
+                    </span>{" "}
+                    {data.keyActiveIngredients}
                   </p>
-                  <p className="text-2xl font-black text-teal-800">
-                    {data.overallExpertRating}
+                  <p>
+                    <span className="font-semibold text-teal-600">
+                      Dietary:
+                    </span>{" "}
+                    {data.dietaryCompliance}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-teal-600">
+                      Support:
+                    </span>{" "}
+                    {data.customerSupportEmail}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[10px] uppercase text-teal-600 font-bold">
-                    Safety
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-teal-600">Mfr:</span>{" "}
+                    {data.manufacturerAddress}
                   </p>
-                  <p className="text-lg font-bold text-gray-700">
-                    {data.safetyRating}
+                  <p>
+                    <span className="font-semibold text-teal-600">Status:</span>{" "}
+                    {data.certificationStatus}
                   </p>
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase text-teal-600 font-bold">
-                    Quality
-                  </p>
-                  <p className="text-lg font-bold text-gray-700">
-                    {data.ingredientsQualityRating}
+                  <p>
+                    <span className="font-semibold text-teal-600">Verify:</span>{" "}
+                    {data.verificationStatement}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[10px] uppercase text-teal-600 font-bold">
-                    Efficacy
-                  </p>
-                  <p className="text-lg font-bold text-gray-700">
-                    {data.effectivenessRating}
-                  </p>
+              </div>
+
+              <div className="bg-teal-50 rounded p-4 border border-teal-200 text-center">
+                <div className="grid grid-cols-4 gap-2 text-[10px]">
+                  <div>
+                    <span className="block font-bold text-teal-700">Value</span>
+                    {data.valueForMoneyRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-teal-700">
+                      Evidence
+                    </span>
+                    {data.evidenceStrengthRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-teal-700">QC</span>
+                    {data.certificationsQCRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-teal-700">
+                      User Exp
+                    </span>
+                    {data.userExperienceRating}
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-teal-200 text-center">
+                  <span className="text-xs font-bold text-teal-800 uppercase">
+                    Final Verdict: {data.finalVerdict}
+                  </span>
                 </div>
               </div>
             </div>

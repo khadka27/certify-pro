@@ -53,8 +53,88 @@ export default function Template1({ data }: CertificateTemplateProps) {
               </span>
             </div>
 
-            {/* Classic Ratings */}
-            <div className="grid grid-cols-4 gap-4 py-4">
+            {/* Detailed Ratings & Specs - Classic Theme */}
+            <div className="mt-4 border-t border-amber-200 pt-4 w-full">
+              <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-amber-800">Form:</span>{" "}
+                    {data.productForm}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-amber-800">
+                      Ingredients:
+                    </span>{" "}
+                    {data.keyActiveIngredients}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-amber-800">
+                      Dietary:
+                    </span>{" "}
+                    {data.dietaryCompliance}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold text-amber-800">Mfr:</span>{" "}
+                    {data.manufacturerAddress}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-amber-800">
+                      Verify:
+                    </span>{" "}
+                    {data.verificationStatement}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-amber-800">
+                      Support:
+                    </span>{" "}
+                    {data.customerSupportEmail}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-amber-50 rounded p-4 border border-amber-200">
+                <div className="grid grid-cols-5 gap-2 text-center text-[10px]">
+                  <div>
+                    <span className="block font-bold text-amber-700">
+                      Value
+                    </span>
+                    {data.valueForMoneyRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-amber-700">
+                      Evidence
+                    </span>
+                    {data.evidenceStrengthRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-amber-700">QC</span>
+                    {data.certificationsQCRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-amber-700">
+                      User Exp
+                    </span>
+                    {data.userExperienceRating}
+                  </div>
+                  <div>
+                    <span className="block font-bold text-amber-700">
+                      Versatility
+                    </span>
+                    {data.versatilityUseCaseFit}
+                  </div>
+                </div>
+                <div className="mt-3 pt-2 border-t border-amber-200 text-center">
+                  <span className="text-xs font-bold text-amber-900 uppercase">
+                    Verdict: {data.finalVerdict}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Ratings Grid */}
+            <div className="grid grid-cols-4 gap-4 py-4 border-t border-amber-200 mt-4">
               <div className="text-center">
                 <span className="block text-[10px] text-amber-600 uppercase font-bold tracking-widest">
                   Expert Rating

@@ -113,6 +113,125 @@ export default function Template3({ data }: CertificateTemplateProps) {
           <p className="text-sm text-slate-400">{data.companyName}</p>
         </div>
 
+        {/* Detailed Ratings & Specs - Adapted for Dark/Amber Theme */}
+        <div className="mt-8 border-t border-slate-700 pt-6 w-full max-w-2xl">
+          <div className="grid grid-cols-2 gap-8 text-xs text-slate-300 mb-6">
+            <div>
+              <h4 className="text-amber-500 font-bold uppercase mb-2">
+                Specifications
+              </h4>
+              <div className="space-y-1">
+                <p>
+                  <span className="text-slate-500">Form:</span>{" "}
+                  {data.productForm}
+                </p>
+                <p>
+                  <span className="text-slate-500">Dietary:</span>{" "}
+                  {data.dietaryCompliance}
+                </p>
+                <p>
+                  <span className="text-slate-500">Side Effects:</span>{" "}
+                  {data.sideEffects}
+                </p>
+                <p>
+                  <span className="text-slate-500">Cautions:</span>{" "}
+                  {data.cautions}
+                </p>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-amber-500 font-bold uppercase mb-2">
+                Verification
+              </h4>
+              <div className="space-y-1">
+                <p>
+                  <span className="text-slate-500">Mfr:</span>{" "}
+                  {data.manufacturerAddress}
+                </p>
+                <p>
+                  <span className="text-slate-500">Testing:</span>{" "}
+                  {data.thirdPartyTesting}
+                </p>
+                <p>
+                  <span className="text-slate-500">Approvals:</span>{" "}
+                  {data.certificationsAndApprovals}
+                </p>
+                <p>
+                  <span className="text-slate-500">Support:</span>{" "}
+                  {data.customerSupportEmail}
+                </p>
+                <p>
+                  <span className="text-slate-500">Buy:</span> {data.buyNowUrl}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-800/80 p-4 rounded border border-slate-700">
+            <h4 className="text-amber-500 font-bold uppercase mb-3 text-center text-xs">
+              Full Expert Analysis
+            </h4>
+            <div className="grid grid-cols-4 gap-2 text-[10px] text-center text-slate-300">
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Safety</span>
+                <span className="font-bold text-white">
+                  {data.safetyRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Efficacy</span>
+                <span className="font-bold text-white">
+                  {data.effectivenessRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Quality</span>
+                <span className="font-bold text-white">
+                  {data.ingredientsQualityRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">QC</span>
+                <span className="font-bold text-white">
+                  {data.certificationsQCRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Value</span>
+                <span className="font-bold text-white">
+                  {data.valueForMoneyRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Evidence</span>
+                <span className="font-bold text-white">
+                  {data.evidenceStrengthRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">User Exp</span>
+                <span className="font-bold text-white">
+                  {data.userExperienceRating}
+                </span>
+              </div>
+              <div className="bg-slate-900/50 p-2 rounded">
+                <span className="block text-slate-500">Versatility</span>
+                <span className="font-bold text-white">
+                  {data.versatilityUseCaseFit}
+                </span>
+              </div>
+            </div>
+            <div className="mt-4 text-center">
+              <p className="text-xs text-slate-400 uppercase">
+                Verdict: {data.verificationStatement}
+              </p>
+              <p className="text-lg font-bold text-amber-400 uppercase mt-1">
+                {data.finalVerdict}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between w-full max-w-3xl mt-8 pt-8 border-t border-amber-500/30">
           <div className="text-left">
             <p className="text-xs text-amber-400 uppercase">Issued</p>

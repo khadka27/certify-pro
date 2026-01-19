@@ -107,6 +107,109 @@ export default function Template4({ data }: CertificateTemplateProps) {
           </div>
         </div>
 
+        {/* Detailed Specifications - Adapted for Emerald/Green Theme */}
+        <div className="mt-8 border-t border-emerald-100 pt-6">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-xs">
+            <div>
+              <h4 className="text-emerald-700 font-bold uppercase mb-2">
+                Specs
+              </h4>
+              <p>
+                <span className="font-semibold text-emerald-600">
+                  Category:
+                </span>{" "}
+                {data.productCategory}
+              </p>
+              <p>
+                <span className="font-semibold text-emerald-600">Form:</span>{" "}
+                {data.productForm}
+              </p>
+              <p>
+                <span className="font-semibold text-emerald-600">Dietary:</span>{" "}
+                {data.dietaryCompliance}
+              </p>
+              <p>
+                <span className="font-semibold text-emerald-600">
+                  Active Ingredients:
+                </span>{" "}
+                {data.keyActiveIngredients}
+              </p>
+            </div>
+            <div>
+              <h4 className="text-emerald-700 font-bold uppercase mb-2">
+                Support
+              </h4>
+              <p>
+                <span className="font-semibold text-emerald-600">Mfr:</span>{" "}
+                {data.manufacturerAddress}
+              </p>
+              <p>
+                <span className="font-semibold text-emerald-600">Testing:</span>{" "}
+                {data.thirdPartyTesting} -- {data.certificationsAndApprovals}
+              </p>
+              <p>
+                <span className="font-semibold text-emerald-600">Refund:</span>{" "}
+                {data.refundPolicy}
+              </p>
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap">
+                <span className="font-semibold text-emerald-600">Contact:</span>{" "}
+                {data.customerSupportEmail}
+              </p>
+            </div>
+          </div>
+
+          {/* Full Ratings Table */}
+          <div className="mt-4 bg-emerald-50 rounded-lg p-3 border border-emerald-100">
+            <div className="grid grid-cols-4 gap-2 text-center text-xs">
+              <div>
+                <span className="block font-bold text-emerald-600">
+                  Quality
+                </span>
+                <span>{data.ingredientsQualityRating}</span>
+              </div>
+              <div>
+                <span className="block font-bold text-emerald-600">QC</span>
+                <span>{data.certificationsQCRating}</span>
+              </div>
+              <div>
+                <span className="block font-bold text-emerald-600">Value</span>
+                <span>{data.valueForMoneyRating}</span>
+              </div>
+              <div>
+                <span className="block font-bold text-emerald-600">
+                  Evidence
+                </span>
+                <span>{data.evidenceStrengthRating}</span>
+              </div>
+              <div>
+                <span className="block font-bold text-emerald-600">
+                  User Exp
+                </span>
+                <span>{data.userExperienceRating}</span>
+              </div>
+              <div>
+                <span className="block font-bold text-emerald-600">
+                  Versatility
+                </span>
+                <span>{data.versatilityUseCaseFit}</span>
+              </div>
+              <div className="col-span-2 bg-emerald-100 rounded flex items-center justify-center">
+                <span className="font-bold text-emerald-800 uppercase mr-2">
+                  Verdict:
+                </span>
+                <span className="font-black text-emerald-900">
+                  {data.finalVerdict}
+                </span>
+              </div>
+            </div>
+            <div className="text-center mt-2 pt-2 border-t border-emerald-200">
+              <span className="text-[10px] text-emerald-600 font-bold uppercase">
+                Verification Statement: {data.verificationStatement}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-end justify-between mt-8 pt-6 border-t-2 border-emerald-200">
           <div className="flex gap-8">
             <div>

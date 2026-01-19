@@ -67,6 +67,11 @@ const templates = [
     name: "Standard Professional",
     preview: "bg-white border-blue-900 border-8",
   },
+  {
+    id: 14,
+    name: "Authority Verified",
+    preview: "bg-[#1e3a8a] border-b-[20px] border-yellow-400",
+  },
 ];
 
 export default function TemplateSelector() {

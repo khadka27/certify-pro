@@ -15,9 +15,19 @@ export default function Template13({ data }: CertificateTemplateProps) {
       )}
 
       {/* Decorative left side shapes */}
-      <div className="absolute left-0 top-32 w-0 h-0 border-l-[100px] border-l-yellow-300 border-t-[100px] border-t-transparent opacity-40"></div>
-      <div className="absolute left-0 top-64 w-0 h-0 border-l-[80px] border-l-yellow-400 border-b-[80px] border-b-transparent opacity-40"></div>
-      <div className="absolute left-0 top-96 w-0 h-0 border-l-[60px] border-l-orange-300 border-t-[60px] border-t-transparent opacity-40"></div>
+
+      <div
+        className="absolute left-0 top-32 w-0 h-0 border-l-yellow-300 border-t-transparent opacity-40"
+        style={{ borderLeftWidth: "100px", borderTopWidth: "100px" }}
+      ></div>
+      <div
+        className="absolute left-0 top-64 w-0 h-0 border-l-yellow-400 border-b-transparent opacity-40"
+        style={{ borderLeftWidth: "80px", borderBottomWidth: "80px" }}
+      ></div>
+      <div
+        className="absolute left-0 top-96 w-0 h-0 border-l-orange-300 border-t-transparent opacity-40"
+        style={{ borderLeftWidth: "60px", borderTopWidth: "60px" }}
+      ></div>
 
       <div className="relative z-10">
         {/* Header Section */}
@@ -99,39 +109,95 @@ export default function Template13({ data }: CertificateTemplateProps) {
           />
         </div>
 
-        {/* Ratings Section */}
-        <div className="mb-6 px-8 grid grid-cols-5 gap-2 border-y border-gray-100 py-4">
-          <div className="text-center border-r border-gray-200">
-            <p className="text-[10px] uppercase text-gray-500 font-bold">
-              RATING
-            </p>
-            <p className="text-xl font-bold text-cyan-700">
-              {data.overallExpertRating}
-            </p>
+        {/* Detailed Ratings & Specs - Cyan/Yellow Theme */}
+        <div className="mb-6 px-8 border-y border-gray-100 py-4">
+          <div className="grid grid-cols-2 gap-4 text-xs mb-4 text-left">
+            <div className="space-y-1 text-gray-700">
+              <p>
+                <span className="font-bold text-cyan-700">Category:</span>{" "}
+                {data.productCategory}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">Form:</span>{" "}
+                {data.productForm}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">Dietary:</span>{" "}
+                {data.dietaryCompliance}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">
+                  Full Ingredients:
+                </span>{" "}
+                {data.keyActiveIngredients}
+              </p>
+            </div>
+            <div className="space-y-1 text-gray-700">
+              <p>
+                <span className="font-bold text-cyan-700">Manuf:</span>{" "}
+                {data.manufacturerAddress}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">Testing:</span>{" "}
+                {data.thirdPartyTesting} / {data.certificationsAndApprovals}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">Support:</span>{" "}
+                {data.customerSupportEmail}
+              </p>
+              <p>
+                <span className="font-bold text-cyan-700">Refund:</span>{" "}
+                {data.refundPolicy}
+              </p>
+            </div>
           </div>
-          <div className="text-center border-r border-gray-200">
-            <p className="text-[10px] uppercase text-gray-500 font-bold">
-              SAFETY
-            </p>
-            <p className="text-sm font-bold text-gray-700">
-              {data.safetyRating}
-            </p>
+
+          <div className="grid grid-cols-5 gap-2 pt-4 border-t border-gray-100">
+            <div className="text-center border-r border-gray-200">
+              <p className="text-[10px] uppercase text-gray-500 font-bold">
+                RATING
+              </p>
+              <p className="text-xl font-bold text-cyan-700">
+                {data.overallExpertRating}
+              </p>
+            </div>
+            <div className="text-center border-r border-gray-200">
+              <p className="text-[10px] uppercase text-gray-500 font-bold">
+                SAFETY
+              </p>
+              <p className="text-sm font-bold text-gray-700">
+                {data.safetyRating}
+              </p>
+            </div>
+            <div className="text-center border-r border-gray-200">
+              <p className="text-[10px] uppercase text-gray-500 font-bold">
+                QUALITY
+              </p>
+              <p className="text-sm font-bold text-gray-700">
+                {data.ingredientsQualityRating}
+              </p>
+            </div>
+            <div className="text-center border-r border-gray-200">
+              <p className="text-[10px] uppercase text-gray-500 font-bold">
+                EFFICACY
+              </p>
+              <p className="text-sm font-bold text-gray-700">
+                {data.effectivenessRating}
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] uppercase text-gray-500 font-bold">
+                VALUE
+              </p>
+              <p className="text-sm font-bold text-gray-700">
+                {data.valueForMoneyRating}
+              </p>
+            </div>
           </div>
-          <div className="text-center border-r border-gray-200">
-            <p className="text-[10px] uppercase text-gray-500 font-bold">
-              QUALITY
-            </p>
-            <p className="text-sm font-bold text-gray-700">
-              {data.ingredientsQualityRating}
-            </p>
-          </div>
-          <div className="text-center col-span-2 text-left pl-4">
-            <p className="text-[10px] uppercase text-gray-500 font-bold">
-              INGREDIENTS
-            </p>
-            <p className="text-[10px] text-gray-600 leading-tight">
-              {data.keyActiveIngredients}
-            </p>
+          <div className="mt-2 text-center pt-2 border-t border-gray-100">
+            <span className="text-xs font-bold text-gray-800 uppercase">
+              Verdict: {data.finalVerdict}
+            </span>
           </div>
         </div>
 
