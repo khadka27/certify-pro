@@ -39,8 +39,39 @@ export default function CertificateForm() {
   const [mounted, setMounted] = useState(false);
   const { toast } = useToast();
 
+  // Settings state for dynamic dropdowns
+  interface SettingsCompany {
+    id: string;
+    name: string;
+    url: string;
+    logo: string;
+  }
+  interface SettingsSigner {
+    id: string;
+    name: string;
+    role: string;
+    signature: string;
+  }
+  interface SettingsBadge {
+    id: string;
+    name: string;
+    image: string;
+  }
+  const [companies, setCompanies] = useState<SettingsCompany[]>([]);
+  const [signers, setSigners] = useState<SettingsSigner[]>([]);
+  const [badges, setBadges] = useState<SettingsBadge[]>([]);
+
   useEffect(() => {
     setMounted(true);
+    // Fetch settings for dropdowns
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.companies) setCompanies(data.companies);
+        if (data.signers) setSigners(data.signers);
+        if (data.badges) setBadges(data.badges);
+      })
+      .catch((err) => console.error("Failed to load settings", err));
   }, []);
 
   if (!mounted || !hasHydrated) {
@@ -309,35 +340,32 @@ export default function CertificateForm() {
                   const url = e.target.value;
                   updateGlobalField("companyUrl", url);
 
-                  // Auto-load logo for specific URLs
-                  if (url.trim() === "https://www.dailyhealthsupplement.com") {
-                    try {
-                      const response = await fetch(
-                        "/www.dailyhealthsupplement.com.png",
+                  // Auto-load logo from settings
+                  const matchedCompany = companies.find(
+                    (c) => c.url === url.trim(),
+                  );
+                  if (matchedCompany && matchedCompany.logo) {
+                    updateGlobalField("logo", matchedCompany.logo);
+                    // Also update manufacturer name
+                    if (matchedCompany.name) {
+                      updateGlobalField(
+                        "manufacturerName",
+                        matchedCompany.name,
                       );
-                      const blob = await response.blob();
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        if (reader.result) {
-                          updateGlobalField("logo", reader.result as string);
-                          toast({
-                            title: "Logo Auto-loaded",
-                            description: `Company logo for ${url} has been applied.`,
-                          });
-                        }
-                      };
-                      reader.readAsDataURL(blob);
-                    } catch (err) {
-                      console.error("Failed to auto-load logo", err);
                     }
+                    toast({
+                      title: "Company Assets Loaded",
+                      description: `Logo for ${matchedCompany.name} has been applied.`,
+                    });
                   }
                 }}
                 placeholder="https://www.yourcompany.com"
                 list="company-urls"
               />
               <datalist id="company-urls">
-                <option value="https://www.dailyhealthsupplement.com" />
-                <option value="https://www.verified-goods.org" />
+                {companies.map((c) => (
+                  <option key={c.id} value={c.url} />
+                ))}
               </datalist>
             </div>
           </div>
@@ -443,40 +471,34 @@ export default function CertificateForm() {
               <Input
                 name="personName"
                 value={certificateData.personName}
-                onChange={async (e) => {
+                onChange={(e) => {
                   const name = e.target.value;
                   updateGlobalField("personName", name);
 
-                  // Auto-load signature for specific names
-                  if (name.trim() === "Jonathan A. Whitmore") {
-                    try {
-                      const response = await fetch("/Jonathan A. Whitmore.png");
-                      const blob = await response.blob();
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        if (reader.result) {
-                          updateGlobalField(
-                            "signature",
-                            reader.result as string,
-                          );
-                          toast({
-                            title: "Signature Auto-loaded",
-                            description: `Signature for ${name} has been applied.`,
-                          });
-                        }
-                      };
-                      reader.readAsDataURL(blob);
-                    } catch (err) {
-                      console.error("Failed to auto-load signature", err);
+                  // Auto-load signature and role from settings
+                  const matchedSigner = signers.find(
+                    (s) => s.name === name.trim(),
+                  );
+                  if (matchedSigner) {
+                    if (matchedSigner.signature) {
+                      updateGlobalField("signature", matchedSigner.signature);
                     }
+                    if (matchedSigner.role) {
+                      updateGlobalField("role", matchedSigner.role);
+                    }
+                    toast({
+                      title: "Signer Assets Loaded",
+                      description: `Signature and role for ${matchedSigner.name} applied.`,
+                    });
                   }
                 }}
                 placeholder="Name of the person signing"
                 list="signer-names-global"
               />
               <datalist id="signer-names-global">
-                <option value="Jonathan A. Whitmore" />
-                <option value="Dr. Sarah Johnson" />
+                {signers.map((s) => (
+                  <option key={s.id} value={s.name} />
+                ))}
               </datalist>
             </div>
             <div className="space-y-2">

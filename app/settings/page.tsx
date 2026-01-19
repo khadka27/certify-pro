@@ -177,18 +177,45 @@ export default function SettingsPage() {
     saveSettings({ ...data, badges: newBadges });
   };
 
-  // Generic file handler for base64 conversion
-  const handleFileChange = async (
+  // File upload handler
+  const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    callback: (base64: string) => void,
+    category: "logos" | "signatures" | "badges",
+    callback: (url: string) => void,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (reader.result) callback(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("category", category);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.url) {
+          callback(json.url);
+          toast({
+            title: "Upload Successful",
+            description: "Image saved to public folder.",
+          });
+        }
+      } else {
+        throw new Error("Upload failed");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast({
+        title: "Upload Failed",
+        description: "Could not save image.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) return <div className="p-8">Loading settings...</div>;
@@ -271,8 +298,8 @@ export default function SettingsPage() {
                         accept="image/*"
                         className="absolute inset-0 opacity-0 cursor-pointer"
                         onChange={(e) =>
-                          handleFileChange(e, (b64) =>
-                            updateCompany(comp.id, "logo", b64),
+                          handleFileUpload(e, "logos", (url) =>
+                            updateCompany(comp.id, "logo", url),
                           )
                         }
                       />
@@ -346,8 +373,8 @@ export default function SettingsPage() {
                         accept="image/*"
                         className="absolute inset-0 opacity-0 cursor-pointer"
                         onChange={(e) =>
-                          handleFileChange(e, (b64) =>
-                            updateSigner(signer.id, "signature", b64),
+                          handleFileUpload(e, "signatures", (url) =>
+                            updateSigner(signer.id, "signature", url),
                           )
                         }
                       />
@@ -420,8 +447,8 @@ export default function SettingsPage() {
                       accept="image/*"
                       className="absolute inset-0 opacity-0 cursor-pointer"
                       onChange={(e) =>
-                        handleFileChange(e, (b64) =>
-                          updateBadge(badge.id, "image", b64),
+                        handleFileUpload(e, "badges", (url) =>
+                          updateBadge(badge.id, "image", url),
                         )
                       }
                     />

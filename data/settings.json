@@ -5,6 +5,12 @@
       "name": "Daily Health Supplement",
       "url": "https://www.dailyhealthsupplement.com",
       "logo": "/www.dailyhealthsupplement.com.png"
+    },
+    {
+      "id": "7ec80233-7398-43e8-ab3c-64543d33b351",
+      "name": "of",
+      "url": "https://www.dailyhealthsupplement.com",
+      "logo": "/logos/Untitled_design12.png"
     }
   ],
   "signers": [
@@ -16,17 +22,11 @@
     },
     {
       "id": "49d288c8-21ba-442a-bc89-6ffd9a2bd062",
-      "name": "New Signer",
-      "role": "",
-      "signature": ""
+      "name": "Jonathan A. Whitmore",
+      "role": "Chief Quality Officer",
+      "signature": "/signatures/Screenshot_19.webp"
     }
   ],
-  "badges": [
-    {
-      "id": "eb29c5d0-a6ec-489d-9f25-402d9bfb1c5e",
-      "name": "New Badge",
-      "image": ""
-    }
-  ],
+  "badges": [],
   "validityYears": 3
 }
