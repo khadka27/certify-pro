@@ -127,17 +127,34 @@ export const useCertificateStore = create<CertificateStore>()(
           const dataArray = Array.isArray(data) ? data : [data];
           const sampleData = getInitialData();
 
-          console.log("Loading data:", dataArray);
+          console.log("📥 LOADING CSV DATA INTO STORE");
+          console.log("Raw data received:", dataArray);
+          console.log("Number of records:", dataArray.length);
 
           // Merge imported data with default data structure
-          const mergedRecords = dataArray.map((record) => {
+          const mergedRecords = dataArray.map((record, index) => {
+            console.log(`\n🔄 Merging record ${index}:`);
+            console.log("CSV Record:", record);
+
             const merged = {
               ...sampleData,
               ...record,
             };
-            console.log("Merged record:", merged);
+
+            console.log("Merged Result:", {
+              productName: merged.productName,
+              certNumber: merged.certNumber,
+              certificationStatus: merged.certificationStatus,
+              productCategory: merged.productCategory,
+              productForm: merged.productForm,
+              description: merged.description,
+            });
+
             return merged;
           });
+
+          console.log("✅ FINAL MERGED RECORDS:", mergedRecords);
+          console.log("Setting activeRecordIndex to 0");
 
           return {
             records: mergedRecords,

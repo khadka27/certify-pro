@@ -195,29 +195,39 @@ export default function ExportButtons() {
     : null;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-full">
       {isExporting && records.length > 1 && (
-        <div className="w-full bg-slate-100 rounded-full h-2 mb-2 overflow-hidden">
-          <div
-            className="bg-blue-600 h-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          ></div>
+        <div className="w-full bg-slate-100 rounded-lg p-3 border border-slate-200">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-slate-700">
+              Exporting Batch...
+            </span>
+            <span className="text-sm font-bold text-blue-600">{progress}%</span>
+          </div>
+          <div className="w-full bg-white rounded-full h-3 overflow-hidden shadow-inner border border-slate-200">
+            <div
+              className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500 h-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
         </div>
       )}
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-2 gap-2.5">
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button
             onClick={() => handleExport("png")}
             disabled={isExporting}
             variant="default"
-            className="gap-2"
+            className="w-full gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-md font-semibold"
           >
             <FileImage className="h-4 w-4" />
-            {exportingType === "png"
-              ? records.length > 1
-                ? `${progress}%`
-                : "Exporting..."
-              : "PNG"}
+            <span className="text-sm">
+              {exportingType === "png"
+                ? records.length > 1
+                  ? `${progress}%`
+                  : "Exporting..."
+                : "PNG"}
+            </span>
           </Button>
         </motion.div>
 
@@ -226,14 +236,16 @@ export default function ExportButtons() {
             onClick={() => handleExport("jpg")}
             disabled={isExporting}
             variant="default"
-            className="gap-2"
+            className="w-full gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md font-semibold"
           >
             <FileImage className="h-4 w-4" />
-            {exportingType === "jpg"
-              ? records.length > 1
-                ? `${progress}%`
-                : "Exporting..."
-              : "JPEG"}
+            <span className="text-sm">
+              {exportingType === "jpg"
+                ? records.length > 1
+                  ? `${progress}%`
+                  : "Exporting..."
+                : "JPEG"}
+            </span>
           </Button>
         </motion.div>
 
@@ -242,14 +254,16 @@ export default function ExportButtons() {
             onClick={() => handleExport("pdf")}
             disabled={isExporting}
             variant="default"
-            className="gap-2"
+            className="w-full gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-md font-semibold"
           >
             <FileText className="h-4 w-4" />
-            {exportingType === "pdf"
-              ? records.length > 1
-                ? `${progress}%`
-                : "Exporting..."
-              : "PDF"}
+            <span className="text-sm">
+              {exportingType === "pdf"
+                ? records.length > 1
+                  ? `${progress}%`
+                  : "Exporting..."
+                : "PDF"}
+            </span>
           </Button>
         </motion.div>
 
@@ -258,14 +272,16 @@ export default function ExportButtons() {
             onClick={() => handleExport("docx")}
             disabled={isExporting}
             variant="default"
-            className="gap-2"
+            className="w-full gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-md font-semibold"
           >
             <File className="h-4 w-4" />
-            {exportingType === "docx"
-              ? records.length > 1
-                ? `${progress}%`
-                : "Exporting..."
-              : "DOCX"}
+            <span className="text-sm">
+              {exportingType === "docx"
+                ? records.length > 1
+                  ? `${progress}%`
+                  : "Exporting..."
+                : "DOCX"}
+            </span>
           </Button>
         </motion.div>
       </div>

@@ -113,66 +113,62 @@ export default function TemplateSelector() {
   };
 
   return (
-    <div className="space-y-4 relative group">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Select Template</h3>
-        <div className="flex gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            className={`h-8 w-8 transition-opacity ${
-              showLeftArrow ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            onClick={() => scroll("left")}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className={`h-8 w-8 transition-opacity ${
-              showRightArrow ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            onClick={() => scroll("right")}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+    <div className="relative">
+      {/* Navigation Arrows */}
+      {showLeftArrow && (
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg bg-white/95 backdrop-blur-sm border-2 hover:bg-white hover:scale-110 transition-all"
+          onClick={() => scroll("left")}
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </Button>
+      )}
+      {showRightArrow && (
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg bg-white/95 backdrop-blur-sm border-2 hover:bg-white hover:scale-110 transition-all"
+          onClick={() => scroll("right")}
+        >
+          <ChevronRight className="h-5 w-5" />
+        </Button>
+      )}
 
       <div
         ref={scrollRef}
-        className="flex gap-4 pb-4 overflow-x-auto no-scrollbar scroll-smooth"
+        className="flex gap-3 pb-2 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent scroll-smooth px-1"
       >
         {templates.map((template) => (
           <motion.div
             key={template.id}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ y: -4 }}
             whileTap={{ scale: 0.95 }}
             className="flex-none"
           >
             <Card
-              className={`cursor-pointer transition-all w-32 ${
+              className={`cursor-pointer transition-all w-[110px] ${
                 selectedTemplate === template.id
-                  ? "ring-2 ring-primary shadow-lg border-primary"
-                  : "hover:shadow-md"
+                  ? "ring-2 ring-blue-500 shadow-xl border-blue-500 bg-blue-50"
+                  : "hover:shadow-lg hover:border-blue-300 bg-white"
               }`}
               onClick={() => updateGlobalField("selectedTemplate", template.id)}
             >
-              <CardContent className="p-3 space-y-2">
+              <CardContent className="p-2.5 space-y-2">
                 <div
-                  className={`h-20 rounded border-2 ${template.preview} relative overflow-hidden`}
+                  className={`h-[70px] rounded-md border-2 ${template.preview} relative overflow-hidden shadow-sm`}
                 >
                   {selectedTemplate === template.id && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-primary/10">
-                      <div className="bg-primary rounded-full p-1 shadow-sm">
-                        <Check className="h-3 w-3 text-white" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20 backdrop-blur-[1px]">
+                      <div className="bg-blue-600 rounded-full p-1.5 shadow-lg ring-2 ring-white">
+                        <Check className="h-3.5 w-3.5 text-white stroke-[3]" />
                       </div>
                     </div>
                   )}
                 </div>
-                <p className="text-[10px] text-center font-bold tracking-tight uppercase truncate">
-                  {template.name}
+                <p className="text-[9px] text-center font-bold tracking-tight leading-tight text-slate-700 line-clamp-2 h-[18px]">
+                  {template.name.toUpperCase()}
                 </p>
               </CardContent>
             </Card>

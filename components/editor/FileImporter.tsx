@@ -54,12 +54,19 @@ export default function FileImporter() {
     const fileName = file.name.toLowerCase();
     setFileName(file.name);
 
+    console.log("📁 File selected:", file.name);
+    console.log("File type:", file.type);
+    console.log("File size:", file.size, "bytes");
+
     try {
       if (fileName.endsWith(".csv")) {
+        console.log("Handling as CSV file");
         await handleCSV(file);
       } else if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls")) {
+        console.log("Handling as Excel file");
         await handleExcel(file);
       } else if (fileName.endsWith(".json")) {
+        console.log("Handling as JSON file");
         await handleJSON(file);
       } else {
         throw new Error(
@@ -125,9 +132,9 @@ export default function FileImporter() {
               cell.toLowerCase().includes("number"),
           );
 
-          console.log('CSV Parsed Rows:', rows);
-          console.log('First Row (Headers):', rows[0]);
-          console.log('Has Headers:', hasHeaders);
+          console.log("CSV Parsed Rows:", rows);
+          console.log("First Row (Headers):", rows[0]);
+          console.log("Has Headers:", hasHeaders);
 
           if (hasHeaders) {
             // Row-based format: headers in first row
@@ -136,8 +143,8 @@ export default function FileImporter() {
               .slice(1)
               .filter((row) => row.some((cell) => cell.trim()));
 
-            console.log('Headers:', headers);
-            console.log('Data Rows:', dataRows);
+            console.log("Headers:", headers);
+            console.log("Data Rows:", dataRows);
 
             // Field name mapping from CSV headers to certificate data structure
             const fieldMap: Record<string, string> = {
@@ -238,10 +245,11 @@ export default function FileImporter() {
               "QR Text": "qrText",
             };
 
-            const records = dataRows.map((row) => {
+            const records = dataRows.map((row, rowIndex) => {
               const record: any = {};
               headers.forEach((header, index) => {
-                if (row[index] && row[index].trim()) {
+                const cellValue = row[index];
+                if (cellValue && cellValue.trim()) {
                   const trimmedHeader = header.trim();
                   // Try exact match first, then case-insensitive match, then use as-is
                   let fieldName = fieldMap[trimmedHeader];
@@ -259,13 +267,20 @@ export default function FileImporter() {
                     }
                   }
 
-                  record[fieldName] = row[index].trim();
+                  record[fieldName] = cellValue.trim();
+                  console.log(
+                    `Row ${rowIndex}, Header "${trimmedHeader}" -> Field "${fieldName}" = "${cellValue.trim()}"`,
+                  );
                 }
               });
+              console.log(`Parsed Record ${rowIndex}:`, record);
               return record;
             });
 
-            console.log("CSV Imported Records:", records);
+            console.log(
+              "Final CSV JSON Data:",
+              JSON.stringify(records, null, 2),
+            );
             loadData(records);
           } else {
             // Columnar format: field names in first column
@@ -287,17 +302,21 @@ export default function FileImporter() {
       const reader = new FileReader();
       reader.onload = async (e) => {
         try {
+          console.log("📊 Reading Excel file...");
           const data = e.target?.result;
           const workbook = await import("xlsx").then((XLSX) => {
             return XLSX.read(data, { type: "binary" });
           });
 
           const firstSheetName = workbook.SheetNames[0];
+          console.log("Sheet name:", firstSheetName);
           const worksheet = workbook.Sheets[firstSheetName];
           const XLSX = await import("xlsx");
           const jsonData = XLSX.utils.sheet_to_json(worksheet, {
             header: 1,
-          }) as string[][];
+          }) as any[][];
+
+          console.log("Excel parsed data:", jsonData);
 
           if (jsonData.length === 0) {
             reject(new Error("Excel file is empty"));
@@ -306,20 +325,31 @@ export default function FileImporter() {
 
           // Check format similar to CSV
           const firstRow = jsonData[0];
+          console.log("First row:", firstRow);
           const hasHeaders = firstRow.some(
             (cell) =>
               typeof cell === "string" &&
               (cell.toLowerCase().includes("name") ||
                 cell.toLowerCase().includes("title") ||
-                cell.toLowerCase().includes("number")),
+                cell.toLowerCase().includes("number") ||
+                cell.toLowerCase().includes("date") ||
+                cell.toLowerCase().includes("category") ||
+                cell.toLowerCase().includes("form") ||
+                cell.toLowerCase().includes("status")),
           );
+          console.log("Has headers:", hasHeaders);
 
           if (hasHeaders) {
             // Row-based format
             const headers = jsonData[0];
             const dataRows = jsonData
               .slice(1)
-              .filter((row) => row.some((cell) => cell));
+              .filter(
+                (row) => row && row.some((cell) => cell != null && cell !== ""),
+              );
+
+            console.log("Headers:", headers);
+            console.log("Data rows count:", dataRows.length);
 
             // Field name mapping (same as CSV)
             const fieldMap: Record<string, string> = {
@@ -420,18 +450,41 @@ export default function FileImporter() {
               "QR Text": "qrText",
             };
 
-            const records = dataRows.map((row) => {
+            const records = dataRows.map((row, rowIndex) => {
               const record: any = {};
               headers.forEach((header, index) => {
-                if (row[index]) {
+                const cellValue = row[index];
+                if (cellValue != null && String(cellValue).trim()) {
                   const trimmedHeader = String(header).trim();
-                  const fieldName = fieldMap[trimmedHeader] || trimmedHeader;
-                  record[fieldName] = String(row[index]).trim();
+                  // Try exact match first, then case-insensitive match
+                  let fieldName = fieldMap[trimmedHeader];
+
+                  if (!fieldName) {
+                    const lowerHeader = trimmedHeader.toLowerCase();
+                    const foundKey = Object.keys(fieldMap).find(
+                      (key) => key.toLowerCase() === lowerHeader,
+                    );
+                    if (foundKey) {
+                      fieldName = fieldMap[foundKey];
+                    } else {
+                      fieldName = trimmedHeader;
+                    }
+                  }
+
+                  record[fieldName] = String(cellValue).trim();
+                  console.log(
+                    `Excel Row ${rowIndex}, Header "${trimmedHeader}" -> Field "${fieldName}" = "${String(cellValue).trim()}"`,
+                  );
                 }
               });
+              console.log(`Excel Parsed Record ${rowIndex}:`, record);
               return record;
             });
 
+            console.log(
+              "Final Excel JSON Data:",
+              JSON.stringify(records, null, 2),
+            );
             loadData(records);
           } else {
             // Columnar format
@@ -480,25 +533,27 @@ export default function FileImporter() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Upload className="h-5 w-5" />
+    <Card className="border-2 border-blue-100 bg-gradient-to-br from-blue-50/30 to-slate-50/30">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
+          <div className="p-1.5 bg-blue-600 rounded-lg">
+            <Upload className="h-4 w-4 text-white" />
+          </div>
           Import Batch Data
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs lg:text-sm">
           Upload CSV, Excel, or JSON files to load certificate data
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 lg:space-y-4">
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
+          className={`border-2 border-dashed rounded-lg p-6 lg:p-8 text-center transition-all cursor-pointer ${
             isDragging
-              ? "border-primary bg-primary/5"
-              : "border-muted-foreground/25 hover:border-primary/50"
+              ? "border-blue-600 bg-blue-50 scale-[0.98] shadow-inner"
+              : "border-slate-300 hover:border-blue-400 hover:bg-blue-50/50"
           }`}
           onClick={() => fileInputRef.current?.click()}
         >
@@ -511,15 +566,26 @@ export default function FileImporter() {
           />
 
           {fileName ? (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-center gap-2 text-green-600">
-                {fileName.endsWith(".csv") && <FileText className="h-8 w-8" />}
-                {(fileName.endsWith(".xlsx") || fileName.endsWith(".xls")) && (
-                  <FileSpreadsheet className="h-8 w-8" />
+                {fileName.endsWith(".csv") && (
+                  <FileText className="h-10 w-10" />
                 )}
-                {fileName.endsWith(".json") && <FileText className="h-8 w-8" />}
+                {(fileName.endsWith(".xlsx") || fileName.endsWith(".xls")) && (
+                  <FileSpreadsheet className="h-10 w-10" />
+                )}
+                {fileName.endsWith(".json") && (
+                  <FileText className="h-10 w-10" />
+                )}
               </div>
-              <p className="font-medium text-sm">{fileName}</p>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                <p className="font-semibold text-sm text-green-800">
+                  {fileName}
+                </p>
+                <p className="text-xs text-green-600 mt-1">
+                  ✓ File loaded successfully
+                </p>
+              </div>
               <Button
                 variant="outline"
                 size="sm"
@@ -527,33 +593,46 @@ export default function FileImporter() {
                   e.stopPropagation();
                   clearFile();
                 }}
+                className="border-red-200 text-red-600 hover:bg-red-50"
               >
                 <X className="h-4 w-4 mr-2" />
-                Clear
+                Remove File
               </Button>
             </div>
           ) : (
-            <div className="space-y-3">
-              <Upload className="h-12 w-12 mx-auto text-muted-foreground" />
+            <div className="space-y-4">
+              <Upload className="h-12 w-12 mx-auto text-blue-400" />
               <div>
-                <p className="text-lg font-medium">
+                <p className="text-base lg:text-lg font-semibold text-slate-700">
                   Drop your file here or click to browse
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs lg:text-sm text-slate-500 mt-1">
                   Supports CSV, Excel (.xlsx, .xls), and JSON formats
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-2 pt-2">
-                <Button variant="outline" size="sm">
-                  <FileText className="h-4 w-4 mr-2" />
+              <div className="flex items-center justify-center gap-2 pt-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs pointer-events-none border-slate-300"
+                >
+                  <FileText className="h-3 w-3 mr-1.5" />
                   CSV
                 </Button>
-                <Button variant="outline" size="sm">
-                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs pointer-events-none border-slate-300"
+                >
+                  <FileSpreadsheet className="h-3 w-3 mr-1.5" />
                   Excel
                 </Button>
-                <Button variant="outline" size="sm">
-                  <FileText className="h-4 w-4 mr-2" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs pointer-events-none border-slate-300"
+                >
+                  <FileText className="h-3 w-3 mr-1.5" />
                   JSON
                 </Button>
               </div>
@@ -561,21 +640,19 @@ export default function FileImporter() {
           )}
         </div>
 
-        <Alert>
+        <Alert className="bg-blue-50 border-blue-200">
           <AlertDescription className="text-xs">
-            <strong>Supported Formats:</strong>
-            <ul className="list-disc list-inside mt-2 space-y-1">
+            <strong className="text-blue-900">Supported Formats:</strong>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-blue-800">
               <li>
-                <strong>Row-based:</strong> First row contains column headers
-                (Product Name, Certificate Number, etc.)
+                <strong>Row-based:</strong> First row contains headers (Product
+                Name, Certificate Number, etc.)
               </li>
               <li>
-                <strong>Columnar:</strong> First column contains field names,
-                subsequent columns contain data for each certificate
+                <strong>Columnar:</strong> First column contains field names
               </li>
               <li>
-                <strong>JSON:</strong> Array of certificate objects or single
-                certificate object
+                <strong>JSON:</strong> Array of certificate objects
               </li>
             </ul>
           </AlertDescription>

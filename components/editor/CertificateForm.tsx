@@ -106,19 +106,33 @@ export default function CertificateForm() {
   };
 
   return (
-    <div className="space-y-6 h-full overflow-y-auto pr-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4">
-          <div className="space-y-1">
-            <CardTitle className="text-xl">Certificate Editor</CardTitle>
-            <CardDescription>
+    <div className="space-y-4 lg:space-y-6">
+      <Card className="border-2 bg-gradient-to-r from-blue-50/50 to-slate-50/50">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 py-3 lg:py-4">
+          <div className="space-y-1 flex-1">
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-lg lg:text-xl">
+                Batch Manager
+              </CardTitle>
+              {records.length > 1 && (
+                <span className="px-2 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-full">
+                  {records.length}
+                </span>
+              )}
+            </div>
+            <CardDescription className="text-xs">
               {records.length > 1
-                ? `Managing batch of ${records.length} certificates`
+                ? `Managing ${records.length} certificates`
                 : "Configure your certificate details"}
             </CardDescription>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={resetData}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetData}
+              className="text-xs"
+            >
               Reset All
             </Button>
           </div>
@@ -126,9 +140,13 @@ export default function CertificateForm() {
       </Card>
 
       <Tabs defaultValue="record" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="global">Common Settings (All Certs)</TabsTrigger>
-          <TabsTrigger value="record">Specific Record Details</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsTrigger value="global" className="text-xs lg:text-sm">
+            Common Settings
+          </TabsTrigger>
+          <TabsTrigger value="record" className="text-xs lg:text-sm">
+            Specific Details
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="global" className="space-y-6">
@@ -437,35 +455,47 @@ export default function CertificateForm() {
         <TabsContent value="record" className="space-y-6">
           {/* Record Selector */}
           {records.length > 1 && (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <Label className="text-sm font-bold">
-                    Select Active Record to Edit:
+            <Card className="border-2 border-amber-100 bg-gradient-to-r from-amber-50/50 to-orange-50/50">
+              <CardContent className="pt-4 pb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <Label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                    <span className="h-2 w-2 bg-amber-500 rounded-full animate-pulse"></span>
+                    Select Active Record to Edit
                   </Label>
-                  <span className="text-xs bg-muted px-2 py-1 rounded">
+                  <span className="text-xs bg-amber-100 border border-amber-300 text-amber-800 px-3 py-1 rounded-full font-semibold">
                     Record {activeRecordIndex + 1} of {records.length}
                   </span>
                 </div>
-                <div className="flex flex-nowrap gap-2 overflow-x-auto pb-4 no-scrollbar">
-                  {records.map((r, i) => (
-                    <Button
-                      key={i}
-                      variant={activeRecordIndex === i ? "default" : "outline"}
-                      size="sm"
-                      className="shrink-0 min-w-[120px] justify-start"
-                      onClick={() => setActiveRecordIndex(i)}
-                    >
-                      <div className="truncate text-left">
-                        <div className="text-[10px] opacity-70">
-                          Row {i + 1}
+                <div className="relative">
+                  <div className="flex flex-nowrap gap-2 overflow-x-auto pb-3 scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-100">
+                    {records.map((r, i) => (
+                      <Button
+                        key={i}
+                        variant={
+                          activeRecordIndex === i ? "default" : "outline"
+                        }
+                        size="sm"
+                        className={`shrink-0 min-w-[140px] justify-start transition-all ${
+                          activeRecordIndex === i
+                            ? "bg-blue-600 hover:bg-blue-700 shadow-lg scale-105 border-2 border-blue-600"
+                            : "hover:border-blue-400 hover:bg-blue-50"
+                        }`}
+                        onClick={() => setActiveRecordIndex(i)}
+                      >
+                        <div className="truncate text-left w-full">
+                          <div className="text-[10px] opacity-70 font-medium">
+                            Certificate {i + 1}
+                          </div>
+                          <div className="font-bold text-xs truncate">
+                            {r.productName || r.certNumber || "Untitled"}
+                          </div>
                         </div>
-                        <div className="font-bold">
-                          {r.productName || "Untitled"}
-                        </div>
-                      </div>
-                    </Button>
-                  ))}
+                      </Button>
+                    ))}
+                  </div>
+                  {/* Scroll indicators */}
+                  <div className="absolute left-0 top-0 bottom-3 w-8 bg-gradient-to-r from-amber-50/90 to-transparent pointer-events-none"></div>
+                  <div className="absolute right-0 top-0 bottom-3 w-8 bg-gradient-to-l from-amber-50/90 to-transparent pointer-events-none"></div>
                 </div>
               </CardContent>
             </Card>
@@ -480,36 +510,27 @@ export default function CertificateForm() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
                   <Label>Product Image (Record Specific)</Label>
                   {certificateData.productImage ? (
                     <div className="relative inline-block">
                       <img
                         src={certificateData.productImage}
                         alt="Product"
-                        className="h-40 w-auto border rounded-lg object-contain bg-white"
+                        className="h-16 w-auto border rounded-md object-contain bg-white"
                       />
                       <Button
                         size="icon"
                         variant="destructive"
-                        className="absolute -top-2 -right-2 h-6 w-6"
+                        className="absolute -top-2 -right-2 h-5 w-5"
                         onClick={() => removeImage("productImage")}
                       >
-                        <X className="h-4 w-4" />
+                        <X className="h-3 w-3" />
                       </Button>
                     </div>
                   ) : (
-                    <div
-                      className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-accent transition-colors"
-                      onClick={() =>
-                        document.getElementById("product-image-upload")?.click()
-                      }
-                    >
-                      <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                      <span className="text-sm font-medium">
-                        Upload unique product image
-                      </span>
+                    <div className="flex items-center gap-2">
                       <Input
                         type="file"
                         accept="image/*"
@@ -517,72 +538,59 @@ export default function CertificateForm() {
                         className="hidden"
                         id="product-image-upload"
                       />
+                      <Label
+                        htmlFor="product-image-upload"
+                        className="cursor-pointer flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent text-center w-full"
+                      >
+                        <Upload className="h-4 w-4" /> Upload Product Image
+                      </Label>
                     </div>
                   )}
                 </div>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Product Name</Label>
-                    <Input
-                      name="productName"
-                      value={certificateData.productName}
-                      onChange={(e) =>
-                        updateField("productName", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Certificate Number</Label>
-                        <Input
-                          name="certNumber"
-                          value={certificateData.certNumber}
-                          onChange={(e) =>
-                            updateField("certNumber", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Certification Status</Label>
-                        <Input
-                          name="certificationStatus"
-                          value={certificateData.certificationStatus || ""}
-                          onChange={(e) =>
-                            updateField("certificationStatus", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Issue Date (UTC)</Label>
-                        <Input
-                          name="issuedDate"
-                          type="date"
-                          value={certificateData.issuedDate}
-                          onChange={(e) =>
-                            updateField("issuedDate", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Valid Until</Label>
-                        <Input
-                          name="expiryDate"
-                          type="date"
-                          value={certificateData.expiryDate || ""}
-                          onChange={(e) =>
-                            updateField("expiryDate", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
+                <div className="space-y-2">
+                  <Label>Product Name</Label>
+                  <Input
+                    name="productName"
+                    value={certificateData.productName}
+                    onChange={(e) => updateField("productName", e.target.value)}
+                  />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Certificate Number</Label>
+                  <Input
+                    name="certNumber"
+                    value={certificateData.certNumber}
+                    onChange={(e) => updateField("certNumber", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Certification Status</Label>
+                  <Input
+                    name="certificationStatus"
+                    value={certificateData.certificationStatus || ""}
+                    onChange={(e) =>
+                      updateField("certificationStatus", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Issue Date (UTC)</Label>
+                  <Input
+                    name="issuedDate"
+                    type="date"
+                    value={certificateData.issuedDate}
+                    onChange={(e) => updateField("issuedDate", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Valid Until</Label>
+                  <Input
+                    name="expiryDate"
+                    type="date"
+                    value={certificateData.expiryDate || ""}
+                    onChange={(e) => updateField("expiryDate", e.target.value)}
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label>Product Category</Label>
                   <Input
@@ -613,7 +621,7 @@ export default function CertificateForm() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>Certifications and Approvals</Label>
                   <Input
@@ -638,29 +646,26 @@ export default function CertificateForm() {
 
               <Separator />
 
-              <div className="space-y-2">
-                <Label>Analysis & Quality Indicators</Label>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <Label className="text-xs">Key Ingredients</Label>
-                    <Input
-                      name="keyActiveIngredients"
-                      value={certificateData.keyActiveIngredients || ""}
-                      onChange={(e) =>
-                        updateField("keyActiveIngredients", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs">Compliance</Label>
-                    <Input
-                      name="dietaryCompliance"
-                      value={certificateData.dietaryCompliance || ""}
-                      onChange={(e) =>
-                        updateField("dietaryCompliance", e.target.value)
-                      }
-                    />
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-sm">Key Ingredients</Label>
+                  <Input
+                    name="keyActiveIngredients"
+                    value={certificateData.keyActiveIngredients || ""}
+                    onChange={(e) =>
+                      updateField("keyActiveIngredients", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm">Dietary Compliance</Label>
+                  <Input
+                    name="dietaryCompliance"
+                    value={certificateData.dietaryCompliance || ""}
+                    onChange={(e) =>
+                      updateField("dietaryCompliance", e.target.value)
+                    }
+                  />
                 </div>
               </div>
 
@@ -670,7 +675,7 @@ export default function CertificateForm() {
                     Expert Ratings for this record
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-3 gap-4 pb-4">
+                <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-3 pb-4">
                   {[
                     { l: "Safety", f: "safetyRating" },
                     { l: "Effectiveness", f: "effectivenessRating" },
@@ -683,12 +688,12 @@ export default function CertificateForm() {
                     { l: "Versatility UseCaseFit", f: "versatilityUseCaseFit" },
                   ].map((item) => (
                     <div key={item.f} className="space-y-1">
-                      <Label className="text-[10px] uppercase font-bold">
+                      <Label className="text-[10px] uppercase font-bold truncate">
                         {item.l}
                       </Label>
                       <Input
                         name={item.f}
-                        className="h-8 text-sm"
+                        className="h-9 text-sm"
                         value={(certificateData as any)[item.f] || ""}
                         onChange={(e) =>
                           updateField(item.f as any, e.target.value)
@@ -699,61 +704,62 @@ export default function CertificateForm() {
                 </CardContent>
               </Card>
 
-              <div className="space-y-2">
-                <Label>Side Effects (If Any)</Label>
-                <Input
-                  name="sideEffects"
-                  value={certificateData.sideEffects || ""}
-                  onChange={(e) => updateField("sideEffects", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Cautions</Label>
-                <Input
-                  name="cautions"
-                  value={certificateData.cautions || ""}
-                  onChange={(e) => updateField("cautions", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Final Certification Verdict</Label>
-                <Input
-                  name="finalVerdict"
-                  className="font-bold"
-                  value={certificateData.finalVerdict || ""}
-                  onChange={(e) => updateField("finalVerdict", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Verification Statement</Label>
-                <Input
-                  name="verificationStatement"
-                  value={certificateData.verificationStatement || ""}
-                  onChange={(e) =>
-                    updateField("verificationStatement", e.target.value)
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Expert Rating</Label>
-                <Input
-                  name="expertRating"
-                  value={certificateData.expertRating || ""}
-                  onChange={(e) => updateField("expertRating", e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>QR Code Text (Optional)</Label>
-                <Input
-                  name="qrText"
-                  value={certificateData.qrText || ""}
-                  onChange={(e) => updateField("qrText", e.target.value)}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label>Side Effects (If Any)</Label>
+                  <Input
+                    name="sideEffects"
+                    value={certificateData.sideEffects || ""}
+                    onChange={(e) => updateField("sideEffects", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Cautions</Label>
+                  <Input
+                    name="cautions"
+                    value={certificateData.cautions || ""}
+                    onChange={(e) => updateField("cautions", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Final Certification Verdict</Label>
+                  <Input
+                    name="finalVerdict"
+                    className="font-bold"
+                    value={certificateData.finalVerdict || ""}
+                    onChange={(e) =>
+                      updateField("finalVerdict", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Verification Statement</Label>
+                  <Input
+                    name="verificationStatement"
+                    value={certificateData.verificationStatement || ""}
+                    onChange={(e) =>
+                      updateField("verificationStatement", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Expert Rating</Label>
+                  <Input
+                    name="expertRating"
+                    value={certificateData.expertRating || ""}
+                    onChange={(e) =>
+                      updateField("expertRating", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>QR Code Text (Optional)</Label>
+                  <Input
+                    name="qrText"
+                    value={certificateData.qrText || ""}
+                    onChange={(e) => updateField("qrText", e.target.value)}
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>

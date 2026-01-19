@@ -97,12 +97,16 @@ export default function CertificatePreview() {
 
   if (!mounted || !hasHydrated) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[400px] w-full bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
+      <div className="flex items-center justify-center p-8 min-h-[400px] w-full bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl border-2 border-dashed border-blue-200 shadow-inner">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-slate-500 font-medium">
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
+            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+          </div>
+          <p className="text-slate-600 font-semibold text-sm">
             Preparing Certificate Preview...
           </p>
+          <p className="text-slate-400 text-xs">This will only take a moment</p>
         </div>
       </div>
     );
