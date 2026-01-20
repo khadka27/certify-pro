@@ -12,6 +12,7 @@ function ensureFile() {
       signers: [],
       badges: [],
       validityYears: 3,
+      defaultRating: "9.8",
     };
     // Ensure dir exists
     const dir = path.dirname(dataFilePath);

@@ -130,32 +130,160 @@ async function imageUrlToBase64(url: string): Promise<string> {
 export async function generateDOCXBlob(data: CertificateData): Promise<Blob> {
   const children: Paragraph[] = [];
 
+  // Title
   children.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: data.title,
+          text: data.title.toUpperCase(),
           bold: true,
           size: 48,
+          color: "1F3A8A", // Navy Blue
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 400, after: 200 },
+    }),
+  );
+
+  if (data.subTitle) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: data.subTitle,
+            size: 24,
+            italics: true,
+            color: "4B5563",
+          }),
+        ],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 400 },
+      }),
+    );
+  }
+
+  // Certificate Identity
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Certificate ID: ${data.certNumber}`,
+          bold: true,
+          size: 20,
+          color: "374151",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 },
+    }),
+  );
+
+  // Main Description
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.description.replace(/<[^>]*>/g, ""), // Simple HTML tag removal
+          size: 20,
           color: "1F2937",
         }),
       ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 400 },
+      alignment: AlignmentType.LEFT,
+      spacing: { before: 200, after: 400 },
     }),
   );
 
+  // Product Section Header
   children.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: data.description,
+          text: "PRODUCT SPECIFICATIONS",
+          bold: true,
           size: 24,
-          color: "4B5563",
+          underline: {},
+          color: "1F3A8A",
         }),
       ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 400 },
+      spacing: { before: 200, after: 200 },
+    }),
+  );
+
+  const productFields = [
+    ["Product Name", data.productName],
+    ["Category", data.productCategory],
+    ["Format", data.productForm],
+    ["Ingredients", data.keyActiveIngredients],
+    ["Compliance", data.dietaryCompliance],
+    ["Manufacturer", data.manufacturerName],
+    ["Address", data.manufacturerAddress],
+  ];
+
+  productFields.forEach(([label, value]) => {
+    if (value) {
+      children.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: `${label}: `, bold: true, size: 18 }),
+            new TextRun({ text: value, size: 18 }),
+          ],
+          spacing: { after: 100 },
+        }),
+      );
+    }
+  });
+
+  // Ratings Section
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "EXPERT ANALYSIS & RATINGS",
+          bold: true,
+          size: 24,
+          underline: {},
+          color: "1F3A8A",
+        }),
+      ],
+      spacing: { before: 400, after: 200 },
+    }),
+  );
+
+  const ratingFields = [
+    ["Safety Rating", data.safetyRating],
+    ["Quality Rating", data.ingredientsQualityRating],
+    ["Effectiveness", data.effectivenessRating],
+    ["Overall Expert Index", data.overallExpertRating],
+  ];
+
+  ratingFields.forEach(([label, value]) => {
+    if (value) {
+      children.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: `${label}: `, bold: true, size: 18 }),
+            new TextRun({ text: value, size: 18, color: "059669" }),
+          ],
+          spacing: { after: 100 },
+        }),
+      );
+    }
+  });
+
+  // Verdict Section
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "FINAL VERDICT",
+          bold: true,
+          size: 24,
+          underline: {},
+          color: "1F3A8A",
+        }),
+      ],
+      spacing: { before: 400, after: 200 },
     }),
   );
 
@@ -163,100 +291,42 @@ export async function generateDOCXBlob(data: CertificateData): Promise<Blob> {
     new Paragraph({
       children: [
         new TextRun({
-          text: "Product Name: ",
+          text: data.finalVerdict?.toUpperCase() || "APPROVED",
           bold: true,
-          size: 28,
-        }),
-        new TextRun({
-          text: data.productName,
           size: 28,
           color: "059669",
         }),
       ],
-      alignment: AlignmentType.CENTER,
       spacing: { after: 200 },
     }),
   );
 
-  children.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `Certificate Number: ${data.certNumber}`,
-          size: 20,
-          color: "6B7280",
-        }),
-      ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 200 },
-    }),
-  );
+  if (data.verificationStatement) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: `"${data.verificationStatement}"`,
+            italics: true,
+            size: 18,
+            color: "4B5563",
+          }),
+        ],
+        spacing: { after: 400 },
+      }),
+    );
+  }
 
+  // Footer / Authority
   children.push(
     new Paragraph({
       children: [
         new TextRun({
-          text: `Company: ${data.manufacturerName}`,
-          size: 20,
+          text: `Issued on: ${data.issuedDate}`,
+          size: 16,
         }),
       ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 200 },
-    }),
-  );
-
-  children.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `Location: ${data.location}`,
-          size: 20,
-        }),
-      ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 400 },
-    }),
-  );
-
-  children.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.personName,
-          bold: true,
-          size: 32,
-          color: "1F2937",
-        }),
-      ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 100 },
-    }),
-  );
-
-  children.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: data.role,
-          size: 22,
-          color: "4B5563",
-        }),
-      ],
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 400 },
-    }),
-  );
-
-  children.push(
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `Issued: ${data.issuedDate}`,
-          size: 18,
-        }),
-      ],
-      alignment: AlignmentType.LEFT,
-      spacing: { after: 100 },
+      spacing: { before: 400, after: 100 },
     }),
   );
 
@@ -265,15 +335,55 @@ export async function generateDOCXBlob(data: CertificateData): Promise<Blob> {
       new Paragraph({
         children: [
           new TextRun({
-            text: `Expires: ${data.expiryDate}`,
-            size: 18,
+            text: `Valid until: ${data.expiryDate}`,
+            size: 16,
           }),
         ],
-        alignment: AlignmentType.LEFT,
         spacing: { after: 100 },
       }),
     );
   }
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Certified By: ${data.personName}`,
+          bold: true,
+          size: 20,
+        }),
+      ],
+      spacing: { before: 200, after: 50 },
+    }),
+  );
+
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: data.role,
+          size: 16,
+          italics: true,
+        }),
+      ],
+      spacing: { after: 400 },
+    }),
+  );
+
+  // Contact Info
+  children.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Support: ${data.customerSupportEmail} | ${data.customerSupportPhone}`,
+          size: 14,
+          color: "6B7280",
+        }),
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 400 },
+    }),
+  );
 
   const doc = new Document({
     sections: [
@@ -281,10 +391,10 @@ export async function generateDOCXBlob(data: CertificateData): Promise<Blob> {
         properties: {
           page: {
             margin: {
-              top: 1440,
-              right: 1440,
-              bottom: 1440,
-              left: 1440,
+              top: 720,
+              right: 720,
+              bottom: 720,
+              left: 720,
             },
           },
         },

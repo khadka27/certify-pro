@@ -254,19 +254,35 @@ export const useCertificateStore = create<CertificateStore>()(
               Location: "location",
               "Location (Origin)": "location",
               Origin: "location",
+              Expert: "expertRating",
               "Expert Rating": "expertRating",
+              "Expert Score": "expertRating",
+              "Expert Verdict": "expertRating",
               "Final Verdict": "finalVerdict",
               "Final Certification Verdict": "finalVerdict",
+              Verdict: "finalVerdict",
               "Verification Statement": "verificationStatement",
               "Overall Expert Rating": "overallExpertRating",
+              "Overall Rating": "overallExpertRating",
+              "Rating Score": "overallExpertRating",
+              Rating: "overallExpertRating",
+              Score: "overallExpertRating",
               "Safety Rating": "safetyRating",
+              Safety: "safetyRating",
               "Effectiveness Rating": "effectivenessRating",
+              Effectiveness: "effectivenessRating",
               "Ingredients Quality Rating": "ingredientsQualityRating",
+              "Ingredients Quality": "ingredientsQualityRating",
               "Certifications QC Rating": "certificationsQCRating",
+              "Certifications QC": "certificationsQCRating",
               "Value For Money Rating": "valueForMoneyRating",
+              Value: "valueForMoneyRating",
               "Evidence Strength Rating": "evidenceStrengthRating",
+              "Evidence Strength": "evidenceStrengthRating",
               "User Experience Rating": "userExperienceRating",
+              "User Experience": "userExperienceRating",
               "Versatility Use Case Fit": "versatilityUseCaseFit",
+              Versatility: "versatilityUseCaseFit",
             };
 
             const validRows = rows.filter((r) => r.length > 0 && r[0]?.trim());
@@ -316,8 +332,9 @@ export const useCertificateStore = create<CertificateStore>()(
               }
             });
 
-            // Post-processing: Auto-calculate Expiry Date if missing
+            // Post-processing: Auto-calculate Expiry Date and Overall Rating if missing
             mappedData.forEach((record) => {
+              // Expiry Date (3 years after Issue Date)
               if (record.issuedDate && !record.expiryDate) {
                 const parts = record.issuedDate.split("-");
                 if (parts.length === 3) {
@@ -325,6 +342,32 @@ export const useCertificateStore = create<CertificateStore>()(
                   if (!isNaN(year)) {
                     record.expiryDate = `${year + 3}-${parts[1]}-${parts[2]}`;
                   }
+                }
+              }
+
+              // Overall Expert Rating (Average of other ratings)
+              if (!record.overallExpertRating) {
+                const ratings = [
+                  "safetyRating",
+                  "effectivenessRating",
+                  "ingredientsQualityRating",
+                  "certificationsQCRating",
+                  "valueForMoneyRating",
+                  "evidenceStrengthRating",
+                  "userExperienceRating",
+                  "versatilityUseCaseFit",
+                ];
+                let sum = 0;
+                let count = 0;
+                ratings.forEach((key) => {
+                  const val = parseFloat((record as any)[key]);
+                  if (!isNaN(val) && val > 0) {
+                    sum += val;
+                    count++;
+                  }
+                });
+                if (count > 0) {
+                  record.overallExpertRating = (sum / count).toFixed(1);
                 }
               }
             });

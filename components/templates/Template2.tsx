@@ -2,11 +2,22 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template2({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-blue-50 to-cyan-50 p-12 relative box-border overflow-hidden flex flex-col">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-blue-50 to-cyan-50 p-12 relative box-border overflow-hidden flex flex-col font-sans">
       <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
       <div className="absolute bottom-0 left-0 w-full h-2 bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
 
-      <div className="flex-1 flex flex-col bg-white rounded-lg p-12 relative z-10">
+      {/* Background Watermark */}
+      {data.showWatermark && (data.watermark || data.logo) && (
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.04] pointer-events-none z-0">
+          <img
+            src={data.watermark || data.logo}
+            alt="Watermark"
+            className="w-[500px] h-auto object-contain"
+          />
+        </div>
+      )}
+
+      <div className="flex-1 flex flex-col bg-white rounded-lg p-12 relative z-10 shadow-sm">
         <div className="flex items-start justify-between mb-8">
           {data.logo && (
             <img
@@ -16,272 +27,176 @@ export default function Template2({ data }: CertificateTemplateProps) {
             />
           )}
           {data.badge && (
-            <img src={data.badge} alt="Badge" className="h-16 w-auto" />
+            <img
+              src={data.badge}
+              alt="Badge"
+              className="h-20 w-auto drop-shadow-sm"
+            />
           )}
         </div>
 
         <div className="text-center flex-1 flex flex-col justify-center space-y-6">
           <div className="inline-flex items-center justify-center">
-            <div className="h-px w-20 bg-blue-600"></div>
-            <h1 className="text-5xl font-bold text-blue-900 mx-6">
+            <div className="h-px w-20 bg-blue-600/30"></div>
+            <h1 className="text-5xl font-black text-blue-900 mx-6 tracking-tight">
               {data.title}
             </h1>
-            <div className="h-px w-20 bg-blue-600"></div>
+            <div className="h-px w-20 bg-blue-600/30"></div>
           </div>
 
-          <div className="bg-blue-50 border-l-4 border-blue-600 p-6 my-6">
-            <div
-              className="text-lg text-gray-700 leading-relaxed rich-text-content"
-              dangerouslySetInnerHTML={{ __html: data.description }}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto text-left mb-6">
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase">
-                Product
-              </p>
-              <p className="text-xl text-gray-800">{data.productName}</p>
-              {data.productCategory && (
-                <p className="text-xs text-gray-500">{data.productCategory}</p>
-              )}
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase">
-                Certificate No
-              </p>
-              <p className="text-xl text-gray-800">{data.certNumber}</p>
-              {data.certificationStatus && (
-                <p className="text-xs font-bold text-green-600">
-                  {data.certificationStatus}
-                </p>
-              )}
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase">
-                Key Ingredients
-              </p>
-              <p className="text-sm text-gray-800">
-                {data.keyActiveIngredients || data.manufacturerName}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase">
-                Rating
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="text-xl font-bold text-gray-800">
-                  {data.overallExpertRating || "N/A"}
-                </span>
-                {data.finalVerdict && (
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
-                    {data.finalVerdict}
-                  </span>
-                )}
+          <div className="flex gap-8 items-center text-left">
+            {data.productImage && (
+              <div className="shrink-0">
+                <img
+                  src={data.productImage}
+                  alt="Product"
+                  className="w-48 h-48 object-contain rounded-xl border border-blue-100 bg-blue-50/30 p-4 shadow-inner"
+                />
               </div>
+            )}
+            <div className="flex-1 bg-blue-50/50 border-l-4 border-blue-600 p-6">
+              <div
+                className="text-lg text-gray-700 leading-relaxed rich-text-content"
+                dangerouslySetInnerHTML={{ __html: data.description }}
+              />
             </div>
           </div>
 
-          {/* Detailed Ratings */}
-          <div className="grid grid-cols-4 gap-2 text-center text-xs opacity-80 border-t border-blue-100 pt-4">
+          <div className="grid grid-cols-2 gap-x-12 gap-y-6 px-4 text-left">
             <div>
-              <span className="block font-bold text-blue-600">Safety</span>
-              <span>{data.safetyRating || "-"}</span>
+              <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">
+                Product Details
+              </p>
+              <p className="text-2xl font-bold text-gray-900 leading-tight">
+                {data.productName}
+              </p>
+              <p className="text-sm text-gray-500 mt-1">
+                {data.productCategory} • {data.productForm}
+              </p>
             </div>
             <div>
-              <span className="block font-bold text-blue-600">Efficacy</span>
-              <span>{data.effectivenessRating || "-"}</span>
-            </div>
-            <div>
-              <span className="block font-bold text-blue-600">Quality</span>
-              <span>{data.ingredientsQualityRating || "-"}</span>
-            </div>
-            <div>
-              <span className="block font-bold text-blue-600">Value</span>
-              <span>{data.valueForMoneyRating || "-"}</span>
+              <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">
+                Certificate Authority
+              </p>
+              <p className="text-xl font-bold text-gray-800 tracking-tight">
+                {data.certNumber}
+              </p>
+              <p className="text-xs font-black text-green-600 mt-1 uppercase tracking-wider">
+                {data.certificationStatus}
+              </p>
             </div>
           </div>
 
-          <div className="mt-8 p-6 bg-linear-to-r from-blue-100 to-cyan-100 rounded-lg">
-            <p className="text-2xl font-semibold text-blue-900">
-              {data.personName}
-            </p>
-            <p className="text-base text-blue-700">{data.role}</p>
-          </div>
-        </div>
-
-        <div className="mt-6 border-t border-blue-100 pt-4">
-          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
-            Product Specifications
-          </h3>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-700">
-            <div>
-              <span className="font-semibold text-blue-600">Category:</span>{" "}
-              {data.productCategory}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">Form:</span>{" "}
-              {data.productForm}
-            </div>
-            <div className="col-span-2">
-              <span className="font-semibold text-blue-600">Ingredients:</span>{" "}
-              {data.keyActiveIngredients}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">Dietary:</span>{" "}
-              {data.dietaryCompliance}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">Side Effects:</span>{" "}
-              {data.sideEffects}
-            </div>
-            <div className="col-span-2">
-              <span className="font-semibold text-blue-600">Cautions:</span>{" "}
-              {data.cautions}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4 border-t border-blue-100 pt-4">
-          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
-            Verification & Support
-          </h3>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-gray-700">
-            <div>
-              <span className="font-semibold text-blue-600">Manufacturer:</span>{" "}
-              {data.manufacturerAddress}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">
-                Third-Party Testing:
-              </span>{" "}
-              {data.thirdPartyTesting}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">
-                Certifications:
-              </span>{" "}
-              {data.certificationsAndApprovals}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">Verification:</span>{" "}
-              {data.verificationStatement}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">
-                Refund Policy:
-              </span>{" "}
-              {data.refundPolicy}
-            </div>
-            <div>
-              <span className="font-semibold text-blue-600">Support:</span>{" "}
-              {data.customerSupportEmail} | {data.customerSupportPhone}
-            </div>
-            <div className="col-span-2">
-              <span className="font-semibold text-blue-600">Buy Now:</span>{" "}
-              {data.buyNowUrl}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4 border-t border-blue-100 pt-4">
-          <h3 className="text-xs font-bold uppercase text-blue-700 mb-2">
-            Expert Analysis
-          </h3>
-          <div className="grid grid-cols-4 gap-2 text-xs text-center">
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Overall</div>
-              <div className="font-bold text-lg text-blue-900">
+          {/* Ratings Summary */}
+          <div className="grid grid-cols-4 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="text-center">
+              <p className="text-[9px] font-bold text-slate-400 uppercase">
+                Expert Rating
+              </p>
+              <p className="text-2xl font-black text-blue-700">
                 {data.overallExpertRating}
-              </div>
+              </p>
             </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Safety</div>
-              <div className="font-bold text-blue-900">{data.safetyRating}</div>
+            <div className="text-center">
+              <p className="text-[9px] font-bold text-slate-400 uppercase">
+                Safety
+              </p>
+              <p className="text-lg font-bold text-slate-700">
+                {data.safetyRating}
+              </p>
             </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Efficacy</div>
-              <div className="font-bold text-blue-900">
-                {data.effectivenessRating}
-              </div>
-            </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Quality</div>
-              <div className="font-bold text-blue-900">
+            <div className="text-center">
+              <p className="text-[9px] font-bold text-slate-400 uppercase">
+                Quality
+              </p>
+              <p className="text-lg font-bold text-slate-700">
                 {data.ingredientsQualityRating}
-              </div>
+              </p>
             </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">QC</div>
-              <div className="font-bold text-blue-900">
-                {data.certificationsQCRating}
-              </div>
-            </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Value</div>
-              <div className="font-bold text-blue-900">
-                {data.valueForMoneyRating}
-              </div>
-            </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">Evidence</div>
-              <div className="font-bold text-blue-900">
-                {data.evidenceStrengthRating}
-              </div>
-            </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">User Exp</div>
-              <div className="font-bold text-blue-900">
-                {data.userExperienceRating}
-              </div>
-            </div>
-            <div className="bg-blue-50 p-1 rounded border border-blue-100">
-              <div className="font-bold opacity-70 text-blue-800">
-                Versatility
-              </div>
-              <div className="font-bold text-blue-900">
-                {data.versatilityUseCaseFit}
-              </div>
+            <div className="text-center">
+              <p className="text-[9px] font-bold text-slate-400 uppercase">
+                Efficacy
+              </p>
+              <p className="text-lg font-bold text-slate-700">
+                {data.effectivenessRating}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 text-center">
-          <div className="text-xs font-bold uppercase text-blue-600">
-            Final Verdict
-          </div>
-          <div className="text-xl font-black uppercase text-blue-950">
-            {data.finalVerdict}
-          </div>
-        </div>
-
-        <div className="flex items-end justify-between mt-8 pt-6 border-t-2 border-blue-200">
-          <div>
-            <p className="text-xs text-gray-500 uppercase">Issued</p>
-            <p className="text-sm font-medium text-gray-800">
-              {data.issuedDate}
+        {/* Detailed Specs Tabs-like Footer */}
+        <div className="mt-8 grid grid-cols-3 gap-8 py-6 border-t border-slate-100 text-[11px]">
+          <div className="space-y-2">
+            <h4 className="font-bold text-blue-600 uppercase tracking-widest text-[9px]">
+              Manufacturer & Support
+            </h4>
+            <p className="font-bold text-slate-900">{data.manufacturerName}</p>
+            <p className="text-slate-600">{data.manufacturerAddress}</p>
+            <p className="text-slate-600 font-medium">
+              {data.customerSupportEmail}
             </p>
-            {data.expiryDate && (
-              <>
-                <p className="text-xs text-gray-500 uppercase mt-2">Expires</p>
-                <p className="text-sm font-medium text-gray-800">
-                  {data.expiryDate}
-                </p>
-              </>
+            <p className="text-slate-600 font-medium">
+              {data.customerSupportPhone}
+            </p>
+          </div>
+          <div className="space-y-2 border-x border-slate-100 px-8">
+            <h4 className="font-bold text-blue-600 uppercase tracking-widest text-[9px]">
+              Compliance & Links
+            </h4>
+            <p className="text-slate-600">
+              <span className="font-bold text-slate-800">Dietary:</span>{" "}
+              {data.dietaryCompliance}
+            </p>
+            {data.companyUrl && (
+              <p className="text-blue-600 font-bold truncate">
+                {data.companyUrl}
+              </p>
+            )}
+            {data.buyNowUrl && (
+              <a
+                href={data.buyNowUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg text-center font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-md active:scale-95"
+              >
+                Buy Now
+              </a>
             )}
           </div>
-
-          {data.signature && (
-            <div className="text-center">
-              <img
-                src={data.signature}
-                alt="Signature"
-                className="h-14 w-auto mb-1"
-              />
-              <div className="w-40 border-t border-gray-400"></div>
-              <p className="text-xs text-gray-500 mt-1">Authorized Signatory</p>
+          <div className="space-y-2 text-right">
+            <h4 className="font-bold text-blue-600 uppercase tracking-widest text-[9px]">
+              Verification
+            </h4>
+            <p className="text-slate-600 text-justify italic leading-tight">
+              "{data.verificationStatement}"
+            </p>
+            <div className="pt-2">
+              {data.signature ? (
+                <div className="flex flex-col items-end">
+                  <img
+                    src={data.signature}
+                    alt="Sign"
+                    className="h-10 w-auto object-contain mix-blend-multiply"
+                  />
+                  <div className="w-32 border-t border-slate-300"></div>
+                  <p className="font-bold text-slate-900">{data.personName}</p>
+                  <p className="text-slate-500">{data.role}</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-end pt-4">
+                  <div className="w-32 border-t border-slate-300"></div>
+                  <p className="font-bold text-slate-900">{data.personName}</p>
+                  <p className="text-slate-500">{data.role}</p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-between items-center text-[10px] text-slate-400 font-mono">
+          <span>ISSUED: {data.issuedDate}</span>
+          <span>EXPIRES: {data.expiryDate}</span>
+          <span>LOC: {data.location}</span>
         </div>
       </div>
     </div>

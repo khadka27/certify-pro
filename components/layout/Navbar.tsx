@@ -127,6 +127,30 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              onClick={handleSaveData}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Save JSON
+            </Button>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              onClick={handleLoadData}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              Load Data
+            </Button>
+          </motion.div>
+
           <Link href="/settings">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button variant="ghost" size="icon">
@@ -140,7 +164,7 @@ export default function Navbar() {
               onClick={handleReset}
               variant="outline"
               size="sm"
-              className="gap-2"
+              className="gap-2 text-destructive hover:bg-destructive hover:text-white"
             >
               <RotateCcw className="h-4 w-4" />
               Reset

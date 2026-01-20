@@ -3,13 +3,13 @@
     {
       "id": "comp_1",
       "name": "Daily Health Supplement",
-      "url": "https://www.dailyhealthsupplement.com",
+      "url": "dailyhealthsupplement",
       "logo": "/www.dailyhealthsupplement.com.png"
     },
     {
       "id": "7ec80233-7398-43e8-ab3c-64543d33b351",
       "name": "of",
-      "url": "https://www.dailyhealthsupplement.com",
+      "url": "flixyofficaial",
       "logo": "/logos/Untitled_design12.png"
     }
   ],
@@ -27,6 +27,12 @@
       "signature": "/signatures/Screenshot_19.webp"
     }
   ],
-  "badges": [],
+  "badges": [
+    {
+      "id": "c22d3e26-e7d7-4521-8ed7-2f013c4fe1d1",
+      "name": "bbb",
+      "image": "/badges/aaignment_ghar.png"
+    }
+  ],
   "validityYears": 3
 }

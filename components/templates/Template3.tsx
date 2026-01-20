@@ -2,11 +2,22 @@ import { CertificateTemplateProps } from "@/types/certificate";
 
 export default function Template3({ data }: CertificateTemplateProps) {
   return (
-    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 p-16 relative box-border overflow-hidden flex flex-col">
+    <div className="w-[1000px] min-h-[707px] h-auto bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 p-16 relative box-border overflow-hidden flex flex-col font-serif">
       <div className="absolute inset-8 border-2 border-amber-500/30"></div>
       <div className="absolute inset-12 border border-amber-500/20"></div>
 
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center space-y-8 py-4">
+      {/* Background Watermark */}
+      {data.showWatermark && (data.watermark || data.logo) && (
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none z-0">
+          <img
+            src={data.watermark || data.logo}
+            alt="Watermark"
+            className="w-[600px] h-auto object-contain brightness-0 invert"
+          />
+        </div>
+      )}
+
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center space-y-6 py-4">
         {data.logo && (
           <img
             src={data.logo}
@@ -15,261 +26,172 @@ export default function Template3({ data }: CertificateTemplateProps) {
           />
         )}
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="flex items-center justify-center gap-4">
             <div className="w-16 h-px bg-linear-to-r from-transparent to-amber-500"></div>
-            <h1 className="text-5xl font-serif font-bold text-amber-400 tracking-widest uppercase">
+            <h1 className="text-5xl font-bold text-amber-400 tracking-widest uppercase">
               {data.title}
             </h1>
             <div className="w-16 h-px bg-linear-to-l from-transparent to-amber-500"></div>
           </div>
-
           <div className="w-32 h-1 bg-amber-500 mx-auto"></div>
         </div>
 
-        <div className="bg-amber-900/30 backdrop-blur-sm p-6 rounded-lg border border-amber-500/20 max-w-2xl mx-auto">
-          <div
-            className="text-lg text-amber-200/90 leading-relaxed italic rich-text-content"
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
+        <div className="flex gap-8 items-center max-w-4xl mx-auto">
+          {data.productImage && (
+            <div className="shrink-0">
+              <img
+                src={data.productImage}
+                alt="Product"
+                className="w-40 h-40 object-contain rounded-lg border border-amber-500/30 bg-white/5 p-2 shadow-2xl"
+              />
+            </div>
+          )}
+          <div className="bg-amber-900/20 backdrop-blur-sm p-6 rounded-lg border border-amber-500/20 text-left">
+            <div
+              className="text-base text-amber-100/80 leading-relaxed italic rich-text-content"
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 max-w-2xl w-full">
+        <div className="grid grid-cols-2 gap-8 max-w-3xl w-full">
           <div className="text-left border-l-2 border-amber-500 pl-4">
-            <p className="text-xs text-amber-400 uppercase tracking-wider mb-1">
-              Product
+            <p className="text-[10px] text-amber-500 uppercase tracking-widest mb-1 font-bold">
+              Product Certified
             </p>
-            <p className="text-xl font-semibold text-white">
+            <p className="text-2xl font-bold text-white tracking-tight">
               {data.productName}
             </p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-400 mt-1 uppercase">
               {data.productCategory} | {data.productForm}
             </p>
           </div>
           <div className="text-left border-l-2 border-amber-500 pl-4">
-            <p className="text-xs text-amber-400 uppercase tracking-wider mb-1">
-              Certificate No & Status
+            <p className="text-[10px] text-amber-500 uppercase tracking-widest mb-1 font-bold">
+              Verification ID
             </p>
-            <p className="text-xl font-semibold text-white">
+            <p className="text-xl font-mono font-bold text-white">
               {data.certNumber}
             </p>
-            <p className="text-xs text-green-400 mt-1">
+            <p className="text-xs text-green-400 font-black mt-1 uppercase tracking-tighter">
               {data.certificationStatus}
             </p>
           </div>
         </div>
 
-        {/* New Ratings Section */}
-        <div className="bg-slate-800/50 p-4 border border-slate-700 rounded w-full max-w-2xl">
-          <div className="grid grid-cols-4 gap-4 text-center">
-            <div>
-              <span className="block text-xs text-amber-500 uppercase">
-                Overall
-              </span>
-              <span className="text-lg font-bold text-white">
-                {data.overallExpertRating || "N/A"}
-              </span>
-            </div>
-            <div>
-              <span className="block text-xs text-slate-400 uppercase">
-                Safety
-              </span>
-              <span className="text-sm text-gray-200">
-                {data.safetyRating || "-"}
-              </span>
-            </div>
-            <div>
-              <span className="block text-xs text-slate-400 uppercase">
-                Quality
-              </span>
-              <span className="text-sm text-gray-200">
-                {data.ingredientsQualityRating || "-"}
-              </span>
-            </div>
-            <div>
-              <span className="block text-xs text-slate-400 uppercase">
-                Use Case
-              </span>
-              <span className="text-sm text-gray-200">
-                {data.versatilityUseCaseFit || "-"}
-              </span>
-            </div>
-          </div>
-          {data.keyActiveIngredients && (
-            <div className="mt-3 pt-3 border-t border-slate-700 text-left text-xs">
-              <span className="text-amber-500 font-bold uppercase mr-2">
-                Ingredients:
-              </span>
-              <span className="text-slate-300">
-                {data.keyActiveIngredients}
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-2 pt-6">
-          <p className="text-2xl font-bold text-amber-300">{data.personName}</p>
-          <p className="text-base text-slate-300">{data.role}</p>
-          <p className="text-sm text-slate-400">{data.manufacturerName}</p>
-        </div>
-
-        {/* Detailed Ratings & Specs - Adapted for Dark/Amber Theme */}
-        <div className="mt-8 border-t border-slate-700 pt-6 w-full max-w-2xl">
-          <div className="grid grid-cols-2 gap-8 text-xs text-slate-300 mb-6">
-            <div>
-              <h4 className="text-amber-500 font-bold uppercase mb-2">
-                Specifications
-              </h4>
-              <div className="space-y-1">
-                <p>
-                  <span className="text-slate-500">Form:</span>{" "}
-                  {data.productForm}
-                </p>
-                <p>
-                  <span className="text-slate-500">Dietary:</span>{" "}
-                  {data.dietaryCompliance}
-                </p>
-                <p>
-                  <span className="text-slate-500">Side Effects:</span>{" "}
-                  {data.sideEffects}
-                </p>
-                <p>
-                  <span className="text-slate-500">Cautions:</span>{" "}
-                  {data.cautions}
-                </p>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-amber-500 font-bold uppercase mb-2">
-                Verification
-              </h4>
-              <div className="space-y-1">
-                <p>
-                  <span className="text-slate-500">Mfr:</span>{" "}
-                  {data.manufacturerAddress}
-                </p>
-                <p>
-                  <span className="text-slate-500">Testing:</span>{" "}
-                  {data.thirdPartyTesting}
-                </p>
-                <p>
-                  <span className="text-slate-500">Approvals:</span>{" "}
-                  {data.certificationsAndApprovals}
-                </p>
-                <p>
-                  <span className="text-slate-500">Support:</span>{" "}
-                  {data.customerSupportEmail}
-                </p>
-                <p>
-                  <span className="text-slate-500">Buy:</span> {data.buyNowUrl}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-slate-800/80 p-4 rounded border border-slate-700">
-            <h4 className="text-amber-500 font-bold uppercase mb-3 text-center text-xs">
-              Full Expert Analysis
+        {/* Info Grid */}
+        <div className="grid grid-cols-3 gap-6 w-full max-w-4xl border-y border-amber-500/20 py-6 text-[11px] text-slate-300">
+          <div className="space-y-1">
+            <h4 className="text-amber-500 font-black uppercase text-[9px] mb-2 tracking-widest">
+              Specifications
             </h4>
-            <div className="grid grid-cols-4 gap-2 text-[10px] text-center text-slate-300">
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Safety</span>
-                <span className="font-bold text-white">
-                  {data.safetyRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Efficacy</span>
-                <span className="font-bold text-white">
-                  {data.effectivenessRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Quality</span>
-                <span className="font-bold text-white">
-                  {data.ingredientsQualityRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">QC</span>
-                <span className="font-bold text-white">
-                  {data.certificationsQCRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Value</span>
-                <span className="font-bold text-white">
-                  {data.valueForMoneyRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Evidence</span>
-                <span className="font-bold text-white">
-                  {data.evidenceStrengthRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">User Exp</span>
-                <span className="font-bold text-white">
-                  {data.userExperienceRating}
-                </span>
-              </div>
-              <div className="bg-slate-900/50 p-2 rounded">
-                <span className="block text-slate-500">Versatility</span>
-                <span className="font-bold text-white">
-                  {data.versatilityUseCaseFit}
-                </span>
-              </div>
-            </div>
-            <div className="mt-4 text-center">
-              <p className="text-xs text-slate-400 uppercase">
-                Verdict: {data.verificationStatement}
-              </p>
-              <p className="text-lg font-bold text-amber-400 uppercase mt-1">
-                {data.finalVerdict}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between w-full max-w-3xl mt-8 pt-8 border-t border-amber-500/30">
-          <div className="text-left">
-            <p className="text-xs text-amber-400 uppercase">Issued</p>
-            <p className="font-medium text-slate-200">{data.issuedDate}</p>
-            {data.expiryDate && (
-              <>
-                <p className="text-xs text-amber-400 uppercase mt-2">Expires</p>
-                <p className="font-medium text-slate-200">{data.expiryDate}</p>
-              </>
+            <p>
+              <span className="text-slate-500 font-bold">Dietary:</span>{" "}
+              {data.dietaryCompliance}
+            </p>
+            <p>
+              <span className="text-slate-500 font-bold">Ingredients:</span>{" "}
+              {data.keyActiveIngredients}
+            </p>
+            {data.companyUrl && (
+              <p className="text-amber-400 font-bold mt-2">{data.companyUrl}</p>
             )}
           </div>
-
-          {data.signature && (
-            <div className="text-center">
-              <img
-                src={data.signature}
-                alt="Signature"
-                className="h-16 w-auto brightness-0 invert opacity-80"
-              />
-              <div className="w-48 border-t border-amber-500"></div>
-              <p className="text-xs text-slate-400 mt-1">
-                Authorized Signature
+          <div className="space-y-1 border-x border-amber-500/10 px-6">
+            <h4 className="text-amber-500 font-black uppercase text-[9px] mb-2 tracking-widest">
+              Ratings
+            </h4>
+            <div className="grid grid-cols-2 gap-2">
+              <p>
+                <span className="text-slate-500">Safety:</span>{" "}
+                <span className="text-white font-bold">
+                  {data.safetyRating}
+                </span>
+              </p>
+              <p>
+                <span className="text-slate-500">Quality:</span>{" "}
+                <span className="text-white font-bold">
+                  {data.ingredientsQualityRating}
+                </span>
+              </p>
+              <p>
+                <span className="text-slate-500">Efficacy:</span>{" "}
+                <span className="text-white font-bold">
+                  {data.effectivenessRating}
+                </span>
+              </p>
+              <p>
+                <span className="text-slate-500">Overall:</span>{" "}
+                <span className="text-amber-400 font-black">
+                  {data.overallExpertRating}
+                </span>
               </p>
             </div>
-          )}
-
-          {data.badge && (
-            <img
-              src={data.badge}
-              alt="Badge"
-              className="h-20 w-auto brightness-0 invert opacity-80"
-            />
-          )}
-
-          <div className="text-right">
-            <p className="text-xs text-amber-400 uppercase">Location</p>
-            <p className="font-medium text-slate-200">{data.location}</p>
           </div>
+          <div className="space-y-1 text-right">
+            <h4 className="text-amber-500 font-black uppercase text-[9px] mb-2 tracking-widest">
+              Support & Shop
+            </h4>
+            <p className="font-bold text-white">{data.customerSupportEmail}</p>
+            <p className="text-slate-400 font-medium">
+              {data.customerSupportPhone}
+            </p>
+            {data.buyNowUrl && (
+              <a
+                href={data.buyNowUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-3 bg-amber-500 text-slate-900 px-6 py-2 rounded-md font-black uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg active:scale-95"
+              >
+                Shop Now
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between w-full max-w-4xl mt-6">
+          <div className="text-left space-y-1">
+            <p className="text-[9px] text-amber-500 uppercase font-bold tracking-widest">
+              Authorization
+            </p>
+            <p className="text-xl font-bold text-amber-200">
+              {data.personName}
+            </p>
+            <p className="text-xs text-slate-400">{data.role}</p>
+            <p className="text-[10px] text-slate-500 mt-2 italic">
+              {data.manufacturerName} - {data.location}
+            </p>
+          </div>
+
+          <div className="flex gap-12 items-center">
+            {data.signature && (
+              <div className="text-center">
+                <img
+                  src={data.signature}
+                  alt="Sign"
+                  className="h-12 w-auto brightness-0 invert opacity-90 mx-auto"
+                />
+                <div className="w-32 border-t border-amber-500/50 mt-1"></div>
+              </div>
+            )}
+            {data.badge && (
+              <img
+                src={data.badge}
+                alt="Badge"
+                className="h-20 w-auto brightness-0 invert opacity-90 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]"
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="absolute bottom-16 right-16 text-right">
+          <p className="text-[10px] text-amber-500/50 font-mono">
+            ISSUED: {data.issuedDate}
+          </p>
+          <p className="text-[10px] text-amber-500/50 font-mono uppercase font-bold">
+            {data.finalVerdict}
+          </p>
         </div>
       </div>
     </div>

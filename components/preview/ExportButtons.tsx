@@ -73,27 +73,59 @@ export default function ExportButtons() {
 
     try {
       if (records.length === 1) {
-        // Single export (existing behavior)
+        // Single export using high-res renderer
         const filename = `certificate-${certificateData.certNumber}`;
-        switch (type) {
-          case "png":
-            await exportToPNG("certificate-preview", filename);
-            break;
-          case "jpg":
-            await exportToJPEG("certificate-preview", filename);
-            break;
-          case "pdf":
-            await exportToPDF("certificate-preview", filename);
-            break;
-          case "docx":
-            await exportToDOCX(certificateData, filename);
-            break;
+
+        if (type === "docx") {
+          await exportToDOCX(certificateData, filename);
+        } else {
+          setRenderingCert(certificateData);
+          // Wait for render
+          await new Promise((resolve) => setTimeout(resolve, 300));
+
+          if (hiddenRef.current) {
+            const element = hiddenRef.current as HTMLElement;
+            // Use specialized high-res export logic
+            if (type === "png") {
+              const dataUrl = await toPng(element, {
+                quality: 1.0,
+                pixelRatio: 3,
+                backgroundColor: "#ffffff",
+              });
+              const link = document.createElement("a");
+              link.download = `${filename}.png`;
+              link.href = dataUrl;
+              link.click();
+            } else if (type === "jpg") {
+              const dataUrl = await toJpeg(element, {
+                quality: 0.95,
+                pixelRatio: 3,
+                backgroundColor: "#ffffff",
+              });
+              const link = document.createElement("a");
+              link.download = `${filename}.jpg`;
+              link.href = dataUrl;
+              link.click();
+            } else if (type === "pdf") {
+              const dataUrl = await toPng(element, {
+                quality: 1.0,
+                pixelRatio: 3,
+                backgroundColor: "#ffffff",
+              });
+              const pdf = new (await import("jspdf")).default({
+                orientation: "landscape",
+                unit: "px",
+                format: [1000, 707],
+              });
+              pdf.addImage(dataUrl, "PNG", 0, 0, 1000, 707);
+              pdf.save(`${filename}.pdf`);
+            }
+          }
         }
       } else {
-        // Bulk export
+        // Bulk export (already uses high-res renderer)
         const zip = new JSZip();
-        const batchId = new Date().getTime();
-
+        // ... bulk export logic continues as before but ensuring it uses the direct ref
         for (let i = 0; i < records.length; i++) {
           const record = records[i];
           const filename = `${record.certNumber}_${record.productName.replace(/[^a-z0-9]/gi, "_")}`;
@@ -101,74 +133,56 @@ export default function ExportButtons() {
           setRenderingCert(record);
           setProgress(Math.round(((i + 1) / records.length) * 100));
 
-          // Wait for render
-          await new Promise((resolve) => setTimeout(resolve, 200));
+          await new Promise((resolve) => setTimeout(resolve, 300));
 
           if (type === "docx") {
             const docxBlob = await generateDOCXBlob(record);
             zip.file(`${filename}.docx`, docxBlob);
-          }
-
-          if (hiddenRef.current) {
-            const element = hiddenRef.current.firstElementChild as HTMLElement;
-            if (element) {
-              let blob: Blob | null = null;
-              if (type === "png" || type === "pdf") {
-                const dataUrl = await toPng(element, {
-                  quality: 0.95,
-                  pixelRatio: 2,
-                  backgroundColor: "#ffffff",
+          } else if (hiddenRef.current) {
+            const element = hiddenRef.current as HTMLElement;
+            if (type === "png" || type === "pdf") {
+              const dataUrl = await toPng(element, {
+                quality: 1.0,
+                pixelRatio: 3,
+                backgroundColor: "#ffffff",
+              });
+              if (type === "png") {
+                zip.file(`${filename}.png`, dataUrl.split(",")[1], {
+                  base64: true,
                 });
-                const base64Data = dataUrl.replace(
-                  /^data:image\/png;base64,/,
-                  "",
-                );
-
-                if (type === "png") {
-                  zip.file(`${filename}.png`, base64Data, { base64: true });
-                } else if (type === "pdf") {
-                  // PDF generation for bulk
-                  const imgProps = element.getBoundingClientRect();
-                  const pdf = new (await import("jspdf")).default({
-                    orientation: imgProps.width > imgProps.height ? "l" : "p",
-                    unit: "px",
-                    format: [imgProps.width, imgProps.height],
-                  });
-                  pdf.addImage(
-                    dataUrl,
-                    "PNG",
-                    0,
-                    0,
-                    imgProps.width,
-                    imgProps.height,
-                  );
-                  zip.file(`${filename}.pdf`, pdf.output("blob"));
-                }
-              } else if (type === "jpg") {
-                const dataUrl = await toJpeg(element, {
-                  quality: 0.95,
-                  pixelRatio: 2,
-                  backgroundColor: "#ffffff",
+              } else {
+                const pdf = new (await import("jspdf")).default({
+                  orientation: "l",
+                  unit: "px",
+                  format: [1000, 707],
                 });
-                const base64Data = dataUrl.replace(
-                  /^data:image\/jpeg;base64,/,
-                  "",
-                );
-                zip.file(`${filename}.jpg`, base64Data, { base64: true });
+                pdf.addImage(dataUrl, "PNG", 0, 0, 1000, 707);
+                zip.file(`${filename}.pdf`, pdf.output("blob"));
               }
+            } else if (type === "jpg") {
+              const dataUrl = await toJpeg(element, {
+                quality: 0.95,
+                pixelRatio: 3,
+                backgroundColor: "#ffffff",
+              });
+              zip.file(`${filename}.jpg`, dataUrl.split(",")[1], {
+                base64: true,
+              });
             }
           }
         }
-
         const content = await zip.generateAsync({ type: "blob" });
-        saveAs(content, `certificates-bulk-${type}-${batchId}.zip`);
+        saveAs(
+          content,
+          `certificates-bulk-${type}-${new Date().getTime()}.zip`,
+        );
       }
 
       toast({
         title: "Export successful",
         description:
           records.length > 1
-            ? `Batch of ${records.length} exported as ZIP`
+            ? `Batch of ${records.length} exported`
             : `Certificate exported as ${type.toUpperCase()}`,
       });
     } catch (error) {
@@ -286,9 +300,12 @@ export default function ExportButtons() {
         </motion.div>
       </div>
 
-      {/* Hidden Container for Rendering Bulk */}
+      {/* Hidden Container for Rendering Bulk/High-Res Export */}
       <div className="fixed top-0 left-0 overflow-hidden w-0 h-0 opacity-0 pointer-events-none">
-        <div ref={hiddenRef} style={{ width: "1000px", height: "auto" }}>
+        <div
+          ref={hiddenRef}
+          style={{ width: "1000px", minHeight: "707px", position: "relative" }}
+        >
           {renderingCert && SelectedTemplateComponent && (
             <SelectedTemplateComponent data={renderingCert} />
           )}

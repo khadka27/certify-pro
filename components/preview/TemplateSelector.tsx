@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 const templates = [
   {
     id: 1,
-    name: "Classic Gold",
-    preview: "bg-linear-to-br from-amber-100 to-yellow-100 border-amber-600",
+    name: "Authority Verified",
+    preview: "bg-[#1e3a8a] border-b-[20px] border-yellow-400",
   },
   {
     id: 2,
@@ -67,10 +67,11 @@ const templates = [
     name: "Standard Professional",
     preview: "bg-white border-blue-900 border-8",
   },
+
   {
     id: 14,
-    name: "Authority Verified",
-    preview: "bg-[#1e3a8a] border-b-[20px] border-yellow-400",
+    name: "Classic Gold",
+    preview: "bg-linear-to-br from-amber-100 to-yellow-100 border-amber-600",
   },
 ];
 

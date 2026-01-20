@@ -19,7 +19,7 @@ import Template13 from "@/components/templates/Template13";
 import Template14 from "@/components/templates/Template14";
 
 const templates = [
-  { id: 1, name: "Classic Gold", component: Template1 },
+  { id: 1, name: "Authority Verified", component: Template1 },
   { id: 2, name: "Modern Blue", component: Template2 },
   { id: 3, name: "Elegant Dark", component: Template3 },
   { id: 4, name: "Fresh Green", component: Template4 },
@@ -32,7 +32,7 @@ const templates = [
   { id: 11, name: "Professional Certificate", component: Template11 },
   { id: 12, name: "Official Authentic", component: Template12 },
   { id: 13, name: "Standard Professional", component: Template13 },
-  { id: 14, name: "Authority Verified", component: Template14 },
+  { id: 14, name: "Classic Gold", component: Template14 },
 ];
 
 export default function CertificatePreview() {

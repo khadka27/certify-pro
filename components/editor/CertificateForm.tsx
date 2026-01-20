@@ -12,8 +12,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Building2, UserCheck, Globe, Loader2, Award } from "lucide-react";
 import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "./RichTextEditor";
@@ -70,6 +77,11 @@ export default function CertificateForm() {
         if (data.companies) setCompanies(data.companies);
         if (data.signers) setSigners(data.signers);
         if (data.badges) setBadges(data.badges);
+
+        // Apply global defaults if record is fresh/default
+        if (data.defaultRating && certificateData.overallExpertRating === "9.8") {
+          updateGlobalField("overallExpertRating", data.defaultRating);
+        }
       })
       .catch((err) => console.error("Failed to load settings", err));
   }, []);
@@ -251,44 +263,100 @@ export default function CertificateForm() {
                 </div>
               )}
             </div>
-            <div className="space-y-2">
-              <Label>Badge / Stamp</Label>
-              {certificateData.badge ? (
-                <div className="relative inline-block">
-                  <img
-                    src={certificateData.badge}
-                    alt="Badge"
-                    className="h-16 w-auto border rounded-md"
-                  />
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="absolute -top-2 -right-2 h-5 w-5"
-                    onClick={() => removeImage("badge", true)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, "badge", true)}
-                    className="hidden"
-                    id="badge-upload"
-                  />
-                  <Label
-                    htmlFor="badge-upload"
-                    className="cursor-pointer flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent text-center w-full"
-                  >
-                    <Upload className="h-4 w-4" /> Upload Badge
-                  </Label>
+            <div className="space-y-3 md:col-span-2">
+              <Label className="flex items-center gap-2">
+                <Award className="h-4 w-4 text-amber-600" />
+                Badge / Stamp
+              </Label>
+
+              {/* Current badge preview */}
+              {certificateData.badge && (
+                <div className="flex items-center gap-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                  <div className="relative">
+                    <img
+                      src={certificateData.badge}
+                      alt="Current Badge"
+                      className="h-16 w-16 object-contain border rounded-md bg-white p-1"
+                    />
+                    <Button
+                      size="icon"
+                      variant="destructive"
+                      className="absolute -top-2 -right-2 h-5 w-5"
+                      onClick={() => removeImage("badge", true)}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium text-slate-700">Current Badge</p>
+                    <p className="text-slate-500 text-xs">Click X to remove</p>
+                  </div>
                 </div>
               )}
+
+              {/* Badge selector from settings */}
+              {badges.length > 0 && (
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-500">
+                    Select from saved badges:
+                  </Label>
+                  <Select
+                    onValueChange={(badgeId) => {
+                      const matchedBadge = badges.find((b) => b.id === badgeId);
+                      if (matchedBadge && matchedBadge.image) {
+                        updateGlobalField("badge", matchedBadge.image);
+                        toast({
+                          title: "Badge Applied",
+                          description: `${matchedBadge.name} set as certificate badge.`,
+                        });
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="w-full bg-white border-slate-200 hover:border-amber-400 transition-colors">
+                      <SelectValue placeholder="Choose a badge from settings..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {badges.map((b) => (
+                        <SelectItem key={b.id} value={b.id}>
+                          {b.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Manual upload */}
+              <div className="flex items-center gap-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, "badge", true)}
+                  className="hidden"
+                  id="badge-upload"
+                />
+                <Label
+                  htmlFor="badge-upload"
+                  className="cursor-pointer flex items-center gap-2 px-3 py-2 border rounded-md text-sm hover:bg-accent text-center flex-1 justify-center"
+                >
+                  <Upload className="h-4 w-4" /> Upload Custom Badge
+                </Label>
+              </div>
+
+              {badges.length === 0 && !certificateData.badge && (
+                <p className="text-xs text-slate-400">
+                  No badges saved.{" "}
+                  <a href="/settings" className="text-blue-600 hover:underline">
+                    Add badges in Settings
+                  </a>
+                </p>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label>Watermark</Label>
+            <div className="space-y-3 md:col-span-2">
+              <Label className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-purple-600" />
+                Watermark / Badge
+              </Label>
               <div className="flex items-center gap-4">
                 <Switch
                   checked={certificateData.showWatermark || false}
@@ -296,77 +364,143 @@ export default function CertificateForm() {
                     updateGlobalField("showWatermark", checked)
                   }
                 />
-                <span className="text-xs text-muted-foreground">Enabled</span>
+                <span className="text-sm text-muted-foreground">
+                  {certificateData.showWatermark
+                    ? "Watermark Enabled"
+                    : "Watermark Disabled"}
+                </span>
               </div>
-              {certificateData.watermark ? (
-                <div className="relative inline-block mt-2">
-                  <img
-                    src={certificateData.watermark}
-                    alt="Watermark"
-                    className="h-16 w-auto border rounded-md opacity-50"
-                  />
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="absolute -top-2 -right-2 h-5 w-5"
-                    onClick={() => removeImage("watermark", true)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 mt-2">
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, "watermark", true)}
-                    className="hidden"
-                    id="watermark-upload"
-                  />
-                  <Label
-                    htmlFor="watermark-upload"
-                    className="cursor-pointer flex items-center gap-2 px-3 py-1.5 border rounded-md text-sm hover:bg-accent text-center w-full"
-                  >
-                    <Upload className="h-4 w-4" /> Upload Watermark
-                  </Label>
+
+              {/* Current watermark preview */}
+              {(certificateData.watermark || certificateData.logo) && (
+                <div className="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border">
+                  <div className="relative">
+                    <img
+                      src={certificateData.watermark || certificateData.logo}
+                      alt="Current Watermark"
+                      className="h-16 w-16 object-contain border rounded-md bg-white p-1"
+                    />
+                    {certificateData.watermark && (
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        className="absolute -top-2 -right-2 h-5 w-5"
+                        onClick={() => removeImage("watermark", true)}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    )}
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium text-slate-700">
+                      Current Watermark
+                    </p>
+                    <p className="text-slate-500 text-xs">
+                      {certificateData.watermark
+                        ? "Custom uploaded"
+                        : "Using company logo"}
+                    </p>
+                  </div>
                 </div>
               )}
+
+              {/* Badge selector from settings */}
+              {badges.length > 0 && (
+                <div className="space-y-2">
+                  <Label className="text-xs text-slate-500">
+                    Select from saved badges:
+                  </Label>
+                  <Select
+                    onValueChange={(badgeId) => {
+                      const matchedBadge = badges.find((b) => b.id === badgeId);
+                      if (matchedBadge && matchedBadge.image) {
+                        updateGlobalField("watermark", matchedBadge.image);
+                        toast({
+                          title: "Badge Applied",
+                          description: `${matchedBadge.name} set as watermark.`,
+                        });
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="w-full bg-white border-slate-200 hover:border-purple-400 transition-colors">
+                      <SelectValue placeholder="Choose a badge..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {badges.map((b) => (
+                        <SelectItem key={b.id} value={b.id}>
+                          {b.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Manual upload */}
+              <div className="flex items-center gap-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, "watermark", true)}
+                  className="hidden"
+                  id="watermark-upload"
+                />
+                <Label
+                  htmlFor="watermark-upload"
+                  className="cursor-pointer flex items-center gap-2 px-3 py-2 border rounded-md text-sm hover:bg-accent text-center flex-1 justify-center"
+                >
+                  <Upload className="h-4 w-4" /> Upload Custom Watermark
+                </Label>
+              </div>
             </div>
             <div className="space-y-2 md:col-span-2">
-              <Label>Company Website (Global)</Label>
-              <Input
-                value={certificateData.companyUrl || ""}
-                onChange={async (e) => {
-                  const url = e.target.value;
-                  updateGlobalField("companyUrl", url);
-
-                  // Auto-load logo from settings
-                  const matchedCompany = companies.find(
-                    (c) => c.url === url.trim(),
-                  );
-                  if (matchedCompany && matchedCompany.logo) {
-                    updateGlobalField("logo", matchedCompany.logo);
-                    // Also update manufacturer name
-                    if (matchedCompany.name) {
-                      updateGlobalField(
-                        "manufacturerName",
-                        matchedCompany.name,
-                      );
+              <Label className="flex items-center gap-2">
+                <Building2 className="h-4 w-4 text-blue-600" />
+                Select Company (Global)
+              </Label>
+              {companies.length > 0 ? (
+                <Select
+                  onValueChange={(companyId) => {
+                    const matchedCompany = companies.find(
+                      (c) => c.id === companyId,
+                    );
+                    if (matchedCompany) {
+                      updateGlobalField("companyUrl", matchedCompany.url);
+                      if (matchedCompany.logo) {
+                        updateGlobalField("logo", matchedCompany.logo);
+                      }
+                      if (matchedCompany.name) {
+                        updateGlobalField(
+                          "manufacturerName",
+                          matchedCompany.name,
+                        );
+                      }
+                      toast({
+                        title: "Company Assets Loaded",
+                        description: `Logo and name for ${matchedCompany.name} applied.`,
+                      });
                     }
-                    toast({
-                      title: "Company Assets Loaded",
-                      description: `Logo for ${matchedCompany.name} has been applied.`,
-                    });
-                  }
-                }}
-                placeholder="https://www.yourcompany.com"
-                list="company-urls"
-              />
-              <datalist id="company-urls">
-                {companies.map((c) => (
-                  <option key={c.id} value={c.url} />
-                ))}
-              </datalist>
+                  }}
+                >
+                  <SelectTrigger className="w-full bg-white border-slate-200 hover:border-blue-400 transition-colors">
+                    <SelectValue placeholder="Choose a company..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {companies.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <div className="text-sm text-slate-500 p-3 bg-slate-50 rounded-md border border-dashed border-slate-300">
+                  No companies configured.{" "}
+                  <a href="/settings" className="text-blue-600 hover:underline">
+                    Add companies in Settings
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </CardContent>
@@ -467,39 +601,50 @@ export default function CertificateForm() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Signer Name</Label>
-              <Input
-                name="personName"
-                value={certificateData.personName}
-                onChange={(e) => {
-                  const name = e.target.value;
-                  updateGlobalField("personName", name);
-
-                  // Auto-load signature and role from settings
-                  const matchedSigner = signers.find(
-                    (s) => s.name === name.trim(),
-                  );
-                  if (matchedSigner) {
-                    if (matchedSigner.signature) {
-                      updateGlobalField("signature", matchedSigner.signature);
+              <Label className="flex items-center gap-2">
+                <UserCheck className="h-4 w-4 text-green-600" />
+                Select Signer
+              </Label>
+              {signers.length > 0 ? (
+                <Select
+                  onValueChange={(signerId) => {
+                    const matchedSigner = signers.find(
+                      (s) => s.id === signerId,
+                    );
+                    if (matchedSigner) {
+                      updateGlobalField("personName", matchedSigner.name);
+                      if (matchedSigner.signature) {
+                        updateGlobalField("signature", matchedSigner.signature);
+                      }
+                      if (matchedSigner.role) {
+                        updateGlobalField("role", matchedSigner.role);
+                      }
+                      toast({
+                        title: "Signer Assets Loaded",
+                        description: `Signature and role for ${matchedSigner.name} applied.`,
+                      });
                     }
-                    if (matchedSigner.role) {
-                      updateGlobalField("role", matchedSigner.role);
-                    }
-                    toast({
-                      title: "Signer Assets Loaded",
-                      description: `Signature and role for ${matchedSigner.name} applied.`,
-                    });
-                  }
-                }}
-                placeholder="Name of the person signing"
-                list="signer-names-global"
-              />
-              <datalist id="signer-names-global">
-                {signers.map((s) => (
-                  <option key={s.id} value={s.name} />
-                ))}
-              </datalist>
+                  }}
+                >
+                  <SelectTrigger className="w-full bg-white border-slate-200 hover:border-green-400 transition-colors">
+                    <SelectValue placeholder="Choose a signer..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {signers.map((s) => (
+                      <SelectItem key={s.id} value={s.id}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <div className="text-sm text-slate-500 p-3 bg-slate-50 rounded-md border border-dashed border-slate-300">
+                  No signers configured.{" "}
+                  <a href="/settings" className="text-blue-600 hover:underline">
+                    Add signers in Settings
+                  </a>
+                </div>
+              )}
             </div>
             <div className="space-y-2">
               <Label>Signer Role</Label>
@@ -507,6 +652,8 @@ export default function CertificateForm() {
                 name="role"
                 value={certificateData.role}
                 onChange={(e) => updateGlobalField("role", e.target.value)}
+                className="border-slate-200 focus:border-green-400"
+                placeholder="e.g. Chief Quality Officer"
               />
             </div>
           </div>
