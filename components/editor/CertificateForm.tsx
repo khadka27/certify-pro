@@ -941,7 +941,11 @@ export default function CertificateForm() {
               <Input
                 name="issuedDate"
                 type="date"
-                value={certificateData.issuedDate}
+                value={
+                  /^\d{4}-\d{2}-\d{2}$/.test(certificateData.issuedDate || "")
+                    ? certificateData.issuedDate
+                    : ""
+                }
                 onChange={(e) => {
                   const newDate = e.target.value;
                   updateField("issuedDate", newDate);
