@@ -87,15 +87,15 @@ export async function exportToPDF(elementId: string, filename: string) {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
+    const width = certificateElement.offsetWidth || 1000;
+    const height = certificateElement.offsetHeight || 707;
+
     const dataUrl = await toPng(certificateElement, {
       quality: 1.0,
-      pixelRatio: 2,
+      pixelRatio: 3,
       cacheBust: true,
       backgroundColor: "#ffffff",
     });
-
-    const width = certificateElement.offsetWidth;
-    const height = certificateElement.offsetHeight;
 
     const pdf = new jsPDF({
       orientation: width > height ? "landscape" : "portrait",

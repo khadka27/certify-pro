@@ -89,8 +89,12 @@ export default function ExportButtons() {
             if (type === "png") {
               const dataUrl = await toPng(element, {
                 quality: 1.0,
-                pixelRatio: 3,
+                pixelRatio: 4,
                 backgroundColor: "#ffffff",
+                style: {
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left',
+                }
               });
               const link = document.createElement("a");
               link.download = `${filename}.png`;
@@ -98,26 +102,41 @@ export default function ExportButtons() {
               link.click();
             } else if (type === "jpg") {
               const dataUrl = await toJpeg(element, {
-                quality: 0.95,
-                pixelRatio: 3,
+                quality: 0.98,
+                pixelRatio: 4,
                 backgroundColor: "#ffffff",
+                style: {
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left',
+                }
               });
               const link = document.createElement("a");
               link.download = `${filename}.jpg`;
               link.href = dataUrl;
               link.click();
             } else if (type === "pdf") {
+              // Get actual dimensions
+              const width = element.offsetWidth || 1000;
+              const height = element.offsetHeight || 707;
+
               const dataUrl = await toPng(element, {
                 quality: 1.0,
-                pixelRatio: 3,
+                pixelRatio: 4,
                 backgroundColor: "#ffffff",
+                style: {
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left',
+                }
               });
+
               const pdf = new (await import("jspdf")).default({
-                orientation: "landscape",
+                orientation: width > height ? "landscape" : "portrait",
                 unit: "px",
-                format: [1000, 707],
+                format: [width, height],
+                hotfixes: ["px_scaling"],
               });
-              pdf.addImage(dataUrl, "PNG", 0, 0, 1000, 707);
+
+              pdf.addImage(dataUrl, "PNG", 0, 0, width, height, undefined, 'FAST');
               pdf.save(`${filename}.pdf`);
             }
           }
@@ -141,29 +160,41 @@ export default function ExportButtons() {
           } else if (hiddenRef.current) {
             const element = hiddenRef.current as HTMLElement;
             if (type === "png" || type === "pdf") {
+              const width = element.offsetWidth || 1000;
+              const height = element.offsetHeight || 707;
+
               const dataUrl = await toPng(element, {
                 quality: 1.0,
-                pixelRatio: 3,
+                pixelRatio: 4,
                 backgroundColor: "#ffffff",
+                style: {
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left',
+                }
               });
+
               if (type === "png") {
                 zip.file(`${filename}.png`, dataUrl.split(",")[1], {
                   base64: true,
                 });
               } else {
                 const pdf = new (await import("jspdf")).default({
-                  orientation: "l",
+                  orientation: width > height ? "landscape" : "portrait",
                   unit: "px",
-                  format: [1000, 707],
+                  format: [width, height],
                 });
-                pdf.addImage(dataUrl, "PNG", 0, 0, 1000, 707);
+                pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
                 zip.file(`${filename}.pdf`, pdf.output("blob"));
               }
             } else if (type === "jpg") {
               const dataUrl = await toJpeg(element, {
-                quality: 0.95,
-                pixelRatio: 3,
+                quality: 0.98,
+                pixelRatio: 4,
                 backgroundColor: "#ffffff",
+                style: {
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left',
+                }
               });
               zip.file(`${filename}.jpg`, dataUrl.split(",")[1], {
                 base64: true,
