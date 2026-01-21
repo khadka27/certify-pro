@@ -71,6 +71,14 @@ export default function Template1({ data }: CertificateTemplateProps) {
                 <p className="text-lg font-mono font-black text-yellow-400">
                   {data.certNumber}
                 </p>
+                {data.certificationStatus && (
+                  <>
+                    <div className="h-4 w-0.5 bg-yellow-400/50"></div>
+                    <p className="text-xs font-black bg-yellow-400 text-[#1e3a8a] px-3 py-1 rounded-sm uppercase tracking-tighter">
+                      {data.certificationStatus}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -113,20 +121,32 @@ export default function Template1({ data }: CertificateTemplateProps) {
       <div className="flex-1 px-12 py-10 grid grid-cols-12 gap-10 relative z-10">
         {/* Left Column */}
         <div className="col-span-7 space-y-8">
+          {/* Product Display Section */}
+          {data.productImage && (
+            <div className="flex justify-center items-center p-6 bg-slate-50/30 rounded-2xl border border-slate-100/50 mb-2 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-linear-to-br from-blue-50/10 to-transparent"></div>
+              <img
+                src={data.productImage}
+                alt={data.productName}
+                className="max-h-[180px] w-auto object-contain drop-shadow-2xl relative z-10 transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+          )}
+
           {/* Key Active Ingredients Section */}
           <div className="space-y-4">
             <h2 className="text-sm font-black text-[#1e3a8a] uppercase tracking-wider">
               Key Active Ingredients
             </h2>
             <div className="h-0.5 w-full bg-yellow-400"></div>
-            <div className="space-y-3 pt-2">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3 pt-2">
               {data.keyActiveIngredients
-                ?.split(/[,\s]+/)
+                ?.split(/,|\n|;/)
                 .filter(Boolean)
                 .map((ingredient, idx) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-teal-400 stroke-[3px]" />
-                    <span className="text-[13px] font-bold text-[#1e3a8a]/90 tracking-tight">
+                    <Check className="h-3.5 w-3.5 text-teal-400 stroke-[3px]" />
+                    <span className="text-[13px] font-bold text-[#1e3a8a]/90 tracking-tight leading-tight">
                       {ingredient.trim()}
                     </span>
                   </div>
@@ -144,64 +164,6 @@ export default function Template1({ data }: CertificateTemplateProps) {
               className="text-[12px] text-slate-700 leading-relaxed rich-text-content italic font-medium pt-1"
               dangerouslySetInnerHTML={{ __html: data.description }}
             />
-          </div>
-
-          {/* Manufacturing & Quality Section */}
-          <div className="space-y-4">
-            <h2 className="text-sm font-black text-[#1e3a8a] uppercase tracking-wider">
-              Manufacturing & Quality
-            </h2>
-            <div className="h-0.5 w-full bg-yellow-400"></div>
-            <div className="space-y-2 pt-1">
-              <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-teal-400 stroke-[3px]" />
-                <span className="text-[12px] font-bold text-[#1e3a8a]/80">
-                  FDA Approved
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-teal-400 stroke-[3px]" />
-                <span className="text-[12px] font-bold text-[#1e3a8a]/80">
-                  GMP Certified
-                </span>
-              </div>
-              <div className="pt-2 space-y-1">
-                <p className="text-[12px] text-slate-700">
-                  <span className="font-black text-[#1e3a8a]">
-                    Third-Party Testing:
-                  </span>{" "}
-                  {data.thirdPartyTesting ||
-                    "COA (Certificate of Analysis) available"}
-                </p>
-                <p className="text-[12px] text-slate-700">
-                  <span className="font-black text-[#1e3a8a]">
-                    Manufacturer:
-                  </span>{" "}
-                  {data.manufacturerName}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Dietary Compliance Section */}
-          <div className="space-y-4 pt-6">
-            <h2 className="text-[14px] font-black text-[#1e3a8a] uppercase tracking-wider">
-              Dietary Compliance
-            </h2>
-            <div className="h-[2px] w-full bg-yellow-400"></div>
-            <ul className="space-y-4 pt-2">
-              {data.dietaryCompliance
-                ?.split(/[,\s]+/)
-                .filter(Boolean)
-                .map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-4 group">
-                    <Check className="h-4 w-4 text-teal-500 mt-0.5 shrink-0 stroke-[3px]" />
-                    <span className="text-[14px] font-bold text-[#1e3a8a] tracking-tight leading-tight">
-                      {item.trim()}
-                    </span>
-                  </li>
-                ))}
-            </ul>
           </div>
         </div>
 
@@ -258,51 +220,142 @@ export default function Template1({ data }: CertificateTemplateProps) {
               ))}
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Refund Policy Section */}
+      {/* Refined Bottom Section matching input image */}
+      <div className="px-12 py-8 grid grid-cols-12 gap-10 relative z-10 border-t-2 border-slate-100">
+        {/* Left Area: Manufacturing & Dietary Compliance */}
+        <div className="col-span-7 space-y-12">
+          {/* Manufacturing & Quality Section */}
           <div className="space-y-4">
-            <h2 className="text-sm font-black text-[#1e3a8a] uppercase tracking-wider">
-              Refund Policy
+            <h2 className="text-[15px] font-black text-[#1e3a8a] uppercase tracking-wider">
+              Manufacturing & Quality
             </h2>
-            <div className="h-0.5 w-full bg-yellow-400"></div>
-            <div className="flex items-center gap-2 pt-1">
-              <Check className="h-4 w-4 text-emerald-500" />
-              <span className="text-[12px] font-bold text-slate-700 italic">
-                {data.refundPolicy || "30-day money-back guarantee"}
-              </span>
+            <div className="h-[2px] w-full bg-yellow-400"></div>
+            <div className="space-y-5 pt-2">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Check className="h-4 w-4 text-teal-500 stroke-[3px]" />
+                  <span className="text-[14px] font-bold text-slate-600">
+                    FDA Approved
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Check className="h-4 w-4 text-teal-500 stroke-[3px]" />
+                  <span className="text-[14px] font-bold text-slate-600">
+                    GMP Certified
+                  </span>
+                </div>
+              </div>
+              <div className="space-y-2 pt-2">
+                <div className="flex items-start gap-3">
+                  <Check className="h-4 w-4 text-teal-500 stroke-[3px] mt-0.5" />
+                  <p className="text-[14px] text-slate-600 leading-tight">
+                    <span className="font-black text-[#1e3a8a]">
+                      Third-Party Testing:
+                    </span>{" "}
+                    {data.thirdPartyTesting || "Passed"}
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="h-4 w-4 text-teal-500 stroke-[3px] mt-0.5" />
+                  <p className="text-[14px] text-slate-600 leading-tight">
+                    <span className="font-black text-[#1e3a8a]">
+                      Manufacturer:
+                    </span>{" "}
+                    {data.manufacturerName || "Daily Health Supplement"}
+                  </p>
+                </div>
+                {data.certificationsAndApprovals &&
+                  data.certificationsAndApprovals
+                    .split(/,|\n|;/)
+                    .filter(Boolean)
+                    .map((app, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <Check className="h-4 w-4 text-teal-500 stroke-[3px] mt-0.5" />
+                        <span className="text-[14px] font-bold text-slate-600">
+                          {app.trim()}
+                        </span>
+                      </div>
+                    ))}
+              </div>
             </div>
+          </div>
+
+          {/* Dietary Compliance Section */}
+          <div className="space-y-4 pt-4">
+            <h2 className="text-[15px] font-black text-[#1e3a8a] uppercase tracking-wider">
+              Dietary Compliance
+            </h2>
+            <div className="h-[2px] w-full bg-yellow-400"></div>
+            <ul className="grid grid-cols-2 gap-y-3 pt-4">
+              {data.dietaryCompliance?.includes(",") ||
+              data.dietaryCompliance?.includes("\n") ||
+              data.dietaryCompliance?.includes(";")
+                ? data.dietaryCompliance
+                    ?.split(/,|\n|;/)
+                    .filter(Boolean)
+                    .map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3">
+                        <Check className="h-4 w-4 text-teal-500 stroke-[3px]" />
+                        <span className="text-[15px] font-bold text-slate-600 tracking-tight">
+                          {item.trim()}
+                        </span>
+                      </li>
+                    ))
+                : data.dietaryCompliance
+                    ?.split(/\s+/)
+                    .filter(Boolean)
+                    .map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3">
+                        <Check className="h-4 w-4 text-teal-500 stroke-[3px]" />
+                        <span className="text-[15px] font-bold text-slate-600 tracking-tight">
+                          {item.trim()}
+                        </span>
+                      </li>
+                    ))}
+            </ul>
           </div>
         </div>
 
-        {/* New Row: Safety (Left) & Signature/Stamp (Right) */}
-        <div className="col-span-12 grid grid-cols-12 gap-10 mt-6 border-t border-slate-100 pt-8">
-          {/* Safety Information (Left Side) */}
-          <div className="col-span-6">
+        {/* Right Area: Refund, Safety, Signature */}
+        <div className="col-span-5 flex flex-col justify-between">
+          {/* Refund Policy (Top Right) */}
+          <div className="flex justify-end pr-2">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500" />
+              <span className="text-[13px] font-bold text-slate-500 italic">
+                {data.refundPolicy || "90-day money-back guarantee"}
+              </span>
+            </div>
+          </div>
+
+          {/* Safety Information Box (Middle Right) */}
+          <div className="mt-8">
             {(data.sideEffects || data.cautions) && (
-              <div className="bg-amber-50/50 border-2 border-amber-500/20 rounded-2xl p-6 h-full shadow-sm">
-                <div className="flex items-center gap-2 text-amber-700 mb-4">
+              <div className="bg-amber-50/40 border-2 border-amber-200/50 rounded-3xl p-6 shadow-sm">
+                <div className="flex items-center gap-2 text-amber-700 mb-6 font-black uppercase tracking-widest text-[13px]">
                   <AlertTriangle className="h-5 w-5" />
-                  <span className="text-[13px] font-black uppercase tracking-[0.2em]">
-                    Safety Information
-                  </span>
+                  SAFETY INFORMATION
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {data.sideEffects && (
-                    <p className="text-[12px] leading-relaxed">
-                      <span className="font-black text-amber-800 uppercase tracking-tighter">
-                        Side Effects:
+                    <p className="text-[13px] leading-relaxed">
+                      <span className="font-black text-amber-800 uppercase tracking-tight">
+                        SIDE EFFECTS:
                       </span>{" "}
-                      <span className="text-slate-700 font-medium italic opacity-90">
+                      <span className="text-slate-600 font-bold italic">
                         {data.sideEffects}
                       </span>
                     </p>
                   )}
                   {data.cautions && (
-                    <p className="text-[12px] leading-relaxed">
-                      <span className="font-black text-amber-800 uppercase tracking-tighter">
-                        Cautions:
+                    <p className="text-[13px] leading-relaxed">
+                      <span className="font-black text-amber-800 uppercase tracking-tight">
+                        CAUTIONS:
                       </span>{" "}
-                      <span className="text-slate-700 font-medium italic opacity-90">
+                      <span className="text-slate-600 font-bold italic">
                         {data.cautions}
                       </span>
                     </p>
@@ -312,63 +365,79 @@ export default function Template1({ data }: CertificateTemplateProps) {
             )}
           </div>
 
-          {/* Signature & Stamp Section (Right Side) */}
-          <div className="col-span-6 flex items-end justify-between pl-6">
-            <div className="flex-1">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">
-                Authorized Signature
-              </p>
-              <div className="relative min-h-[70px]">
+          <div className="mt-12 group relative">
+            <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2 leading-none">
+              AUTHORIZED SIGNATURE
+            </p>
+
+            <div className="flex items-end justify-between min-h-[90px] relative">
+              {/* Signature Image - Positioned to sit on/above the line */}
+              <div className="relative z-20 pb-1">
                 {data.signature && (
                   <img
                     src={data.signature}
-                    alt="Sign"
-                    className="h-20 w-auto object-contain mix-blend-multiply relative z-10"
-                  />
-                )}
-                {data.badge && (
-                  <img
-                    src={data.badge}
-                    alt="Stamp Overlay"
-                    className="absolute -top-6 left-1/4 h-24 w-auto opacity-10 pointer-events-none grayscale"
+                    alt="Authorized Signature"
+                    className="h-20 w-auto object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-110"
+                    style={{ filter: "contrast(1.2) brightness(0.9)" }}
                   />
                 )}
               </div>
-              <div className="w-full h-[3px] bg-[#1e3a8a] rounded-full mb-3 shadow-sm"></div>
-              <p className="text-xl font-black text-[#1e3a8a] uppercase tracking-tighter leading-none">
-                {data.personName}
-              </p>
-              <p className="text-[11px] font-bold text-blue-600 uppercase tracking-widest mt-1.5 italic opacity-80">
-                {data.role}
-              </p>
-            </div>
 
-            {/* Stamp/Badge Image */}
-            <div className="shrink-0 ml-4">
+              {/* Stamp/Badge - Positioned to the right with a slight authentic rotation */}
               {data.badge && (
-                <img
-                  src={data.badge}
-                  alt="Badge"
-                  className="h-32 w-auto object-contain drop-shadow-2xl"
-                />
+                <div className="absolute -top-12 -right-4 z-30 transform hover:scale-110 transition-transform duration-500">
+                  <img
+                    src={data.badge}
+                    alt="Official Stamp"
+                    className="h-32 w-32 object-contain drop-shadow-2xl rotate-[-12deg]"
+                  />
+                </div>
               )}
             </div>
+
+            {/* The Signature Line */}
+            <div className="w-full h-[3px] bg-[#1e3a8a] relative z-10 shadow-sm"></div>
+
+            {/* Name and Role - Tighter spacing to match reference */}
+            <div className="pt-3 relative z-10">
+              <h3 className="text-[18px] font-black text-[#1e3a8a] uppercase tracking-tighter leading-tight">
+                {data.personName || "JONATHAN A. WHITMORE"}
+              </h3>
+              <p className="text-[11px] font-bold text-blue-500 uppercase tracking-widest mt-1">
+                {data.role || "CHIEF QUALITY OFFICER"}
+              </p>
+            </div>
+
+            {/* Light watermark stamp effect behind the name */}
+            {data.badge && (
+              <div className="absolute -bottom-2 left-1/4 opacity-[0.06] grayscale pointer-events-none -rotate-12 scale-150 z-0">
+                <img
+                  src={data.badge}
+                  alt=""
+                  className="w-32 h-32 object-contain"
+                />
+              </div>
+            )}
           </div>
         </div>
-
         {/* Certification Verdict Banner */}
-        <div className="col-span-12 mt-4">
-          <div className="bg-blue-50/80 border-[3px] border-[#1e3a8a]/20 rounded-4xl p-10 text-center relative shadow-sm overflow-hidden group">
+        <div className="col-span-12 mt-8">
+          <div className="bg-[#1e3a8a]/5 border-[3px] border-[#1e3a8a]/20 rounded-4xl p-10 text-center relative shadow-sm overflow-hidden group">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#1e3a8a] text-white px-8 py-2 rounded-b-2xl flex items-center gap-3 shadow-xl">
               <ShieldCheck className="h-5 w-5 text-yellow-400" />
               <span className="text-[11px] font-black uppercase tracking-[0.3em]">
                 Certification Verdict
               </span>
             </div>
-            <p className="text-lg font-bold text-[#1e3a8a] leading-relaxed pt-4 max-w-4xl mx-auto">
-              {data.verificationStatement ||
-                "Product meets all quality, safety, and transparency benchmarks for certification."}
-            </p>
+            <div className="pt-4 max-w-4xl mx-auto">
+              <h3 className="text-3xl font-black text-[#1e3a8a] uppercase tracking-tighter mb-4">
+                {data.finalVerdict || "GOLD STANDARD APPROVED"}
+              </h3>
+              <p className="text-[16px] font-bold text-slate-600 leading-relaxed px-10">
+                {data.verificationStatement ||
+                  "Product meets all quality, safety, and transparency benchmarks for certification."}
+              </p>
+            </div>
           </div>
         </div>
       </div>

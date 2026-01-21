@@ -326,8 +326,8 @@ export default function CertificateForm() {
                 </div>
               )}
 
-              {/* Manual upload */}
-              <div className="flex items-center gap-2">
+              {/* Manual upload and Logo toggle */}
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   type="file"
                   accept="image/*"
@@ -341,6 +341,16 @@ export default function CertificateForm() {
                 >
                   <Upload className="h-4 w-4" /> Upload Custom Badge
                 </Label>
+                {certificateData.logo && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 text-xs border-amber-200 hover:bg-amber-50"
+                    onClick={() => updateGlobalField("badge", certificateData.logo)}
+                  >
+                    Use Company Logo
+                  </Button>
+                )}
               </div>
 
               {badges.length === 0 && !certificateData.badge && (
@@ -436,8 +446,8 @@ export default function CertificateForm() {
                 </div>
               )}
 
-              {/* Manual upload */}
-              <div className="flex items-center gap-2">
+              {/* Manual upload and Logo toggle */}
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Input
                   type="file"
                   accept="image/*"
@@ -451,6 +461,16 @@ export default function CertificateForm() {
                 >
                   <Upload className="h-4 w-4" /> Upload Custom Watermark
                 </Label>
+                {certificateData.logo && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 text-xs border-purple-200 hover:bg-purple-50"
+                    onClick={() => updateGlobalField("watermark", certificateData.logo)}
+                  >
+                    Use Company Logo
+                  </Button>
+                )}
               </div>
             </div>
             <div className="space-y-2 md:col-span-2">
