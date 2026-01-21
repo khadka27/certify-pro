@@ -28,8 +28,8 @@ export const getInitialData = (): CertificateData => ({
   certifiedBy: "Authoritative Body",
   certNumber: "CERT-2026-0001",
   certificationStatus: "Active",
-  issuedDate: new Date().toISOString().split("T")[0],
-  expiryDate: "",
+  issuedDate: "2026-01-21",
+  expiryDate: "2029-01-21",
 
   productName: "Premium Product Name",
   productCategory: "Health & Wellness",
