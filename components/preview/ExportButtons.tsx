@@ -80,21 +80,19 @@ export default function ExportButtons() {
           await exportToDOCX(certificateData, filename);
         } else {
           setRenderingCert(certificateData);
-          // Wait for render
           await new Promise((resolve) => setTimeout(resolve, 300));
 
           if (hiddenRef.current) {
             const element = hiddenRef.current as HTMLElement;
-            // Use specialized high-res export logic
+            const width = element.offsetWidth || 1000;
+            const height = element.offsetHeight || 707;
+
             if (type === "png") {
               const dataUrl = await toPng(element, {
                 quality: 1.0,
                 pixelRatio: 4,
                 backgroundColor: "#ffffff",
-                style: {
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
-                }
+                style: { transform: "scale(1)", transformOrigin: "top left" },
               });
               const link = document.createElement("a");
               link.download = `${filename}.png`;
@@ -105,28 +103,18 @@ export default function ExportButtons() {
                 quality: 0.98,
                 pixelRatio: 4,
                 backgroundColor: "#ffffff",
-                style: {
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
-                }
+                style: { transform: "scale(1)", transformOrigin: "top left" },
               });
               const link = document.createElement("a");
               link.download = `${filename}.jpg`;
               link.href = dataUrl;
               link.click();
             } else if (type === "pdf") {
-              // Get actual dimensions
-              const width = element.offsetWidth || 1000;
-              const height = element.offsetHeight || 707;
-
-              const dataUrl = await toPng(element, {
-                quality: 1.0,
-                pixelRatio: 4,
+              const dataUrl = await toJpeg(element, {
+                quality: 0.7,
+                pixelRatio: 1.2,
                 backgroundColor: "#ffffff",
-                style: {
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
-                }
+                style: { transform: "scale(1)", transformOrigin: "top left" },
               });
 
               const pdf = new (await import("jspdf")).default({
@@ -134,24 +122,45 @@ export default function ExportButtons() {
                 unit: "px",
                 format: [width, height],
                 hotfixes: ["px_scaling"],
+                compress: true,
               });
 
-              pdf.addImage(dataUrl, "PNG", 0, 0, width, height, undefined, 'FAST');
+              pdf.addImage(
+                dataUrl,
+                "JPEG",
+                0,
+                0,
+                width,
+                height,
+                undefined,
+                "FAST",
+              );
+
+              // Add clickable links
+              element.querySelectorAll("[data-pdf-link]").forEach((linkEl) => {
+                const rect = linkEl.getBoundingClientRect();
+                const parentRect = element.getBoundingClientRect();
+                const x = rect.left - parentRect.left;
+                const y = rect.top - parentRect.top;
+                const url = (linkEl as HTMLAnchorElement).href;
+                if (url) {
+                  pdf.link(x, y, rect.width, rect.height, { url });
+                }
+              });
+
               pdf.save(`${filename}.pdf`);
             }
           }
         }
       } else {
-        // Bulk export (already uses high-res renderer)
+        // Bulk export
         const zip = new JSZip();
-        // ... bulk export logic continues as before but ensuring it uses the direct ref
         for (let i = 0; i < records.length; i++) {
           const record = records[i];
           const filename = `${record.certNumber}_${record.productName.replace(/[^a-z0-9]/gi, "_")}`;
 
           setRenderingCert(record);
           setProgress(Math.round(((i + 1) / records.length) * 100));
-
           await new Promise((resolve) => setTimeout(resolve, 300));
 
           if (type === "docx") {
@@ -159,42 +168,61 @@ export default function ExportButtons() {
             zip.file(`${filename}.docx`, docxBlob);
           } else if (hiddenRef.current) {
             const element = hiddenRef.current as HTMLElement;
-            if (type === "png" || type === "pdf") {
-              const width = element.offsetWidth || 1000;
-              const height = element.offsetHeight || 707;
+            const width = element.offsetWidth || 1000;
+            const height = element.offsetHeight || 707;
 
-              const dataUrl = await toPng(element, {
-                quality: 1.0,
-                pixelRatio: 4,
+            if (type === "pdf") {
+              const dataUrl = await toJpeg(element, {
+                quality: 0.7,
+                pixelRatio: 1.2,
                 backgroundColor: "#ffffff",
-                style: {
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
+                style: { transform: "scale(1)", transformOrigin: "top left" },
+              });
+
+              const pdf = new (await import("jspdf")).default({
+                orientation: width > height ? "landscape" : "portrait",
+                unit: "px",
+                format: [width, height],
+                compress: true,
+              });
+              pdf.addImage(
+                dataUrl,
+                "JPEG",
+                0,
+                0,
+                width,
+                height,
+                undefined,
+                "FAST",
+              );
+
+              // Add clickable links
+              element.querySelectorAll("[data-pdf-link]").forEach((linkEl) => {
+                const rect = linkEl.getBoundingClientRect();
+                const parentRect = element.getBoundingClientRect();
+                const x = rect.left - parentRect.left;
+                const y = rect.top - parentRect.top;
+                const url = (linkEl as HTMLAnchorElement).href;
+                if (url) {
+                  pdf.link(x, y, rect.width, rect.height, { url });
                 }
               });
 
-              if (type === "png") {
-                zip.file(`${filename}.png`, dataUrl.split(",")[1], {
-                  base64: true,
-                });
-              } else {
-                const pdf = new (await import("jspdf")).default({
-                  orientation: width > height ? "landscape" : "portrait",
-                  unit: "px",
-                  format: [width, height],
-                });
-                pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
-                zip.file(`${filename}.pdf`, pdf.output("blob"));
-              }
+              zip.file(`${filename}.pdf`, pdf.output("blob"));
+            } else if (type === "png") {
+              const dataUrl = await toPng(element, {
+                quality: 1.0,
+                pixelRatio: 2,
+                backgroundColor: "#ffffff",
+              });
+              zip.file(`${filename}.png`, dataUrl.split(",")[1], {
+                base64: true,
+              });
             } else if (type === "jpg") {
               const dataUrl = await toJpeg(element, {
-                quality: 0.98,
-                pixelRatio: 4,
+                quality: 0.85,
+                pixelRatio: 2,
                 backgroundColor: "#ffffff",
-                style: {
-                  transform: 'scale(1)',
-                  transformOrigin: 'top left',
-                }
               });
               zip.file(`${filename}.jpg`, dataUrl.split(",")[1], {
                 base64: true,
@@ -251,7 +279,7 @@ export default function ExportButtons() {
           </div>
           <div className="w-full bg-white rounded-full h-3 overflow-hidden shadow-inner border border-slate-200">
             <div
-              className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500 h-full transition-all duration-300"
+              className="bg-linear-to-r from-blue-500 via-blue-600 to-blue-500 h-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -263,7 +291,7 @@ export default function ExportButtons() {
             onClick={() => handleExport("png")}
             disabled={isExporting}
             variant="default"
-            className="w-full gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-md font-semibold"
+            className="w-full gap-2 bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-md font-semibold"
           >
             <FileImage className="h-4 w-4" />
             <span className="text-sm">
@@ -281,7 +309,7 @@ export default function ExportButtons() {
             onClick={() => handleExport("jpg")}
             disabled={isExporting}
             variant="default"
-            className="w-full gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md font-semibold"
+            className="w-full gap-2 bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md font-semibold"
           >
             <FileImage className="h-4 w-4" />
             <span className="text-sm">
@@ -299,7 +327,7 @@ export default function ExportButtons() {
             onClick={() => handleExport("pdf")}
             disabled={isExporting}
             variant="default"
-            className="w-full gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-md font-semibold"
+            className="w-full gap-2 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-md font-semibold"
           >
             <FileText className="h-4 w-4" />
             <span className="text-sm">
@@ -317,7 +345,7 @@ export default function ExportButtons() {
             onClick={() => handleExport("docx")}
             disabled={isExporting}
             variant="default"
-            className="w-full gap-2 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-md font-semibold"
+            className="w-full gap-2 bg-linear-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-md font-semibold"
           >
             <File className="h-4 w-4" />
             <span className="text-sm">

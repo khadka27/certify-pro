@@ -16,6 +16,11 @@ interface CertificateStore {
   setRecords: (records: CertificateData[]) => void;
   setActiveRecordIndex: (index: number) => void;
   resetData: () => void;
+  bulkUpdateFields: (updates: Partial<CertificateData>) => void;
+  bulkUpdateRecordFields: (
+    indices: number[],
+    updates: Partial<CertificateData>,
+  ) => void;
   loadData: (data: CertificateData | CertificateData[]) => void;
   loadColumnarData: (data: any) => void;
   _hasHydrated: boolean;
@@ -25,29 +30,28 @@ interface CertificateStore {
 export const getInitialData = (): CertificateData => ({
   title: "Certificate of Authenticity",
   subTitle: "Premium Verification",
-  certifiedBy: "Authoritative Body",
-  certNumber: "CERT-2026-0001",
+  certifiedBy: "",
+  certNumber: "",
   certificationStatus: "Active",
-  issuedDate: "2026-01-21",
-  expiryDate: "2029-01-21",
+  issuedDate: "",
+  expiryDate: "",
 
-  productName: "Premium Product Name",
-  productCategory: "Health & Wellness",
-  productForm: "Capsules",
-  description:
-    "This is to certify that the above-mentioned product has been thoroughly inspected and meets all quality standards and specifications required for authenticity verification.",
-  keyActiveIngredients: "Vitamin C, Zinc, Elderberry",
-  dietaryCompliance: "Vegan, Gluten-Free",
-  sideEffects: "None reported",
-  cautions: "Consult a physician if pregnant",
+  productName: "",
+  productCategory: "",
+  productForm: "",
+  description: "",
+  keyActiveIngredients: "",
+  dietaryCompliance: "",
+  sideEffects: "",
+  cautions: "",
 
-  manufacturerName: "Your Company Name",
-  companyName: "Authorized Body Inc.",
-  companyUrl: "https://example.com",
-  manufacturerAddress: "123 Business Rd, Innovation City",
-  personName: "John Doe",
-  role: "Quality Assurance Manager",
-  location: "New York, USA",
+  manufacturerName: "",
+  companyName: "",
+  companyUrl: "",
+  manufacturerAddress: "",
+  personName: "",
+  role: "",
+  location: "",
 
   overallExpertRating: "9.8",
   safetyRating: "10",
@@ -65,9 +69,9 @@ export const getInitialData = (): CertificateData => ({
   thirdPartyTesting: "Passed",
   refundPolicy: "30-Day Money Back Guarantee",
 
-  customerSupportEmail: "support@example.com",
-  customerSupportPhone: "+1 (555) 123-4567",
-  buyNowUrl: "https://example.com/buy",
+  customerSupportEmail: "",
+  customerSupportPhone: "",
+  buyNowUrl: "",
 
   qrText: "",
   logo: "",
@@ -241,6 +245,16 @@ export const useCertificateStore = create<CertificateStore>()(
         })),
       setRecords: (records) => set({ records, activeRecordIndex: 0 }),
       setActiveRecordIndex: (index) => set({ activeRecordIndex: index }),
+      bulkUpdateFields: (updates) =>
+        set((state) => ({
+          records: state.records.map((r) => ({ ...r, ...updates })),
+        })),
+      bulkUpdateRecordFields: (indices, updates) =>
+        set((state) => ({
+          records: state.records.map((r, i) =>
+            indices.includes(i) ? { ...r, ...updates } : r,
+          ),
+        })),
       resetData: () =>
         set({ records: [getInitialData()], activeRecordIndex: 0 }),
       loadData: (data) =>
@@ -497,7 +511,19 @@ export const useCertificateStore = create<CertificateStore>()(
               }
             });
 
-            return { records: mappedData, activeRecordIndex: 0 };
+            // Filter out empty records (e.g. from empty trailing rows in Excel/CSV)
+            const filteredData = mappedData.filter(
+              (record) =>
+                record.productName.trim() !== "" ||
+                record.certNumber.trim() !== "" ||
+                record.manufacturerName.trim() !== "",
+            );
+
+            // If everything was filtered out, keep at least one empty record
+            const finalData =
+              filteredData.length > 0 ? filteredData : [sampleData];
+
+            return { records: finalData, activeRecordIndex: 0 };
           }
 
           return state;

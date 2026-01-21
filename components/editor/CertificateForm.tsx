@@ -20,7 +20,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Upload, X, Building2, UserCheck, Globe, Loader2, Award } from "lucide-react";
+import {
+  Upload,
+  X,
+  Building2,
+  UserCheck,
+  Globe,
+  Loader2,
+  Award,
+} from "lucide-react";
 import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "./RichTextEditor";
@@ -41,6 +49,12 @@ export default function CertificateForm() {
     (state) => state.setActiveRecordIndex,
   );
   const resetData = useCertificateStore((state) => state.resetData);
+  const bulkUpdateFields = useCertificateStore(
+    (state) => state.bulkUpdateFields,
+  );
+  const bulkUpdateRecordFields = useCertificateStore(
+    (state) => state.bulkUpdateRecordFields,
+  );
 
   const hasHydrated = useCertificateStore((state) => state._hasHydrated);
   const [mounted, setMounted] = useState(false);
@@ -79,7 +93,10 @@ export default function CertificateForm() {
         if (data.badges) setBadges(data.badges);
 
         // Apply global defaults if record is fresh/default
-        if (data.defaultRating && certificateData.overallExpertRating === "9.8") {
+        if (
+          data.defaultRating &&
+          certificateData.overallExpertRating === "9.8"
+        ) {
           updateGlobalField("overallExpertRating", data.defaultRating);
         }
       })
@@ -149,7 +166,7 @@ export default function CertificateForm() {
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      <Card className="border-2 bg-gradient-to-r from-blue-50/50 to-slate-50/50">
+      <Card className="border-2 bg-linear-to-r from-blue-50/50 to-slate-50/50">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 py-3 lg:py-4">
           <div className="space-y-1 flex-1">
             <div className="flex items-center gap-2">
@@ -169,6 +186,25 @@ export default function CertificateForm() {
             </CardDescription>
           </div>
           <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                if (confirm("Apply current record's dates to ALL records?")) {
+                  bulkUpdateFields({
+                    issuedDate: certificateData.issuedDate,
+                    expiryDate: certificateData.expiryDate,
+                  });
+                  toast({
+                    title: "Batch Updated",
+                    description: "Dates applied to all certificates.",
+                  });
+                }
+              }}
+              className="text-xs border-blue-200 hover:bg-blue-50"
+            >
+              Sync All Dates
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -346,7 +382,9 @@ export default function CertificateForm() {
                     variant="outline"
                     size="sm"
                     className="flex-1 text-xs border-amber-200 hover:bg-amber-50"
-                    onClick={() => updateGlobalField("badge", certificateData.logo)}
+                    onClick={() =>
+                      updateGlobalField("badge", certificateData.logo)
+                    }
                   >
                     Use Company Logo
                   </Button>
@@ -466,7 +504,9 @@ export default function CertificateForm() {
                     variant="outline"
                     size="sm"
                     className="flex-1 text-xs border-purple-200 hover:bg-purple-50"
-                    onClick={() => updateGlobalField("watermark", certificateData.logo)}
+                    onClick={() =>
+                      updateGlobalField("watermark", certificateData.logo)
+                    }
                   >
                     Use Company Logo
                   </Button>
@@ -508,7 +548,12 @@ export default function CertificateForm() {
                   <SelectContent>
                     {companies.map((c) => (
                       <SelectItem key={c.id} value={c.id}>
-                        {c.name}
+                        <div className="flex flex-col">
+                          <span className="font-bold">{c.name}</span>
+                          <span className="text-[10px] opacity-50">
+                            {c.url}
+                          </span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -553,15 +598,55 @@ export default function CertificateForm() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>Manufacturer Name</Label>
-            <Input
-              name="manufacturerName"
-              value={certificateData.manufacturerName}
-              onChange={(e) =>
-                updateGlobalField("manufacturerName", e.target.value)
-              }
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Manufacturer Name</Label>
+              <Input
+                name="manufacturerName"
+                value={certificateData.manufacturerName}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  updateGlobalField("manufacturerName", val);
+                  // Auto-lookup by name
+                  const match = companies.find(
+                    (c) => c.name.toLowerCase() === val.toLowerCase(),
+                  );
+                  if (match) {
+                    if (match.logo) updateGlobalField("logo", match.logo);
+                    if (match.url) updateGlobalField("companyUrl", match.url);
+                    toast({
+                      title: "Company Found",
+                      description: `Assets for ${match.name} applied automatically.`,
+                    });
+                  }
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Company Website / URL</Label>
+              <Input
+                name="companyUrl"
+                value={certificateData.companyUrl || ""}
+                placeholder="e.g. https://example.com"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  updateGlobalField("companyUrl", val);
+                  // Auto-lookup by URL
+                  const match = companies.find(
+                    (c) => c.url.toLowerCase() === val.toLowerCase(),
+                  );
+                  if (match) {
+                    if (match.logo) updateGlobalField("logo", match.logo);
+                    if (match.name)
+                      updateGlobalField("manufacturerName", match.name);
+                    toast({
+                      title: "Company Found",
+                      description: `Assets for ${match.name} applied automatically.`,
+                    });
+                  }
+                }}
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -698,35 +783,53 @@ export default function CertificateForm() {
 
       {/* Record Selector */}
       {records.length > 1 && (
-        <Card className="border-2 border-amber-100 bg-gradient-to-r from-amber-50/50 to-orange-50/50">
+        <Card className="border-2 border-amber-100 bg-linear-to-r from-amber-50/50 to-orange-50/50">
           <CardContent className="pt-4 pb-4">
-            <div className="flex items-center justify-between mb-3">
-              <Label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <Label className="text-sm font-black text-slate-700 uppercase tracking-widest flex items-center gap-2">
                 <span className="h-2 w-2 bg-amber-500 rounded-full animate-pulse"></span>
-                Select Active Record to Edit
+                Batch Records
               </Label>
-              <span className="text-xs bg-amber-100 border border-amber-300 text-amber-800 px-3 py-1 rounded-full font-semibold">
-                Record {activeRecordIndex + 1} of {records.length}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black bg-white/80 border border-amber-200 text-amber-800 px-3 py-1 rounded-full shadow-sm">
+                  {activeRecordIndex + 1} / {records.length}
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-[10px] font-bold text-amber-900 border border-amber-200 hover:bg-white"
+                  onClick={() => {
+                    const nextIndex = (activeRecordIndex + 1) % records.length;
+                    setActiveRecordIndex(nextIndex);
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
             </div>
             <div className="relative w-full max-w-full">
-              <div className="flex flex-nowrap gap-3 overflow-x-auto pb-4 px-1 w-full scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-100">
+              <div className="flex flex-nowrap gap-3 overflow-x-auto pb-4 px-1 w-full scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-slate-50">
                 {records.map((r, i) => (
                   <Button
                     key={i}
                     variant={activeRecordIndex === i ? "default" : "outline"}
-                    className={`shrink-0 w-40 h-auto py-3 flex flex-col items-start gap-1 transition-all ${
+                    className={`shrink-0 w-44 h-auto py-3 px-4 flex flex-col items-start gap-1 transition-all ${
                       activeRecordIndex === i
-                        ? "bg-blue-600 hover:bg-blue-700 shadow-md ring-2 ring-blue-600 ring-offset-2"
-                        : "hover:border-blue-400 hover:bg-blue-50 bg-white"
+                        ? "bg-blue-600 hover:bg-blue-700 shadow-xl ring-2 ring-blue-600 ring-offset-2 scale-[1.02]"
+                        : "hover:border-blue-300 hover:bg-blue-50 bg-white border-slate-200"
                     }`}
                     onClick={() => setActiveRecordIndex(i)}
                   >
-                    <span className="text-[10px] opacity-70 font-medium uppercase tracking-wider">
-                      Certificate {i + 1}
-                    </span>
-                    <span className="font-bold text-xs truncate w-full text-left">
-                      {r.productName || r.certNumber || "Untitled"}
+                    <div className="flex justify-between w-full items-center mb-0.5">
+                      <span className="text-[9px] opacity-70 font-black uppercase tracking-widest">
+                        Record {i + 1}
+                      </span>
+                      <span className="text-[8px] font-bold opacity-50 italic">
+                        {r.issuedDate || "Draft"}
+                      </span>
+                    </div>
+                    <span className="font-bold text-[11px] truncate w-full text-left">
+                      {r.productName || r.certNumber || "Untitled Product"}
                     </span>
                   </Button>
                 ))}

@@ -42,6 +42,12 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
+  /* Force solid backgrounds for popovers/dropdowns */
+  [data-radix-popper-content-wrapper] {
+    z-index: 100 !important;
+  }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;

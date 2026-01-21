@@ -265,6 +265,7 @@ export default function Template12({ data }: CertificateTemplateProps) {
               href={data.buyNowUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-pdf-link="buy-now"
               className="inline-block bg-red-800 text-white font-black px-8 py-3 rounded-full shadow-lg hover:shadow-red-200 transition-all uppercase tracking-widest italic text-center"
             >
               Order Through Verified Channel →

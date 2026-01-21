@@ -219,6 +219,35 @@ export default function Template1({ data }: CertificateTemplateProps) {
                 </div>
               ))}
             </div>
+
+            {/* Buy Now Button Section */}
+            <div className="pt-6">
+              {data.buyNowUrl ? (
+                <a
+                  href={data.buyNowUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-pdf-link="buy-now"
+                  className="block border-[3px] border-[#2563eb] rounded-2xl py-5 px-4 text-center group cursor-pointer hover:bg-blue-50/50 transition-all duration-300 no-underline"
+                >
+                  <span
+                    className="text-3xl font-bold text-[#2563eb] tracking-wide"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Buy Now
+                  </span>
+                </a>
+              ) : (
+                <div className="border-[3px] border-[#2563eb] rounded-2xl py-5 px-4 text-center group cursor-pointer hover:bg-blue-50/50 transition-all duration-300">
+                  <span
+                    className="text-3xl font-bold text-[#2563eb] tracking-wide"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Buy Now
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -389,7 +418,7 @@ export default function Template1({ data }: CertificateTemplateProps) {
                   <img
                     src={data.badge}
                     alt="Official Stamp"
-                    className="h-32 w-32 object-contain drop-shadow-2xl rotate-[-12deg]"
+                    className="h-32 w-32 object-contain drop-shadow-2xl -rotate-12"
                   />
                 </div>
               )}

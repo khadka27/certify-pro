@@ -90,9 +90,9 @@ export async function exportToPDF(elementId: string, filename: string) {
     const width = certificateElement.offsetWidth || 1000;
     const height = certificateElement.offsetHeight || 707;
 
-    const dataUrl = await toPng(certificateElement, {
-      quality: 1.0,
-      pixelRatio: 3,
+    const dataUrl = await toJpeg(certificateElement, {
+      quality: 0.7,
+      pixelRatio: 1.2,
       cacheBust: true,
       backgroundColor: "#ffffff",
     });
@@ -101,9 +101,29 @@ export async function exportToPDF(elementId: string, filename: string) {
       orientation: width > height ? "landscape" : "portrait",
       unit: "px",
       format: [width, height],
+      compress: true,
     });
 
-    pdf.addImage(dataUrl, "PNG", 0, 0, width, height);
+    pdf.addImage(dataUrl, "JPEG", 0, 0, width, height, undefined, "FAST");
+
+    // Add clickable links
+    const links = certificateElement.querySelectorAll("[data-pdf-link]");
+    links.forEach((linkEl) => {
+      const rect = linkEl.getBoundingClientRect();
+      const parentRect = certificateElement.getBoundingClientRect();
+
+      // Calculate relative position
+      const x = rect.left - parentRect.left;
+      const y = rect.top - parentRect.top;
+      const w = rect.width;
+      const h = rect.height;
+      const url = (linkEl as HTMLAnchorElement).href;
+
+      if (url) {
+        pdf.link(x, y, w, h, { url });
+      }
+    });
+
     pdf.save(`${filename}.pdf`);
   } catch (error) {
     console.error("Error exporting to PDF:", error);
