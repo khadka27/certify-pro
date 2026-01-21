@@ -60,7 +60,7 @@ export default function Template4({ data }: CertificateTemplateProps) {
               />
             </div>
             {data.productImage && (
-              <div className="flex-shrink-0 bg-white p-4 rounded-2xl border-2 border-emerald-50 shadow-xl relative overflow-hidden">
+              <div className="shrink-0 bg-white p-4 rounded-2xl border-2 border-emerald-50 shadow-xl relative overflow-hidden">
                 <div className="absolute -top-4 -right-4 w-12 h-12 bg-emerald-500 rounded-full"></div>
                 <img
                   src={data.productImage}
@@ -167,6 +167,7 @@ export default function Template4({ data }: CertificateTemplateProps) {
                 href={data.buyNowUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-pdf-link="buy-now"
                 className="inline-block mt-3 bg-emerald-600 text-white px-5 py-2.5 rounded-full font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg active:scale-95 text-center"
               >
                 Buy Product Now

@@ -142,6 +142,7 @@ export default function Template3({ data }: CertificateTemplateProps) {
                 href={data.buyNowUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-pdf-link="buy-now"
                 className="inline-block mt-3 bg-amber-500 text-slate-900 px-6 py-2 rounded-md font-black uppercase tracking-widest hover:bg-amber-400 transition-all shadow-lg active:scale-95"
               >
                 Shop Now

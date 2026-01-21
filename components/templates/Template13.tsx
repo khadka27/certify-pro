@@ -198,6 +198,7 @@ export default function Template13({ data }: CertificateTemplateProps) {
                 href={data.buyNowUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-pdf-link="buy-now"
                 className="inline-block mt-4 bg-cyan-900 text-white px-8 py-3 rounded-2xl text-center shadow-xl hover:bg-cyan-600 transition-all uppercase tracking-tighter italic font-black"
               >
                 Secure Verified Purchase →

@@ -63,7 +63,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
           <div className="max-w-4xl mx-auto w-full">
             <div className="flex gap-8 items-center">
               {data.productImage && (
-                <div className="flex-shrink-0 bg-white p-6 rounded-[2rem] shadow-xl border border-rose-100 relative">
+                <div className="shrink-0 bg-white p-6 rounded-4xl shadow-xl border border-rose-100 relative">
                   <div className="absolute top-2 right-2 w-8 h-8 bg-rose-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-lg">
                     9.8
                   </div>
@@ -135,6 +135,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
                   href={data.buyNowUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-pdf-link="buy-now"
                   className="inline-block mt-4 bg-rose-600 text-white px-6 py-2 rounded-full text-center font-black uppercase tracking-widest hover:bg-rose-700 transition-all shadow-lg active:scale-95 text-[10px]"
                 >
                   Buy Product Now
@@ -168,7 +169,7 @@ export default function Template5({ data }: CertificateTemplateProps) {
               </p>
               <p className="font-bold text-gray-900">{data.issuedDate}</p>
             </div>
-            <div className="bg-rose-50 p-2 px-4 rounded-lg border border-rose-100 inline-block block">
+            <div className="bg-rose-50 p-2 px-4 rounded-lg border border-rose-100 inline-block">
               <p className="text-[9px] text-rose-400 font-bold uppercase">
                 Expiry Date
               </p>

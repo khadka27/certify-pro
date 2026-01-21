@@ -78,7 +78,7 @@ export default function Template12({ data }: CertificateTemplateProps) {
 
           <div className="flex gap-6 items-start">
             {data.productImage && (
-              <div className="flex-shrink-0 bg-white p-4 border-2 border-slate-100 rounded-3xl shadow-xl flex items-center justify-center group relative overflow-hidden">
+              <div className="shrink-0 bg-white p-4 border-2 border-slate-100 rounded-3xl shadow-xl flex items-center justify-center group relative overflow-hidden">
                 <div className="absolute inset-0 bg-red-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <img
                   src={data.productImage}
