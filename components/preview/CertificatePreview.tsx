@@ -41,6 +41,7 @@ export default function CertificatePreview() {
   );
   const hasHydrated = useCertificateStore((state) => state._hasHydrated);
   const [mounted, setMounted] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const [scale, setScale] = useState(0.5);
   const [certHeight, setCertHeight] = useState(707);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ export default function CertificatePreview() {
 
   useEffect(() => {
     setMounted(true);
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
@@ -96,9 +98,12 @@ export default function CertificatePreview() {
     };
   }, [mounted, certHeight, certificateData]);
 
-  if (!mounted || !hasHydrated) {
+  if (!mounted || !hasHydrated || !isClient) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[400px] w-full bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl border-2 border-dashed border-blue-200 shadow-inner">
+      <div
+        className="flex items-center justify-center p-8 min-h-[400px] w-full bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl border-2 border-dashed border-blue-200 shadow-inner"
+        suppressHydrationWarning
+      >
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
             <div className="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
@@ -121,6 +126,7 @@ export default function CertificatePreview() {
     <div
       ref={containerRef}
       className="flex flex-col items-center justify-start min-h-full w-full py-8 bg-slate-100/30"
+      suppressHydrationWarning
     >
       <AnimatePresence mode="wait">
         <motion.div

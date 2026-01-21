@@ -6,6 +6,7 @@ import CertificatePreview from "@/components/preview/CertificatePreview";
 import TemplateSelector from "@/components/preview/TemplateSelector";
 import ExportButtons from "@/components/preview/ExportButtons";
 import FileImporter from "@/components/editor/FileImporter";
+import ClientOnly from "@/components/ClientOnly";
 import {
   Card,
   CardContent,
@@ -117,7 +118,23 @@ export default function Home() {
               </CardHeader>
               <CardContent className="p-0">
                 <div className="p-4 lg:p-5 bg-gradient-to-br from-slate-50 via-white to-slate-50">
-                  <CertificatePreview />
+                  <ClientOnly
+                    fallback={
+                      <div className="flex items-center justify-center p-8 min-h-[400px] w-full">
+                        <div className="flex flex-col items-center space-y-4">
+                          <div className="relative">
+                            <div className="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
+                            <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+                          </div>
+                          <p className="text-slate-600 font-semibold text-sm">
+                            Loading Preview...
+                          </p>
+                        </div>
+                      </div>
+                    }
+                  >
+                    <CertificatePreview />
+                  </ClientOnly>
                 </div>
               </CardContent>
             </Card>
@@ -125,6 +142,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-    
   );
 }

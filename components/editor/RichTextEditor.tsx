@@ -76,6 +76,7 @@ export default function RichTextEditor({
     extensions,
     content: content,
     immediatelyRender: false,
+    shouldRerenderOnTransaction: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -96,7 +97,10 @@ export default function RichTextEditor({
 
   if (!editor) {
     return (
-      <div className="min-h-[190px] border rounded-md bg-white animate-pulse" />
+      <div
+        className="min-h-[190px] border rounded-md bg-white animate-pulse"
+        suppressHydrationWarning
+      />
     );
   }
 
