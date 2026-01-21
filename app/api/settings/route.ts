@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const dataFilePath = path.join(process.cwd(), "data", "settings.json");
+const dataDir = process.env.STORAGE_DIR || path.join(process.cwd(), "data");
+const dataFilePath = path.join(dataDir, "settings.json");
 
 // Helper to ensure file exists
 function ensureFile() {
