@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.env
+*.png
+*.jpg
+*.jpeg
+*.pdf
+pnpm-lock.yaml.*
+LICENSE
+README.md
+.eslintrc.json
+tsconfig.tsbuildinfo
+.qodo
