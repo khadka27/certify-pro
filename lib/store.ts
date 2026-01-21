@@ -161,10 +161,11 @@ const formatValue = (key: string, value: any): string => {
     key === "overallExpertRating" ||
     key === "versatilityUseCaseFit"
   ) {
-    // Strip "/10", "/100", "%"
+    // Strip "/10", "/100", "%" with optional spaces
     return cleaned
-      .replace(/\/100?$/, "")
-      .replace(/%$/, "")
+      .replace(/\/\s*100?$/, "")
+      .replace(/\s*%\s*$/, "")
+      .replace(/[^\d.]/g, "")
       .trim();
   }
 
