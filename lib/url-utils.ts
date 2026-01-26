@@ -23,7 +23,7 @@ export function getBaseUrl(): string {
   }
 
   // Development fallback
-  return "http://localhost:3000";
+  return "http://localhost:3004";
 }
 
 /**

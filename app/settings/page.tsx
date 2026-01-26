@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { convertImageToBase64, validateImageFile } from "@/lib/image-utils";
 
 interface Company {
   id: string;
@@ -182,10 +183,11 @@ export default function SettingsPage() {
     setData({ ...data, badges: newBadges });
   };
 
+
   // File upload handler
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    category: "logos" | "signatures" | "badges",
+    category: "logos" | "signatures" | "badges", // Kept for type compatibility, though not used for pathing anymore
     callback: (url: string) => void,
     itemId: string,
   ) => {
@@ -193,33 +195,27 @@ export default function SettingsPage() {
     if (!file) return;
 
     setUploading(itemId);
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("category", category);
 
     try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+      // Validate locally
+      validateImageFile(file);
 
-      if (res.ok) {
-        const json = await res.json();
-        if (json.url) {
-          callback(json.url);
-          toast({
-            title: "Upload Successful",
-            description: "Image saved successfully.",
-          });
-        }
-      } else {
-        throw new Error("Upload failed");
-      }
+      // Convert to Base64 locally
+      const base64 = await convertImageToBase64(file);
+
+      // Update state immediately via callback
+      callback(base64);
+
+      toast({
+        title: "Image Uploaded",
+        description: "Image processed successfully.",
+      });
     } catch (error) {
       console.error("Upload error:", error);
       toast({
         title: "Upload Failed",
-        description: "Could not save image.",
+        description:
+          error instanceof Error ? error.message : "Could not process image.",
         variant: "destructive",
       });
     } finally {
@@ -229,7 +225,7 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -243,7 +239,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="container mx-auto py-8 px-4 space-y-8 max-w-6xl">
         {/* Header */}
         <motion.div
@@ -267,11 +263,11 @@ export default function SettingsPage() {
               </motion.div>
             </Link>
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="h-12 w-12 bg-linear-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Settings2 className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-linear-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">
                   Settings
                 </h1>
                 <p className="text-slate-500 text-sm">
@@ -284,7 +280,7 @@ export default function SettingsPage() {
             <Button
               onClick={() => saveSettings(data)}
               disabled={saving}
-              className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all px-6"
+              className="gap-2 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all px-6"
             >
               {saving ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -303,7 +299,7 @@ export default function SettingsPage() {
           transition={{ delay: 0.1 }}
         >
           <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-            <CardHeader className="border-b bg-gradient-to-r from-slate-50 to-blue-50">
+            <CardHeader className="border-b bg-linear-to-r from-slate-50 to-blue-50">
               <CardTitle className="flex items-center gap-2 text-slate-800">
                 <div className="h-8 w-8 bg-blue-100 rounded-lg flex items-center justify-center">
                   <Settings2 className="h-4 w-4 text-blue-600" />
@@ -358,21 +354,21 @@ export default function SettingsPage() {
             <TabsList className="w-full max-w-lg grid grid-cols-3 h-12 p-1 bg-white shadow-lg rounded-xl">
               <TabsTrigger
                 value="companies"
-                className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-lg transition-all"
+                className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-lg transition-all"
               >
                 <Building2 className="h-4 w-4" />
                 Companies
               </TabsTrigger>
               <TabsTrigger
                 value="signers"
-                className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white rounded-lg transition-all"
+                className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white rounded-lg transition-all"
               >
                 <UserCheck className="h-4 w-4" />
                 Signers
               </TabsTrigger>
               <TabsTrigger
                 value="badges"
-                className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-600 data-[state=active]:text-white rounded-lg transition-all"
+                className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-600 data-[state=active]:text-white rounded-lg transition-all"
               >
                 <Award className="h-4 w-4" />
                 Badges
@@ -413,7 +409,7 @@ export default function SettingsPage() {
                           <CardContent className="p-6">
                             <div className="flex gap-6 items-start">
                               <div className="relative">
-                                <div className="w-24 h-24 bg-gradient-to-br from-slate-100 to-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-blue-400 transition-colors">
+                                <div className="w-24 h-24 bg-linear-to-br from-slate-100 to-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-blue-400 transition-colors">
                                   {uploading === comp.id ? (
                                     <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
                                   ) : comp.logo ? (
@@ -552,7 +548,7 @@ export default function SettingsPage() {
                           <CardContent className="p-6">
                             <div className="flex gap-6 items-start">
                               <div className="relative">
-                                <div className="w-40 h-20 bg-gradient-to-br from-slate-100 to-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-green-400 transition-colors">
+                                <div className="w-40 h-20 bg-linear-to-br from-slate-100 to-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-green-400 transition-colors">
                                   {uploading === signer.id ? (
                                     <Loader2 className="h-6 w-6 animate-spin text-green-600" />
                                   ) : signer.signature ? (
@@ -692,7 +688,7 @@ export default function SettingsPage() {
                       >
                         <Card className="border-0 shadow-lg hover:shadow-xl transition-all bg-white overflow-hidden group">
                           <CardContent className="p-6 space-y-4">
-                            <div className="w-full h-32 bg-gradient-to-br from-slate-100 to-amber-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-amber-400 transition-colors">
+                            <div className="w-full h-32 bg-linear-to-br from-slate-100 to-amber-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:border-amber-400 transition-colors">
                               {uploading === badge.id ? (
                                 <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
                               ) : badge.image ? (
