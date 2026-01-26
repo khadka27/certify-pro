@@ -4,32 +4,38 @@ Certify Pro is a powerful, professional web application designed to generate, ma
 
 ## 🚀 Tech Stack & Libraries
 
-This project leverages a modern stack for performance and developer experience:
+This project leverages a modern stack for performance and developer experience. Dependencies are managed via `pnpm`.
 
 ### Core Framework
-- **[Next.js 16](https://nextjs.org/)**: React framework with Turbopack for lightning-fast builds.
-- **[TypeScript](https://www.typescriptlang.org/)**: For type-safe code and better maintainability.
+
+- **[Next.js](https://nextjs.org/)** `v16.1.1`: React framework with Turbopack for lightning-fast builds.
+- **[React](https://react.dev/)** `v19.2.3`: The latest React version.
+- **[TypeScript](https://www.typescriptlang.org/)** `v5.9.3`: For type-safe code and better maintainability.
 
 ### Styling & UI
-- **[Tailwind CSS v4](https://tailwindcss.com/)**: Utility-first CSS framework (latest version).
-- **[Radix UI](https://www.radix-ui.com/)**: Unstyled, accessible UI primitives (Dialog, Popover, Select, etc.).
-- **[Lucide React](https://lucide.dev/)**: Beautiful, consistent icons.
-- **[Framer Motion](https://www.framer.com/motion/)**: For smooth animations and transitions.
-- **[Sonner](https://sonner.emilkowal.ski/)** & **Toast**: For elegant user notifications.
+
+- **[Tailwind CSS](https://tailwindcss.com/)** `v4.1.18`: Utility-first CSS framework (latest version).
+- **[Radix UI](https://www.radix-ui.com/)** `^1.x`: Unstyled, accessible UI primitives.
+- **[Lucide React](https://lucide.dev/)** `^0.562.0`: Beautiful, consistent icons.
+- **[Framer Motion](https://www.framer.com/motion/)** `^12.23.26`: For smooth animations and transitions.
+- **[Sonner](https://sonner.emilkowal.ski/)** `^2.0.7`: For elegant user notifications.
 
 ### State & Forms
-- **[Zustand](https://github.com/pmndrs/zustand)**: Small, fast, and scalable state management.
-- **[React Hook Form](https://react-hook-form.com/)**: Performant, flexible, and extensible forms.
-- **[Zod](https://zod.dev/)**: TypeScript-first schema validation.
+
+- **[Zustand](https://github.com/pmndrs/zustand)** `^5.0.9`: Small, fast, and scalable state management.
+- **[React Hook Form](https://react-hook-form.com/)** `^7.69.0`: Performant, flexible, and extensible forms.
+- **[Zod](https://zod.dev/)** `^4.3.4`: TypeScript-first schema validation.
 
 ### Rich Text & Content
-- **[Tiptap](https://tiptap.dev/)**: Headless wrapper for ProseMirror, used for the rich text editor.
+
+- **[Tiptap](https://tiptap.dev/)** `^3.14.0`: Headless wrapper for ProseMirror, used for the rich text editor.
 
 ### Generation & Export
-- **[jspdf](https://github.com/parallax/jsPDF)**: Client-side PDF generation.
-- **[html-to-image](https://github.com/bubkoo/html-to-image)**: Converts DOM nodes to images (for previews/exports).
-- **[qrcode](https://github.com/soldair/node-qrcode)**: QR code generation for certificate verification.
-- **[PapaParse](https://www.papaparse.com/)**: CSV parsing for bulk data import.
+
+- **[jspdf](https://github.com/parallax/jsPDF)** `^3.0.4`: Client-side PDF generation.
+- **[html-to-image](https://github.com/bubkoo/html-to-image)** `^1.11.13`: Converts DOM nodes to images (for previews/exports).
+- **[qrcode](https://github.com/soldair/node-qrcode)** `^1.5.4`: QR code generation for certificate verification.
+- **[PapaParse](https://www.papaparse.com/)** `^5.4.1`: CSV parsing for bulk data import.
 
 ---
 
@@ -41,6 +47,7 @@ This project leverages a modern stack for performance and developer experience:
 ## 📥 Installation
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/khadka27/certify-pro.git
     cd certify-pro
@@ -58,14 +65,18 @@ This project leverages a modern stack for performance and developer experience:
 The application is configured to run on port **3000** by default.
 
 ### Development Mode
+
 Runs the app with hot verification and TurboPack.
+
 ```bash
 pnpm dev
 # App will run at http://localhost:3000
 ```
 
 ### Production Build
+
 Builds the application for production usage.
+
 ```bash
 pnpm build
 pnpm start
@@ -77,6 +88,7 @@ pnpm start
 ## ⚙️ Configuration
 
 ### Environment Variables
+
 Create a `.env` file in the root directory (or use the existing one). Key variables include:
 
 ```env
@@ -91,6 +103,7 @@ STORAGE_DIR=data
 ```
 
 ### CORS & Images
+
 The project is configured in `next.config.js` to allow CORS for API routes and specific remote patterns for images. If you are hosting images externally, ensure the domain is added to `remotePatterns` in `next.config.js`.
 
 ---
